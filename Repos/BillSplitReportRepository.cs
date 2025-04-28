@@ -9,15 +9,15 @@ namespace src.Repos
 {
     public class BillSplitReportRepository
     {
-        private readonly DatabaseConnection dbConn;
+        private readonly DatabaseConnection _databaseConnection;
 
-        public BillSplitReportRepository(DatabaseConnection dbConn)
+        public BillSplitReportRepository(DatabaseConnection databaseConnection)
         {
-            this.dbConn = dbConn;
+            this._databaseConnection = databaseConnection;
         }
-        public DatabaseConnection getDbConn()
+        public DatabaseConnection getDatabaseConnection()
         {
-            return dbConn;
+            return _databaseConnection;
         }
 
 
@@ -25,7 +25,7 @@ namespace src.Repos
         {
             try
             {
-                DataTable? dataTable = dbConn.ExecuteReader("GetBillSplitReports", null, CommandType.StoredProcedure);
+                DataTable? dataTable = _databaseConnection.ExecuteReader("GetBillSplitReports", null, CommandType.StoredProcedure);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -65,7 +65,7 @@ namespace src.Repos
                     new SqlParameter("@BillSplitReportId", SqlDbType.Int) { Value = id }
                 };
 
-                int rowsAffected = dbConn.ExecuteNonQuery("DeleteBillSplitReportById", parameters, CommandType.StoredProcedure);
+                int rowsAffected = _databaseConnection.ExecuteNonQuery("DeleteBillSplitReportById", parameters, CommandType.StoredProcedure);
 
                 if (rowsAffected == 0)
                 {
@@ -90,7 +90,7 @@ namespace src.Repos
                     new SqlParameter("@BillShare", SqlDbType.Float) { Value = billSplitReport.BillShare },
                 };
 
-                dbConn.ExecuteNonQuery("CreateBillSplitReport", parameters, CommandType.StoredProcedure);
+                _databaseConnection.ExecuteNonQuery("CreateBillSplitReport", parameters, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace src.Repos
                 new SqlParameter("@BillShare", billSplitReport.BillShare)
             };
 
-            int count = dbConn.ExecuteScalar<int>("CheckLogsForSimilarPayments", parameters, CommandType.StoredProcedure);
+            int count = _databaseConnection.ExecuteScalar<int>("CheckLogsForSimilarPayments", parameters, CommandType.StoredProcedure);
             return count > 0;
         }
 
@@ -121,7 +121,7 @@ namespace src.Repos
                 new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
             };
 
-            return dbConn.ExecuteScalar<int>("GetCurrentBalance", parameters, CommandType.StoredProcedure);
+            return _databaseConnection.ExecuteScalar<int>("GetCurrentBalance", parameters, CommandType.StoredProcedure);
         }
 
         // Sum the transactions since the report was initiated.
@@ -133,7 +133,7 @@ namespace src.Repos
                 new SqlParameter("@DateOfTransaction", billSplitReport.DateTransaction)
             };
 
-            return dbConn.ExecuteScalar<decimal>("SumTransactionsSinceReport", parameters, CommandType.StoredProcedure);
+            return _databaseConnection.ExecuteScalar<decimal>("SumTransactionsSinceReport", parameters, CommandType.StoredProcedure);
         }
 
         // Check if the user has a history of paying the bill share. (paid at least 3 other bill shares)
@@ -144,7 +144,7 @@ namespace src.Repos
                 new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
             };
 
-            int count = dbConn.ExecuteScalar<int>("CheckHistoryOfBillShares", parameters, CommandType.StoredProcedure);
+            int count = _databaseConnection.ExecuteScalar<int>("CheckHistoryOfBillShares", parameters, CommandType.StoredProcedure);
             return count >= 3;
         }
 
@@ -157,7 +157,7 @@ namespace src.Repos
                 new SqlParameter("@ReporterUserCNP", billSplitReport.ReporterCNP)
             };
 
-            int count = dbConn.ExecuteScalar<int>("CheckFrequentTransfers", parameters, CommandType.StoredProcedure);
+            int count = _databaseConnection.ExecuteScalar<int>("CheckFrequentTransfers", parameters, CommandType.StoredProcedure);
             return count >= 5;
         }
 
@@ -169,7 +169,7 @@ namespace src.Repos
                 new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
             };
 
-            return dbConn.ExecuteScalar<int>("GetNumberOfOffenses", parameters, CommandType.StoredProcedure);
+            return _databaseConnection.ExecuteScalar<int>("GetNumberOfOffenses", parameters, CommandType.StoredProcedure);
         }
 
         // Get the current credit score of the reported user.
@@ -180,7 +180,7 @@ namespace src.Repos
                 new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
             };
 
-            return dbConn.ExecuteScalar<int>("GetCurrentCreditScore", parameters, CommandType.StoredProcedure);
+            return _databaseConnection.ExecuteScalar<int>("GetCurrentCreditScore", parameters, CommandType.StoredProcedure);
         }
 
         // Upade the credit score of the reported user
@@ -191,7 +191,7 @@ namespace src.Repos
                 new SqlParameter("@UserCNP", billSplitReport.ReportedCNP),
                 new SqlParameter("@NewCreditScore", newCreditScore)
             };
-            dbConn.ExecuteNonQuery("UpdateUserCreditScore", parameters, CommandType.StoredProcedure);
+            _databaseConnection.ExecuteNonQuery("UpdateUserCreditScore", parameters, CommandType.StoredProcedure);
         }
 
         // Upade the credit score history of the reported user
@@ -202,7 +202,7 @@ namespace src.Repos
                 new SqlParameter("@UserCNP", billSplitReport.ReportedCNP),
                 new SqlParameter("@NewScore", newCreditScore)
             };
-            dbConn.ExecuteNonQuery("UpdateCreditScoreHistory", parameters, CommandType.StoredProcedure);
+            _databaseConnection.ExecuteNonQuery("UpdateCreditScoreHistory", parameters, CommandType.StoredProcedure);
         }
 
         // Increment the number of offenses of the reported user
@@ -212,7 +212,7 @@ namespace src.Repos
             {
                 new SqlParameter("@UserCNP", billSplitReport.ReportedCNP)
             };
-            dbConn.ExecuteNonQuery("IncrementNoOfBillSharesPaidForGivenUser", parameters, CommandType.StoredProcedure);
+            _databaseConnection.ExecuteNonQuery("IncrementNoOfBillSharesPaidForGivenUser", parameters, CommandType.StoredProcedure);
         }
 
         public int GetDaysOverdue(BillSplitReport billSplitReport)

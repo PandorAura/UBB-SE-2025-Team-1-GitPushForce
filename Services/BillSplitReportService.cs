@@ -80,7 +80,7 @@ namespace src.Services
             _billSplitReportRepository.IncrementNoOfBillSharesPaid(billSplitReportToBeSolved);
 
             // increase the number of offenses
-            UserRepository userRepo = new UserRepository(this._billSplitReportRepository.getDbConn());
+            UserRepository userRepo = new UserRepository(this._billSplitReportRepository.getDatabaseConnection());
             userRepo.IncrementOffenesesCountByOne(billSplitReportToBeSolved.ReportedCNP);
 
             _billSplitReportRepository.DeleteBillSplitReport(billSplitReportToBeSolved.Id);
@@ -93,7 +93,7 @@ namespace src.Services
 
         public User GetUserByCNP(string CNP)
         {
-            UserRepository userRepo = new UserRepository(this._billSplitReportRepository.getDbConn());
+            UserRepository userRepo = new UserRepository(this._billSplitReportRepository.getDatabaseConnection());
             return userRepo.GetUserByCNP(CNP);
         }
     }
