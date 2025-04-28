@@ -13,10 +13,10 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<Compile Remove="Repos\NewFolder\**" />
-		<EmbeddedResource Remove="Repos\NewFolder\**" />
-		<None Remove="Repos\NewFolder\**" />
-		<Page Remove="Repos\NewFolder\**" />
+		<Compile Remove="Repositories\NewFolder\**" />
+		<EmbeddedResource Remove="Repositories\NewFolder\**" />
+		<None Remove="Repositories\NewFolder\**" />
+		<Page Remove="Repositories\NewFolder\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Data\Scripts\mock.cs" />
@@ -76,7 +76,7 @@
 		<PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
 	</PropertyGroup>
 	<ItemGroup>
-		<PRIResource Remove="Repos\NewFolder\**" />
+		<PRIResource Remove="Repositories\NewFolder\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<Page Update="View\Components\InvestmentComponent.xaml">
