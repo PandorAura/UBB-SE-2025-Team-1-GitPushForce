@@ -4,12 +4,11 @@ using src.Repos;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 
 namespace src.Services
 {
-    public class InvestmentsService
+    public class InvestmentsService : IInvestmentsService
     {
         private readonly UserRepository _userRepository;
         private readonly InvestmentsRepository _investmentsRepository;

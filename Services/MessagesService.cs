@@ -12,7 +12,7 @@ using src.Model;
 
 namespace src.Services
 {
-    class MessagesService
+    class MessagesService : IMessagesService
     {
         MessagesRepository _messagesRepository;
 

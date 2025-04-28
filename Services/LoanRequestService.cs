@@ -1,16 +1,12 @@
-﻿using Microsoft.TeamFoundation.Build.WebApi;
-using src.Data;
+﻿using src.Data;
 using src.Model;
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Services
 {
-    class LoanRequestService
+    class LoanRequestService : ILoanRequestService
     {
         LoanRequestRepository _loanRequestRepository;
 
@@ -23,7 +19,7 @@ namespace src.Services
         {
             DatabaseConnection dbConn = new DatabaseConnection();
             UserRepository userRepo = new UserRepository(dbConn);
-            LoanServices loanService = new LoanServices(new LoanRepository(dbConn));
+            LoanService loanService = new LoanService(new LoanRepository(dbConn));
 
             User user = userRepo.GetUserByCNP(loanRequest.UserCNP);
 
@@ -73,7 +69,7 @@ namespace src.Services
             _loanRequestRepository.DeleteLoanRequest(loanRequest.RequestID);
         }
 
-        public bool PastUnpaidLoans(User user, LoanServices loanService)
+        public bool PastUnpaidLoans(User user, LoanService loanService)
         {
             List<Loan> loans;
             try
@@ -95,7 +91,7 @@ namespace src.Services
             return false;
         }
 
-        public float ComputeMonthlyDebtAmount(User user, LoanServices loanServices)
+        public float ComputeMonthlyDebtAmount(User user, LoanService loanServices)
         {
             List<Loan> loans;
             try
