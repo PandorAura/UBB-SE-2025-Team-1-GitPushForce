@@ -12,18 +12,18 @@ namespace src.Repos
 {
     public class ChatReportRepository
     {
-        private readonly DatabaseConnection dbConn;
+        private readonly DatabaseConnection _databaseConnection;
 
         public ChatReportRepository(DatabaseConnection dbConn)
         {
-            this.dbConn = dbConn;
+            this._databaseConnection = dbConn;
         }
 
         public List<ChatReport> GetChatReports()
         {
             try
             {
-                DataTable? dataTable = dbConn.ExecuteReader("GetChatReports", null, CommandType.StoredProcedure);
+                DataTable? dataTable = _databaseConnection.ExecuteReader("GetChatReports", null, CommandType.StoredProcedure);
 
                 if(dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -61,7 +61,7 @@ namespace src.Repos
                     new SqlParameter("@ChatReportId", SqlDbType.Int) { Value = id }
                 };
 
-                int rowsAffected = dbConn.ExecuteNonQuery("DeleteChatReportByGivenId", parameters, CommandType.StoredProcedure);
+                int rowsAffected = _databaseConnection.ExecuteNonQuery("DeleteChatReportByGivenId", parameters, CommandType.StoredProcedure);
 
                 if (rowsAffected == 0)
                 {
