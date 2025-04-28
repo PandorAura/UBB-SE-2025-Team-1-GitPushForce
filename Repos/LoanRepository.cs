@@ -198,7 +198,7 @@ namespace src.Repos
             }
         }
 
-        public void RepoUpdateHistoryForUser(string UserCNP, int NewScore)
+        public void UpdateHistoryForUser(string UserCNP, int NewScore)
         {
             SqlParameter[] parameters = new SqlParameter[]
             {

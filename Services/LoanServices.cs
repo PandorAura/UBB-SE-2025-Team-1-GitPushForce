@@ -144,7 +144,7 @@ namespace src.Services
 
         public void UpdateHistoryForUser(string UserCNP, int NewScore)
         {
-            _loanRepository.RepoUpdateHistoryForUser(UserCNP, NewScore);
+            _loanRepository.UpdateHistoryForUser(UserCNP, NewScore);
         }
 
         public void incrementMonthlyPaymentsCompleted(int loanID, float penalty)
