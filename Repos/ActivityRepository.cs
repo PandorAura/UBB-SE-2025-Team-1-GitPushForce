@@ -13,13 +13,13 @@ namespace src.Repos
     public class ActivityRepository
     {
 
-        private readonly DatabaseConnection dbConn;
-        private readonly UserRepository userRepository;
+        private readonly DatabaseConnection _databaseConnection;
+        private readonly UserRepository _userRepository;
 
-        public ActivityRepository(DatabaseConnection dbConn, UserRepository userRepository)
+        public ActivityRepository(DatabaseConnection databaseConnection, UserRepository userRepository)
         {
-            this.dbConn = dbConn;
-            this.userRepository = userRepository;
+            this._databaseConnection = databaseConnection;
+            this._userRepository = userRepository;
         }
 
         public void AddActivity(string userCNP, string activityName, int amount, string details)
@@ -33,7 +33,7 @@ namespace src.Repos
 
             try
             {
-                existingUser = userRepository.GetUserByCNP(userCNP);
+                existingUser = _userRepository.GetUserByCNP(userCNP);
             }catch(ArgumentException ex)
             {
                 throw new ArgumentException("", ex);
@@ -53,7 +53,7 @@ namespace src.Repos
 
             try
             {
-                int? result = dbConn.ExecuteScalar<int>("GetActivitiesForUser", parameters, CommandType.StoredProcedure);
+                int? result = _databaseConnection.ExecuteScalar<int>("GetActivitiesForUser", parameters, CommandType.StoredProcedure);
             }
             catch (SqlException exception)
             {
@@ -76,7 +76,7 @@ namespace src.Repos
 
             try
             {
-                DataTable? dataTable = dbConn.ExecuteReader("GetActivitiesForUser", parameters, CommandType.StoredProcedure);
+                DataTable? dataTable = _databaseConnection.ExecuteReader("GetActivitiesForUser", parameters, CommandType.StoredProcedure);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
