@@ -27,7 +27,7 @@ namespace src.View.Components
 
         private async void PunishReportedUser(object sender, RoutedEventArgs e)
         {
-            var chatReport = new ChatReport
+            ChatReport chatReport = new ChatReport
             {
                 Id = ReportId,
                 ReportedUserCnp = ReportedUserCNP, 
@@ -40,7 +40,7 @@ namespace src.View.Components
 
         private void DoNotPunishReportedUser(object sender, RoutedEventArgs e)
         {
-            var chatReport = new ChatReport
+            ChatReport chatReport = new ChatReport
             {
                 Id = ReportId,
                 ReportedUserCnp = ReportedUserCNP,

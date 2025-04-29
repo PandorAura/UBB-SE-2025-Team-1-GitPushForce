@@ -125,5 +125,27 @@ namespace src.Repos
                 throw new Exception("Error giving user random roast message", exception);
             }
         }
+
+        public List<Message> GetMessagesForGivenUser(string userCnp)
+        {
+            SqlParameter[] messageParameters = new SqlParameter[]
+            {
+                 new SqlParameter("@UserCNP", userCnp)
+            };
+            const string GetQuery = "SELECT m.ID, m.Type, m.Message FROM GivenTips gt INNER JOIN Messages m ON gt.MessageID = m.ID WHERE gt.UserCNP = @UserCNP;";
+            DataTable messagesRows = _dbConnection.ExecuteReader(GetQuery, messageParameters, CommandType.Text);
+            List<Message> messages = new List<Message>();
+
+            foreach (DataRow row in messagesRows.Rows)
+            {
+                messages.Add(new Message
+                {
+                    Id = Convert.ToInt32(row["ID"]),
+                    Type = row["Type"].ToString(),
+                    MessageText = row["Message"].ToString()
+                });
+            }
+            return messages;
+        }
     }
 }

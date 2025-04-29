@@ -32,12 +32,12 @@ namespace src.Repos
         {
             SqlParameter[] activityParameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", reportedUserCnp),
+                new SqlParameter("@UserCnp", reportedUserCnp),
                 new SqlParameter("@ActivityName", "Chat"),
-                new SqlParameter("@Amount", amount),
-                new SqlParameter("@Details", "Chat abuse")
+                new SqlParameter("@LastModifiedAmount", amount),
+                new SqlParameter("@ActivityDetails", "Chat abuse")
             };
-            const string UpdateQuery = "DECLARE @count INT; SELECT @count = COUNT(*) FROM ActivityLog a WHERE a.UserCNP = @userCNP and a.Name = @ActivityName; IF @count = 0 BEGIN INSERT INTO ActivityLog (Name, UserCNP, LastModifiedAmount, Details) VALUES (@ActivityName, @userCNP, @Amount, @Details); END ELSE BEGIN UPDATE ActivityLog SET LastModifiedAmount = @Amount, Details = @Details WHERE UserCNP = @userCNP AND Name = @ActivityName; END;";
+            const string UpdateQuery = "DECLARE @count INT; SELECT @count = COUNT(*) FROM ActivityLog a WHERE a.UserCnp = @UserCnp and a.ActivityName = @ActivityName; IF @count = 0 BEGIN INSERT INTO ActivityLog (ActivityName, UserCnp, LastModifiedAmount, ActivityDetails) VALUES (@ActivityName, @UserCnp, @LastModifiedAmount, @ActivityDetails); END ELSE BEGIN UPDATE ActivityLog SET LastModifiedAmount = @LastModifiedAmount, ActivityDetails = @ActivityDetails WHERE UserCnp = @UserCnp AND ActivityName = @ActivityName; END;";
             _dbConnection.ExecuteNonQuery(UpdateQuery, activityParameters, CommandType.Text);
         }
 
@@ -46,7 +46,7 @@ namespace src.Repos
             try
             {
                 const string SelectQuery = @"
-                    SELECT Id, ReportedUserCnp, ReportedMessage, Status 
+                    SELECT Id, ReportedUserCnp, ReportedMessage 
                     FROM ChatReports";
 
                 DataTable? chatReportsDataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);

@@ -2,6 +2,7 @@
 using src.Data;
 using src.Model;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace src.Repos
@@ -93,6 +94,27 @@ namespace src.Repos
             {
                 throw new Exception($"Error giving user {creditScoreBracket} tip", exception);
             }
+        }
+
+        public List<Tip> GetTipsForGivenUser(string userCnp)
+        {
+            SqlParameter[] tipsParameters = new SqlParameter[]
+            {
+                 new SqlParameter("@UserCnp", userCnp)
+            };
+            const string GetQuery = "SELECT T.ID, T.CreditScoreBracket, T.TipText, GT.Date FROM GivenTips GT INNER JOIN Tips T ON GT.TipID = T.ID WHERE GT.UserCnp = @UserCnp;";
+            DataTable tipsRows = _dbConnection.ExecuteReader(GetQuery, tipsParameters, CommandType.Text);
+            List<Tip> tips = new List<Tip>();
+            foreach (DataRow row in tipsRows.Rows)
+            {
+                tips.Add(new Tip
+                {
+                    Id = Convert.ToInt32(row["ID"]),
+                    CreditScoreBracket = row["CreditScoreBracket"].ToString(),
+                    TipText = row["TipText"].ToString()
+                });
+            }
+            return tips;
         }
     }
 }
