@@ -2,10 +2,6 @@
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace src.Services
 {
     public class ActivityService
@@ -17,13 +13,13 @@ namespace src.Services
             _activityRepository = activityRepository ?? throw new ArgumentNullException(nameof(activityRepository));
         }
 
-        public List<ActivityLog> GetActivityForUser(string userCNP)
+        public List<ActivityLog> GetActivityForUser(string userCnp)
         {
-            if (string.IsNullOrWhiteSpace(userCNP))
+            if (string.IsNullOrWhiteSpace(userCnp))
             {
                 throw new ArgumentException("user cannot be found");
             }
-            return _activityRepository.GetActivityForUser(userCNP);
+            return _activityRepository.GetActivityForUser(userCnp);
         }   
 
     }
