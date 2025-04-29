@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using Microsoft.VisualStudio.Services.CircuitBreaker;
 using src.Data;
-using src.Model;
 using src.Repos;
 
 

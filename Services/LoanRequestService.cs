@@ -1,12 +1,8 @@
-﻿using Microsoft.TeamFoundation.Build.WebApi;
-using src.Data;
+﻿using src.Data;
 using src.Model;
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Services
 {
