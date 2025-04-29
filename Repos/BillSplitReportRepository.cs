@@ -20,17 +20,17 @@ namespace src.Repos
         {
             try
             {
-                string query = "SELECT Id, ReportedUserCnp, ReportingUserCnp, DateOfTransaction, BillShare FROM BillSplitReports";
-                DataTable dataTable = _dbConnection.ExecuteReader(query, null, CommandType.Text);
+                string selectBillSplitReportsQuery = "SELECT Id, ReportedUserCnp, ReportingUserCnp, DateOfTransaction, BillShare FROM BillSplitReports";
+                DataTable reportDataTable = _dbConnection.ExecuteReader(selectBillSplitReportsQuery, null, CommandType.Text);
 
-                if (dataTable == null || dataTable.Rows.Count == 0)
+                if (reportDataTable == null || reportDataTable.Rows.Count == 0)
                 {
                     throw new Exception("Bill split reports table is empty");
                 }
 
                 List<BillSplitReport> billSplitReports = new List<BillSplitReport>();
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataRow row in reportDataTable.Rows)
                 {
                     BillSplitReport billSplitReport = new BillSplitReport
                     {
@@ -56,13 +56,13 @@ namespace src.Repos
         {
             try
             {
-                string query = "DELETE FROM BillSplitReports WHERE Id = @Id";
-                SqlParameter[] parameters = new SqlParameter[]
+                string deleteQuery = "DELETE FROM BillSplitReports WHERE Id = @Id";
+                SqlParameter[] deleteParameters = new SqlParameter[]
                 {
                     new SqlParameter("@Id", id)
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(deleteQuery, deleteParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -79,13 +79,13 @@ namespace src.Repos
         {
             try
             {
-                string query = @"
+                string insertQuery = @"
                     INSERT INTO BillSplitReports 
                         (ReportedUserCnp, ReportingUserCnp, DateOfTransaction, BillShare)
                     VALUES 
                         (@ReportedUserCnp, @ReportingUserCnp, @DateOfTransaction, @BillShare)";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] insertParameters = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp),
                     new SqlParameter("@ReportingUserCnp", billSplitReport.ReportingUserCnp),
@@ -93,7 +93,7 @@ namespace src.Repos
                     new SqlParameter("@BillShare", billSplitReport.BillShare)
                 };
 
-                _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                _dbConnection.ExecuteNonQuery(insertQuery, insertParameters, CommandType.Text);
             }
             catch (Exception exception)
             {
@@ -103,7 +103,7 @@ namespace src.Repos
 
         public bool CheckLogsForSimilarPayments(BillSplitReport billSplitReport)
         {
-            string query = @"
+            string selectQuery = @"
                 SELECT COUNT(*)
                 FROM TransactionLogs
                 WHERE SenderCnp = @ReportedUserCnp
@@ -115,7 +115,7 @@ namespace src.Repos
                        OR TransactionDescription LIKE '%split%')
                   AND TransactionType != 'Bill Split'";
 
-            SqlParameter[] parameters = new SqlParameter[]
+            SqlParameter[] selectParameters = new SqlParameter[]
             {
                 new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp),
                 new SqlParameter("@ReportingUserCnp", billSplitReport.ReportingUserCnp),
@@ -123,7 +123,7 @@ namespace src.Repos
                 new SqlParameter("@BillShare", billSplitReport.BillShare)
             };
 
-            int count = _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+            int count = _dbConnection.ExecuteScalar<int>(selectQuery, selectParameters, CommandType.Text);
             return count > 0;
         }
 
@@ -131,13 +131,13 @@ namespace src.Repos
         {
             try
             {
-                string query = "SELECT Balance FROM Users WHERE Cnp = @ReportedUserCnp";
-                SqlParameter[] parameters = new SqlParameter[]
+                string selectQuery = "SELECT Balance FROM Users WHERE Cnp = @ReportedUserCnp";
+                SqlParameter[] selectParameter = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp)
                 };
 
-                return _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+                return _dbConnection.ExecuteScalar<int>(selectQuery, selectParameter, CommandType.Text);
             }
             catch (SqlException sqlException)
             {
@@ -158,19 +158,19 @@ namespace src.Repos
 
             try
             {
-                string query = @"
+                string selectQuery = @"
                     SELECT SUM(Amount)
                     FROM TransactionLogs
                     WHERE SenderCnp = @ReportedUserCnp
                       AND TransactionDate > @DateOfTransaction";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] selectParameters = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp),
                     new SqlParameter("@DateOfTransaction", billSplitReport.DateOfTransaction)
                 };
 
-                decimal result = _dbConnection.ExecuteScalar<decimal>(query, parameters, CommandType.Text);
+                decimal result = _dbConnection.ExecuteScalar<decimal>(selectQuery, selectParameters, CommandType.Text);
                 return result;
             }
             catch (SqlException sqlException)
@@ -192,13 +192,13 @@ namespace src.Repos
 
             try
             {
-                string query = "SELECT NumberOfBillSharesPaid FROM Users WHERE Cnp = @ReportedUserCnp";
-                SqlParameter[] parameters = new SqlParameter[]
+                string selectQuery = "SELECT NumberOfBillSharesPaid FROM Users WHERE Cnp = @ReportedUserCnp";
+                SqlParameter[] selectParameters = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp)
                 };
 
-                int count = _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+                int count = _dbConnection.ExecuteScalar<int>(selectQuery, selectParameters, CommandType.Text);
                 return count >= 3;
             }
             catch (SqlException sqlException)
@@ -221,20 +221,20 @@ namespace src.Repos
 
             try
             {
-                string query = @"
+                string selectQuery = @"
                     SELECT COUNT(*)
                     FROM TransactionLogs
                     WHERE SenderCnp = @ReportedUserCnp
                       AND ReceiverCnp = @ReportingUserCnp
                       AND TransactionDate >= DATEADD(month, -1, GETDATE())";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] selectParameters = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp),
                     new SqlParameter("@ReportingUserCnp", billSplitReport.ReportingUserCnp)
                 };
 
-                int count = _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+                int count = _dbConnection.ExecuteScalar<int>(selectQuery, selectParameters, CommandType.Text);
                 return count >= 5;
             }
             catch (SqlException sqlException)
@@ -256,13 +256,13 @@ namespace src.Repos
 
             try
             {
-                string query = "SELECT NumberOfOffenses FROM Users WHERE Cnp = @ReportedUserCnp";
-                SqlParameter[] parameters = new SqlParameter[]
+                string selectQuery = "SELECT NumberOfOffenses FROM Users WHERE Cnp = @ReportedUserCnp";
+                SqlParameter[] selectParameters = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp)
                 };
 
-                return _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+                return _dbConnection.ExecuteScalar<int>(selectQuery, selectParameters, CommandType.Text);
             }
             catch (SqlException sqlException)
             {
@@ -283,13 +283,13 @@ namespace src.Repos
 
             try
             {
-                string query = "SELECT CreditScore FROM Users WHERE Cnp = @ReportedUserCnp";
-                SqlParameter[] parameters = new SqlParameter[]
+                string selectQuery = "SELECT CreditScore FROM Users WHERE Cnp = @ReportedUserCnp";
+                SqlParameter[] selectParameters = new SqlParameter[]
                 {
                     new SqlParameter("@ReportedUserCnp", billSplitReport.ReportedUserCnp)
                 };
 
-                return _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+                return _dbConnection.ExecuteScalar<int>(selectQuery, selectParameters, CommandType.Text);
             }
             catch (SqlException sqlException)
             {
@@ -310,14 +310,14 @@ namespace src.Repos
 
             try
             {
-                string query = "UPDATE Users SET CreditScore = @NewCreditScore WHERE Cnp = @UserCnp";
-                SqlParameter[] parameters = new SqlParameter[]
+                string updateQuery = "UPDATE Users SET CreditScore = @NewCreditScore WHERE Cnp = @UserCnp";
+                SqlParameter[] updateParameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", billSplitReport.ReportedUserCnp),
                     new SqlParameter("@NewCreditScore", newCreditScore)
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(updateQuery, updateParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -343,7 +343,7 @@ namespace src.Repos
 
             try
             {
-                string query = @"
+                string updateCreditScoreQuery = @"
                     IF EXISTS (SELECT 1 FROM CreditScoreHistory WHERE UserCnp = @UserCnp AND Date = CAST(GETDATE() AS DATE))
                     BEGIN
                         UPDATE CreditScoreHistory
@@ -356,13 +356,13 @@ namespace src.Repos
                         VALUES (@UserCnp, CAST(GETDATE() AS DATE), @NewScore);
                     END";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] creditScoreParameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", billSplitReport.ReportedUserCnp),
                     new SqlParameter("@NewScore", newCreditScore)
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(updateCreditScoreQuery, creditScoreParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -388,13 +388,13 @@ namespace src.Repos
 
             try
             {
-                string query = "UPDATE Users SET NumberOfBillSharesPaid = NumberOfBillSharesPaid + 1 WHERE Cnp = @UserCnp";
+                string updateQuery = "UPDATE Users SET NumberOfBillSharesPaid = NumberOfBillSharesPaid + 1 WHERE Cnp = @UserCnp";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", billSplitReport.ReportedUserCnp)
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(updateQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

@@ -9,12 +9,12 @@ namespace src.Repos
 {
     public class ActivityRepository
     {
-        private readonly DatabaseConnection dbConn;
+        private readonly DatabaseConnection _dbConnection;
         private readonly UserRepository userRepository;
 
-        public ActivityRepository(DatabaseConnection dbConn, UserRepository userRepository)
+        public ActivityRepository(DatabaseConnection dbConnection, UserRepository userRepository)
         {
-            this.dbConn = dbConn;
+            this._dbConnection = dbConnection;
             this.userRepository = userRepository;
         }
 
@@ -33,20 +33,20 @@ namespace src.Repos
                     throw new ArgumentException("User not found");
                 }
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException exception)
             {
-                throw new ArgumentException("Invalid user CNP", ex);
+                throw new ArgumentException("Invalid user CNP", exception);
             }
-            catch (Exception ex)
+            catch (Exception exeception)
             {
-                throw new Exception("Error retrieving user", ex);
+                throw new Exception("Error retrieving user", exeception);
             }
 
             string sqlInsert = @"
                 INSERT INTO ActivityLog (UserCnp, ActivityName, LastModifiedAmount, ActivityDetails)
                 VALUES (@UserCnp, @ActivityName, @LastModifiedAmount, @ActivityDetails)";
 
-            SqlParameter[] parameters = new SqlParameter[]
+            SqlParameter[] activityParameters = new SqlParameter[]
             {
                 new SqlParameter("@UserCnp", userCnp),
                 new SqlParameter("@ActivityName", activityName),
@@ -56,15 +56,15 @@ namespace src.Repos
 
             try
             {
-                int rowsAffected = dbConn.ExecuteNonQuery(sqlInsert, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(sqlInsert, activityParameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception("No rows were inserted");
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException exception)
             {
-                throw new Exception($"Database error: {ex.Message}", ex);
+                throw new Exception($"Database error: {exception.Message}", exception);
             }
         }
 
@@ -75,28 +75,28 @@ namespace src.Repos
                 throw new ArgumentException("User CNP cannot be empty");
             }
 
-            string sqlQuery = @"
+            string selectQuery = @"
                 SELECT Id, UserCnp, ActivityName, LastModifiedAmount, ActivityDetails 
                 FROM ActivityLog 
                 WHERE UserCnp = @UserCnp";
 
-            SqlParameter[] parameters = new SqlParameter[]
+            SqlParameter[] selectQueryParameter = new SqlParameter[]
             {
                 new SqlParameter("@UserCnp", userCnp)
             };
 
             try
             {
-                DataTable? dataTable = dbConn.ExecuteReader(sqlQuery, parameters, CommandType.Text);
+                DataTable? userActivityTable = _dbConnection.ExecuteReader(selectQuery, selectQueryParameter, CommandType.Text);
 
-                if (dataTable == null || dataTable.Rows.Count == 0)
+                if (userActivityTable == null || userActivityTable.Rows.Count == 0)
                 {
                     return new List<ActivityLog>();
                 }
 
                 List<ActivityLog> activitiesList = new List<ActivityLog>();
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataRow row in userActivityTable.Rows)
                 {
                     activitiesList.Add(new ActivityLog(
                         id: Convert.ToInt32(row["Id"]),

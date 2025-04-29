@@ -9,31 +9,31 @@ namespace src.Repos
 {
     public class ChatReportRepository
     {
-        private readonly DatabaseConnection dbConn;
+        private readonly DatabaseConnection _dbConnection;
 
-        public ChatReportRepository(DatabaseConnection dbConn)
+        public ChatReportRepository(DatabaseConnection dbConnection)
         {
-            this.dbConn = dbConn;
+            this._dbConnection = dbConnection;
         }
 
         public List<ChatReport> GetChatReports()
         {
             try
             {
-                string query = @"
+                string selectQuery = @"
                     SELECT Id, ReportedUserCnp, ReportedMessage, Status 
                     FROM ChatReports";
 
-                DataTable? dataTable = dbConn.ExecuteReader(query, null, CommandType.Text);
+                DataTable? chatReportsDataTable = _dbConnection.ExecuteReader(selectQuery, null, CommandType.Text);
 
-                if (dataTable == null)
+                if (chatReportsDataTable == null)
                 {
                     return new List<ChatReport>();
                 }
 
                 List<ChatReport> chatReports = new List<ChatReport>();
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataRow row in chatReportsDataTable.Rows)
                 {
                     chatReports.Add(new ChatReport
                     {
@@ -45,9 +45,9 @@ namespace src.Repos
 
                 return chatReports;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw new Exception("Error retrieving chat reports", ex);
+                throw new Exception("Error retrieving chat reports", exception);
             }
         }
 
@@ -60,23 +60,23 @@ namespace src.Repos
 
             try
             {
-                string query = "DELETE FROM ChatReports WHERE Id = @Id";
+                string deleteQuery = "DELETE FROM ChatReports WHERE Id = @Id";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] deleteParameters = new SqlParameter[]
                 {
                     new SqlParameter("@Id", id)
                 };
 
-                int rowsAffected = dbConn.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(deleteQuery, deleteParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No chat report found with Id {id}");
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw new Exception($"Error deleting chat report: {ex.Message}", ex);
+                throw new Exception($"Error deleting chat report: {exception.Message}", exception);
             }
         }
 
@@ -103,7 +103,7 @@ namespace src.Repos
             new SqlParameter("@NewScore", SqlDbType.Int) { Value = NewScore }
                 };
 
-                int rowsAffected = dbConn.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
