@@ -27,10 +27,10 @@ namespace src.Services
 
         public void AddLoan(LoanRequest loanRequest)
         {
-            DatabaseConnection dbConn = new DatabaseConnection();
-            UserRepository userRepo = new UserRepository(dbConn);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            UserRepository userRepository = new UserRepository(dbConnection);
 
-            User user = userRepo.GetUserByCnp(loanRequest.UserCnp);
+            User user = userRepository.GetUserByCnp(loanRequest.UserCnp);
 
             if (user == null)
             {
@@ -64,8 +64,8 @@ namespace src.Services
 
         public void CheckLoans()
         {
-            List<Loan> loans = _loanRepository.GetLoans();
-            foreach (Loan loan in loans)
+            List<Loan> loanList = _loanRepository.GetLoans();
+            foreach (Loan loan in loanList)
             {
                 int numberOfMonthsPassed = (DateTime.Today.Year - loan.ApplicationDate.Year) * 12 + DateTime.Today.Month - loan.ApplicationDate.Month;
                 User user = new UserRepository(new DatabaseConnection()).GetUserByCnp(loan.UserCnp);

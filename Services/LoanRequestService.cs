@@ -17,26 +17,26 @@ namespace src.Services
 
         public string GiveSuggestion(LoanRequest loanRequest)
         {
-            DatabaseConnection dbConn = new DatabaseConnection();
-            UserRepository userRepo = new UserRepository(dbConn);
-            LoanServices loanService = new LoanServices(new LoanRepository(dbConn));
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            UserRepository userRepository = new UserRepository(dbConnection);
+            LoanServices loanService = new LoanServices(new LoanRepository(dbConnection));
 
-            User user = userRepo.GetUserByCnp(loanRequest.UserCnp);
+            User user = userRepository.GetUserByCnp(loanRequest.UserCnp);
 
-            string suggestion = string.Empty;
+            string givenSuggestion = string.Empty;
 
             if (loanRequest.Amount > user.Income * 10)
             {
-                suggestion = "Amount requested is too high for user income";
+                givenSuggestion = "Amount requested is too high for user income";
             }
 
             if (user.CreditScore < 300)
             {
-                if (suggestion.Length > 0)
+                if (givenSuggestion.Length > 0)
                 {
-                    suggestion += ", ";
+                    givenSuggestion += ", ";
                 }
-                suggestion += "Credit score is too low";
+                givenSuggestion += "Credit score is too low";
             }
 
             //if (PastUnpaidLoans(user, loanService))
@@ -44,19 +44,19 @@ namespace src.Services
 
             if (user.RiskScore > 70)
             {
-                if (suggestion.Length > 0)
+                if (givenSuggestion.Length > 0)
                 {
-                    suggestion += ", ";
+                    givenSuggestion += ", ";
                 }
-                suggestion += "User risk score is too high";
+                givenSuggestion += "User risk score is too high";
             }
 
-            if (suggestion.Length > 0)
+            if (givenSuggestion.Length > 0)
             {
-                suggestion = "User does not qualify for loan: " + suggestion;
+                givenSuggestion = "User does not qualify for loan: " + givenSuggestion;
             }
 
-            return suggestion;
+            return givenSuggestion;
         }
 
         public void SolveLoanRequest(LoanRequest loanRequest)
@@ -71,16 +71,16 @@ namespace src.Services
 
         public bool PastUnpaidLoans(User user, LoanServices loanService)
         {
-            List<Loan> loans;
+            List<Loan> userLoanList;
             try
             {
-                loans = loanService.GetUserLoans(user.Cnp);
+                userLoanList = loanService.GetUserLoans(user.Cnp);
             }
             catch (Exception)
             {
-                loans = new List<Loan>();
+                userLoanList = new List<Loan>();
             }
-            foreach (Loan loan in loans)
+            foreach (Loan loan in userLoanList)
             {
                 if (loan.Status == "Active" && loan.RepaymentDate < DateTime.Today)
                 {
@@ -93,18 +93,18 @@ namespace src.Services
 
         public float ComputeMonthlyDebtAmount(User user, LoanServices loanServices)
         {
-            List<Loan> loans;
+            List<Loan> loanList;
             try
             {
-                loans = loanServices.GetUserLoans(user.Cnp);
+                loanList = loanServices.GetUserLoans(user.Cnp);
             }
             catch (Exception)
             {
-                loans = new List<Loan>();
+                loanList = new List<Loan>();
             }
             float monthlyDebtAmount = 0;
 
-            foreach (Loan loan in loans)
+            foreach (Loan loan in loanList)
             {
                 if (loan.Status == "Active")
                 {
