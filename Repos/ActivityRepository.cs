@@ -42,7 +42,7 @@ namespace src.Repos
                 throw new Exception("Error retrieving user", exeception);
             }
 
-            string sqlInsert = @"
+            const string InsertQuery = @"
                 INSERT INTO ActivityLog (UserCnp, ActivityName, LastModifiedAmount, ActivityDetails)
                 VALUES (@UserCnp, @ActivityName, @LastModifiedAmount, @ActivityDetails)";
 
@@ -56,7 +56,7 @@ namespace src.Repos
 
             try
             {
-                int rowsAffected = _dbConnection.ExecuteNonQuery(sqlInsert, activityParameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(InsertQuery, activityParameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception("No rows were inserted");
@@ -75,7 +75,7 @@ namespace src.Repos
                 throw new ArgumentException("User CNP cannot be empty");
             }
 
-            string selectQuery = @"
+            const string SelectQuery = @"
                 SELECT Id, UserCnp, ActivityName, LastModifiedAmount, ActivityDetails 
                 FROM ActivityLog 
                 WHERE UserCnp = @UserCnp";
@@ -87,7 +87,7 @@ namespace src.Repos
 
             try
             {
-                DataTable? userActivityTable = _dbConnection.ExecuteReader(selectQuery, selectQueryParameter, CommandType.Text);
+                DataTable? userActivityTable = _dbConnection.ExecuteReader(SelectQuery, selectQueryParameter, CommandType.Text);
 
                 if (userActivityTable == null || userActivityTable.Rows.Count == 0)
                 {

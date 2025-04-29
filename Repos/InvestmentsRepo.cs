@@ -20,17 +20,17 @@ namespace src.Repos
         {
             try
             {
-                string query = "SELECT Id, InvestorCnp, Details, AmountInvested, AmountReturned, InvestmentDate FROM Investments";
-                DataTable dataTable = _dbConnection.ExecuteReader(query, null, CommandType.Text);
+                const string SelectQuery = "SELECT Id, InvestorCnp, Details, AmountInvested, AmountReturned, InvestmentDate FROM Investments";
+                DataTable investmentsDataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
-                if (dataTable == null || dataTable.Rows.Count == 0)
+                if (investmentsDataTable == null || investmentsDataTable.Rows.Count == 0)
                 {
                     throw new Exception("Investments history table is empty");
                 }
 
                 List<Investment> investmentsHistory = new List<Investment>();
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataRow row in investmentsDataTable.Rows)
                 {
                     Investment investment = new Investment(
                         id: Convert.ToInt32(row["Id"]),
@@ -70,12 +70,12 @@ namespace src.Repos
                     new SqlParameter("@InvestmentDate", investment.InvestmentDate)
                 };
 
-                string query = @"INSERT INTO Investments 
+                const string InsertInvestmentQuery = @"INSERT INTO Investments 
                               (InvestorCnp, Details, AmountInvested, AmountReturned, InvestmentDate) 
                               VALUES 
                               (@InvestorCnp, @Details, @AmountInvested, @AmountReturned, @InvestmentDate)";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(InsertInvestmentQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -109,8 +109,8 @@ namespace src.Repos
                     new SqlParameter("@AmountReturned", amountReturned)
                 };
 
-                string selectQuery = "SELECT Id, InvestorCnp, AmountReturned FROM Investments WHERE Id = @InvestmentId AND InvestorCnp = @InvestorCnp";
-                DataTable dataTable = _dbConnection.ExecuteReader(selectQuery, parameters, CommandType.Text);
+                const string SelectQuery = "SELECT Id, InvestorCnp, AmountReturned FROM Investments WHERE Id = @InvestmentId AND InvestorCnp = @InvestorCnp";
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -129,8 +129,8 @@ namespace src.Repos
                     throw new Exception("Investor CNP does not match investment record");
                 }
 
-                string updateQuery = "UPDATE Investments SET AmountReturned = @AmountReturned WHERE Id = @InvestmentId AND AmountReturned = -1";
-                int rowsAffected = _dbConnection.ExecuteNonQuery(updateQuery, parameters, CommandType.Text);
+                const string UpdateQuery = "UPDATE Investments SET AmountReturned = @AmountReturned WHERE Id = @InvestmentId AND AmountReturned = -1";
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

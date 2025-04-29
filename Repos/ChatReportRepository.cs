@@ -20,11 +20,11 @@ namespace src.Repos
         {
             try
             {
-                string selectQuery = @"
+                const string SelectQuery = @"
                     SELECT Id, ReportedUserCnp, ReportedMessage, Status 
                     FROM ChatReports";
 
-                DataTable? chatReportsDataTable = _dbConnection.ExecuteReader(selectQuery, null, CommandType.Text);
+                DataTable? chatReportsDataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (chatReportsDataTable == null)
                 {
@@ -60,14 +60,14 @@ namespace src.Repos
 
             try
             {
-                string deleteQuery = "DELETE FROM ChatReports WHERE Id = @Id";
+                const string DeleteQuery = "DELETE FROM ChatReports WHERE Id = @Id";
 
                 SqlParameter[] deleteParameters = new SqlParameter[]
                 {
                     new SqlParameter("@Id", id)
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(deleteQuery, deleteParameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(DeleteQuery, deleteParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -84,7 +84,7 @@ namespace src.Repos
         {
             try
             {
-                string updateScoreHistoryQuery = @"
+                const string UpdateScoreHistoryQuery = @"
             IF EXISTS (SELECT 1 FROM CreditScoreHistory WHERE UserCNP = @UserCnp AND Date = CAST(GETDATE() AS DATE))
             BEGIN
                 UPDATE CreditScoreHistory
@@ -103,7 +103,7 @@ namespace src.Repos
             new SqlParameter("@NewScore", SqlDbType.Int) { Value = NewScore }
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(updateScoreHistoryQuery, scoreHistoryParameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateScoreHistoryQuery, scoreHistoryParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

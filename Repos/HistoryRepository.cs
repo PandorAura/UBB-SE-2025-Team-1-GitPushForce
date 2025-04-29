@@ -9,11 +9,11 @@ namespace src.Repos
 {
     public class HistoryRepository
     {
-        private readonly DatabaseConnection dbConn;
+        private readonly DatabaseConnection _dbConnection;
 
-        public HistoryRepository(DatabaseConnection dbConn)
+        public HistoryRepository(DatabaseConnection dbConnection)
         {
-            this.dbConn = dbConn;
+            this._dbConnection = dbConnection;
         }
 
         public List<CreditScoreHistory> GetHistoryForUser(string userCnp)
@@ -25,27 +25,27 @@ namespace src.Repos
 
             try
             {
-                string query = @"
+                const string SelectQuery = @"
                     SELECT Id, UserCnp, Date, Score 
                     FROM CreditScoreHistory 
                     WHERE UserCnp = @UserCnp
                     ORDER BY Date DESC";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] selectParameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", userCnp)
                 };
 
-                DataTable? dataTable = dbConn.ExecuteReader(query, parameters, CommandType.Text);
+                DataTable? creditScoreDataTable = _dbConnection.ExecuteReader(SelectQuery, selectParameters, CommandType.Text);
 
-                if (dataTable == null)
+                if (creditScoreDataTable == null)
                 {
                     return new List<CreditScoreHistory>();
                 }
 
                 List<CreditScoreHistory> historyList = new List<CreditScoreHistory>();
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataRow row in creditScoreDataTable.Rows)
                 {
                     historyList.Add(new CreditScoreHistory(
                         id: Convert.ToInt32(row["Id"]),
@@ -57,9 +57,9 @@ namespace src.Repos
 
                 return historyList;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw new Exception("Error retrieving credit score history", ex);
+                throw new Exception("Error retrieving credit score history", exception);
             }
         }
     }
