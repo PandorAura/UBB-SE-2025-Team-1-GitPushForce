@@ -58,15 +58,8 @@ namespace src.Services
             _chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
             TipsService service = new TipsService(new TipsRepository(dbConn));
             service.GiveTipToUser(chatReportToBeSolved.ReportedUserCnp);
-            SqlParameter[] tipsParameters = new SqlParameter[]
-            {
-                 new SqlParameter("@UserCNP", chatReportToBeSolved.ReportedUserCnp)
-            };
-            
-            int countTips = dbConn.ExecuteScalar<int>("GetNumberOfGivenTipsForUser", tipsParameters, CommandType.StoredProcedure);
 
-
-            
+            int countTips = _chatReportRepository.GetNumberOfGivenTipsForUser(chatReportToBeSolved.ReportedUserCnp);
 
             if (countTips % 3 == 0)
             {
@@ -74,19 +67,7 @@ namespace src.Services
                 services.GiveMessageToUser(chatReportToBeSolved.ReportedUserCnp);
             }
 
-
-
-            SqlParameter[] activityParameters = new SqlParameter[]
-            {
-                new SqlParameter("@UserCNP", chatReportToBeSolved.ReportedUserCnp),
-                new SqlParameter("@ActivityName", "Chat"),
-                new SqlParameter("@Amount", amount),
-                new SqlParameter("@Details", "Chat abuse")
-            };
-
-
-            dbConn.ExecuteNonQuery("UpdateActivityLog", activityParameters, CommandType.StoredProcedure);
-
+            _chatReportRepository.UpdateActivityLog(chatReportToBeSolved.ReportedUserCnp, amount);
             return true;
         }
 

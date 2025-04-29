@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using src.Model;
+using Windows.ApplicationModel.Contacts;
 
 namespace src.Repos
 {
@@ -14,6 +15,30 @@ namespace src.Repos
         public ChatReportRepository(DatabaseConnection dbConnection)
         {
             this._dbConnection = dbConnection;
+        }
+
+        public int GetNumberOfGivenTipsForUser(string reportedUserCnp)
+        {
+            SqlParameter[] tipsParameters = new SqlParameter[]
+            {
+                 new SqlParameter("@UserCNP", reportedUserCnp)
+            };
+            const string GetQuery = "SET NOCOUNT ON; SELECT COUNT(*) AS NumberOfTips FROM GivenTips WHERE UserCNP = @UserCNP;";
+            int countTips = _dbConnection.ExecuteScalar<int>(GetQuery, tipsParameters, CommandType.Text);
+            return countTips;
+        }
+
+        public void UpdateActivityLog(string reportedUserCnp, int amount)
+        {
+            SqlParameter[] activityParameters = new SqlParameter[]
+            {
+                new SqlParameter("@UserCNP", reportedUserCnp),
+                new SqlParameter("@ActivityName", "Chat"),
+                new SqlParameter("@Amount", amount),
+                new SqlParameter("@Details", "Chat abuse")
+            };
+            const string UpdateQuery = "DECLARE @count INT; SELECT @count = COUNT(*) FROM ActivityLog a WHERE a.UserCNP = @userCNP and a.Name = @ActivityName; IF @count = 0 BEGIN INSERT INTO ActivityLog (Name, UserCNP, LastModifiedAmount, Details) VALUES (@ActivityName, @userCNP, @Amount, @Details); END ELSE BEGIN UPDATE ActivityLog SET LastModifiedAmount = @Amount, Details = @Details WHERE UserCNP = @userCNP AND Name = @ActivityName; END;";
+            _dbConnection.ExecuteNonQuery(UpdateQuery, activityParameters, CommandType.Text);
         }
 
         public List<ChatReport> GetChatReports()
