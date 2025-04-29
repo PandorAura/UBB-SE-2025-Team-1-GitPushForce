@@ -16,15 +16,14 @@ namespace src.View.Pages
 {
     public sealed partial class TipHistoryWindow : Window
     {
-        private User selectedUser;
+        private User _selectedUser;
         MessagesRepository _messagesRepository;
         TipsRepository _tipsRepository;
 
         public TipHistoryWindow(User selectedUser, MessagesRepository messagesRepository, TipsRepository tipsRepository)
         {
             this.InitializeComponent();
-            this.selectedUser = selectedUser;
-            DatabaseConnection dbConn = new DatabaseConnection();
+            _selectedUser = selectedUser;
             _messagesRepository = messagesRepository;
             _tipsRepository = tipsRepository;
 

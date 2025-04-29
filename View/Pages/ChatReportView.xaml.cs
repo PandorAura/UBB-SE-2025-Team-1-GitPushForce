@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using src.Data;
 using src.Repos;
@@ -22,13 +21,13 @@ namespace src.Views
         {
             ChatReportsContainer.Items.Clear(); // Clear previous items before reloading
 
-            DatabaseConnection dbConn = new DatabaseConnection();
-            ChatReportRepository repo = new ChatReportRepository(dbConn);
-            ChatReportService service = new ChatReportService(repo);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            ChatReportRepository chatReportRepository = new ChatReportRepository(dbConnection);
+            ChatReportService chatReportService = new ChatReportService(chatReportRepository);
 
             try
             {
-                List<ChatReport> chatReports = service.GetChatReports();
+                List<ChatReport> chatReports = chatReportService.GetChatReports();
 
                 foreach (var report in chatReports)
                 {

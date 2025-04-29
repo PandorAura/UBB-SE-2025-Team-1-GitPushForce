@@ -1,22 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using src.Model;
 using src.Services;
 using src.Data;
 using src.Repos;
-using System.Web.Http.Controllers;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot;
@@ -60,9 +48,9 @@ namespace src.View.Pages
 
                 ActivityListView.ItemsSource = activities;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Error loading activities: {ex.Message}");
+                Console.WriteLine($"Error loading activities: {exception.Message}");
             }
         }
 
@@ -140,9 +128,9 @@ namespace src.View.Pages
                 CreditScorePlotView.Model = plotModel;
                 CreditScorePlotView.InvalidatePlot(true);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Error loading credit score history: {ex.Message}");
+                Console.WriteLine($"Error loading credit score history: {exception.Message}");
             }
         }
 
@@ -166,9 +154,9 @@ namespace src.View.Pages
                 var history = _historyService.GetHistoryYearly(user.Cnp);
                 LoadHistory(history);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Error loading credit score history: {ex.Message}");
+                Console.WriteLine($"Error loading credit score history: {exception.Message}");
             }
         }
 
@@ -179,9 +167,9 @@ namespace src.View.Pages
                 var history = _historyService.GetHistoryWeekly(user.Cnp);
                 LoadHistory(history);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Error loading credit score history: {ex.Message}");
+                Console.WriteLine($"Error loading credit score history: {exception.Message}");
             }
         }
 

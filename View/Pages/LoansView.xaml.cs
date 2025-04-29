@@ -18,8 +18,8 @@ namespace src.Views
         {
             this.InitializeComponent();
 
-            DatabaseConnection dbConn = new DatabaseConnection();
-            LoanRepository loanRepository = new LoanRepository(dbConn);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            LoanRepository loanRepository = new LoanRepository(dbConnection);
             _service = new LoanServices(loanRepository);
 
             _loanCheckerService = new LoanCheckerService(_service);

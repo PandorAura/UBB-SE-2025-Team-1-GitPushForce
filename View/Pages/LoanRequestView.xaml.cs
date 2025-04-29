@@ -1,17 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using src.Data;
 using src.Repos;
 using src.Services;
@@ -32,18 +21,18 @@ namespace src.Views
         {
             LoanRequestContainer.Items.Clear(); // Clear previous items before reloading
 
-            DatabaseConnection dbConn = new DatabaseConnection();
-            LoanRequestRepository repo = new LoanRequestRepository(dbConn);
-            LoanRequestService service = new LoanRequestService(repo);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            LoanRequestRepository loanRequestRepository = new LoanRequestRepository(dbConnection);
+            LoanRequestService loanRequestService = new LoanRequestService(loanRequestRepository);
 
             try
             {
-                List<LoanRequest> loanRequests = service.GetUnsolvedLoanRequests();
+                List<LoanRequest> loanRequests = loanRequestService.GetUnsolvedLoanRequests();
 
                 foreach (var request in loanRequests)
                 {
                     LoanRequestComponent requestComponent = new LoanRequestComponent();
-                    requestComponent.SetRequestData(request.Id, request.UserCnp, request.Amount, request.ApplicationDate, request.RepaymentDate, request.Status, service.GiveSuggestion(request));
+                    requestComponent.SetRequestData(request.Id, request.UserCnp, request.Amount, request.ApplicationDate, request.RepaymentDate, request.Status, loanRequestService.GiveSuggestion(request));
 
                     // Subscribe to the event to refresh when a request is solved
                     requestComponent.LoanRequestSolved += OnLoanRequestSolved;
