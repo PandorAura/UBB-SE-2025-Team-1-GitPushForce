@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Model
 {
@@ -11,14 +7,14 @@ namespace src.Model
         public int Id { get; set; }
         public string UserCnp { get; set; }
         public DateOnly Date { get; set; }
-        public int CreditScore { get; set; }
+        public int Score { get; set; }
 
         public CreditScoreHistory(int id, string userCNP, DateOnly date, int creditScore)
         {
             Id = id;
             UserCnp = userCNP;
             Date = date;
-            CreditScore = creditScore;
+            Score = creditScore;
         }
 
         public CreditScoreHistory()
@@ -26,7 +22,7 @@ namespace src.Model
             Id = 0;
             UserCnp = string.Empty;
             Date = new DateOnly();
-            CreditScore = 0;
+            Score = 0;
         }
     }
 }

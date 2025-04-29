@@ -44,7 +44,7 @@ namespace src.Repos
                 new SqlParameter("@HashedPassword", user.HashedPassword),
                 new SqlParameter("@NoOffenses", user.NumberOfOffenses),
                 new SqlParameter("@RiskScore", user.RiskScore),
-                new SqlParameter("@ROI", user.Roi),
+                new SqlParameter("@ROI", user.ROI),
                 new SqlParameter("@CreditScore", user.CreditScore),
                 new SqlParameter("@Birthday", user.Birthday.ToString("yyyy-MM-dd")),
                 new SqlParameter("@ZodiacSign", user.ZodiacSign),

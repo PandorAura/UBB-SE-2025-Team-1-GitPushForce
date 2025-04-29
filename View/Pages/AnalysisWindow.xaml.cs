@@ -94,11 +94,11 @@ namespace src.View.Pages
                     else
                     {
                         var previousRecord = history[i - 1];
-                        if (record.CreditScore > previousRecord.CreditScore)
+                        if (record.Score > previousRecord.Score)
                         {
                             barColor = OxyColor.FromRgb(0, 255, 0); 
                         }
-                        else if (record.CreditScore == previousRecord.CreditScore)
+                        else if (record.Score == previousRecord.Score)
                         {
                             barColor = OxyColor.FromRgb(255, 255, 0); 
                         }
@@ -111,7 +111,7 @@ namespace src.View.Pages
                     
                     barSeries.Items.Add(new BarItem
                     {
-                        Value = record.CreditScore,
+                        Value = record.Score,
                         Color = barColor
                     });
                 }
@@ -119,7 +119,7 @@ namespace src.View.Pages
                 
                 foreach (var record in history)
                 {
-                    barSeries.Items.Add(new BarItem { Value = record.CreditScore });
+                    barSeries.Items.Add(new BarItem { Value = record.Score });
                 }
 
                 

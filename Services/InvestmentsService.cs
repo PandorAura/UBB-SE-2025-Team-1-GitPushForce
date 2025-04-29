@@ -135,7 +135,7 @@ namespace src.Services
             foreach (var currentUser in allExistentUsers)
             {
                 CalculateAndSetUserROI(currentUser);
-                _userRepository.UpdateUserROI(currentUser.Cnp, currentUser.Roi);
+                _userRepository.UpdateUserROI(currentUser.Cnp, currentUser.ROI);
             }
         }
 
@@ -150,7 +150,7 @@ namespace src.Services
 
             if (!allInvestments.Any())
             {
-                user.Roi = 1; // Set ROI to 1 if no closed transactions. This means no effect over credit score.
+                user.ROI = 1; // Set ROI to 1 if no closed transactions. This means no effect over credit score.
                 return;
             }
 
@@ -160,12 +160,12 @@ namespace src.Services
 
             if (totalInvested == 0) // Avoid division by zero
             {
-                user.Roi = 1;
+                user.ROI = 1;
                 return;
             }
 
             var newUserROI = (decimal)totalProfit / (decimal)totalInvested;
-            user.Roi = newUserROI;
+            user.ROI = newUserROI;
         }
 
         public void CreditScoreUpdateInvestmentsBased()
@@ -176,22 +176,22 @@ namespace src.Services
             {
                 var oldCreditScore = currentUser.CreditScore;
                 var oldRiskScore = currentUser.RiskScore;
-                var oldROI = currentUser.Roi;
+                var oldROI = currentUser.ROI;
 
                 var riskScorePercent = currentUser.RiskScore / 100;
                 var creditScoreSubstracted = currentUser.CreditScore * riskScorePercent;
                 currentUser.CreditScore -= creditScoreSubstracted;
 
-                if (currentUser.Roi <= 0)
+                if (currentUser.ROI <= 0)
                     currentUser.CreditScore -= 100; // maximum amount possible to be substracted
-                else if (currentUser.Roi < 1)
+                else if (currentUser.ROI < 1)
                 {
-                    var decreaseAmount = 10 / currentUser.Roi;
+                    var decreaseAmount = 10 / currentUser.ROI;
                     currentUser.CreditScore -= (int)decreaseAmount;
                 }
                 else
                 {
-                    var increaseAmount = 10 * currentUser.Roi;
+                    var increaseAmount = 10 * currentUser.ROI;
                     currentUser.CreditScore += (int)increaseAmount;
                 }
 

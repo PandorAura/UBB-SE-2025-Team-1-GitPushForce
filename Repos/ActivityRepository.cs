@@ -1,9 +1,6 @@
 ﻿using src.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using src.Model;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -22,9 +19,9 @@ namespace src.Repos
             this.userRepository = userRepository;
         }
 
-        public void AddActivity(string userCNP, string activityName, int amount, string details)
+        public void AddActivity(string userCnp, string activityName, int amount, string details)
         {
-            if (string.IsNullOrWhiteSpace(userCNP) || string.IsNullOrWhiteSpace(activityName) || amount <= 0)
+            if (string.IsNullOrWhiteSpace(userCnp) || string.IsNullOrWhiteSpace(activityName) || amount <= 0)
             {
                 throw new ArgumentException("User CNP, activity name and amount cannot be empty or less than 0");
             }
@@ -33,7 +30,7 @@ namespace src.Repos
 
             try
             {
-                existingUser = userRepository.GetUserByCNP(userCNP);
+                existingUser = userRepository.GetUserByCNP(userCnp);
             }catch(ArgumentException ex)
             {
                 throw new ArgumentException("", ex);
@@ -45,8 +42,8 @@ namespace src.Repos
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", userCNP),
-                new SqlParameter("@Name", activityName),
+                new SqlParameter("@UserCnp", userCnp),
+                new SqlParameter("@ActivityName", activityName),
                 new SqlParameter("@LastModifiedAmount", amount),
                 new SqlParameter("@Details", details)
             };
@@ -61,9 +58,9 @@ namespace src.Repos
             }
         }
 
-        public List<ActivityLog> GetActivityForUser(string userCNP)
+        public List<ActivityLog> GetActivityForUser(string userCnp)
         {
-            if (string.IsNullOrWhiteSpace(userCNP))
+            if (string.IsNullOrWhiteSpace(userCnp))
             {
                 throw new ArgumentException("User CNP cannot be empty");
             }
@@ -71,7 +68,7 @@ namespace src.Repos
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", userCNP)
+                new SqlParameter("@UserCnp", userCnp)
             };
 
             try
@@ -89,8 +86,8 @@ namespace src.Repos
                 {
                     activitiesList.Add(new ActivityLog(
                         id: Convert.ToInt32(row["Id"]),
-                        userCNP: row["userCNP"].ToString()!,
-                        name: row["Name"].ToString()!,
+                        userCNP: row["UserCnp"].ToString()!,
+                        name: row["ActivityName"].ToString()!,
                         amount: Convert.ToInt32(row["LastModifiedAmount"]),
                         details: row["Details"].ToString()!
                         ));

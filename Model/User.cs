@@ -13,7 +13,7 @@ namespace src.Model
         public string HashedPassword { get; set; }
         public int NumberOfOffenses { get; set; }
         public int RiskScore { get; set; }
-        public decimal Roi { get; set; }
+        public decimal ROI { get; set; }
         public int CreditScore { get; set; }
         public DateOnly Birthday { get; set; }
         public string ZodiacSign { get; set; }
@@ -50,7 +50,7 @@ namespace src.Model
             HashedPassword = hashedPassword;
             NumberOfOffenses = noOffenses;
             RiskScore = riskScore;
-            Roi = roi;
+            ROI = roi;
             CreditScore = creditScore;
             Birthday = birthday;
             ZodiacSign = zodiacSign;
@@ -71,7 +71,7 @@ namespace src.Model
             HashedPassword = string.Empty;
             NumberOfOffenses = 0;
             RiskScore = 0;
-            Roi = 0;
+            ROI = 0;
             CreditScore = 0;
             Birthday = new DateOnly();
             ZodiacSign = string.Empty;
