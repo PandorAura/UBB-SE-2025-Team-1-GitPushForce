@@ -39,7 +39,7 @@ namespace src.Repos
                 }
 
                 DataRow messageRow = messagesTable.Rows[0];
-                var message = new Message
+                Message message = new Message
                 {
                     Id = Convert.ToInt32(messageRow["Id"]),
                     Type = messageRow["Type"].ToString(),
@@ -94,7 +94,7 @@ namespace src.Repos
                 }
 
                 DataRow messageRow = messagesTable.Rows[0];
-                var message = new Message
+                Message message = new Message
                 {
                     Id = Convert.ToInt32(messageRow["Id"]),
                     Type = messageRow["Type"].ToString(),

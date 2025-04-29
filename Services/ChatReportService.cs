@@ -89,6 +89,8 @@ namespace src.Services
 
             return true;
         }
+
+
         public async Task<bool> IsMessageOffensive(string messageToBeChecked)
         {
             bool isOffensive = await ProfanityChecker.IsMessageOffensive(messageToBeChecked);
