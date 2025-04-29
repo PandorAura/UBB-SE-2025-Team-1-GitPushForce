@@ -80,11 +80,11 @@ namespace src.Repos
             }
         }
 
-        public void UpdateHistoryForUser(string UserCnp, int NewScore)
+        public void UpdateScoreHistoryForUser(string UserCnp, int NewScore)
         {
             try
             {
-                string query = @"
+                string updateScoreHistoryQuery = @"
             IF EXISTS (SELECT 1 FROM CreditScoreHistory WHERE UserCNP = @UserCnp AND Date = CAST(GETDATE() AS DATE))
             BEGIN
                 UPDATE CreditScoreHistory
@@ -97,22 +97,22 @@ namespace src.Repos
                 VALUES (@UserCnp, CAST(GETDATE() AS DATE), @NewScore);
             END";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] scoreHistoryParameters = new SqlParameter[]
                 {
             new SqlParameter("@UserCnp", SqlDbType.VarChar, 16) { Value = UserCnp },
             new SqlParameter("@NewScore", SqlDbType.Int) { Value = NewScore }
                 };
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(updateScoreHistoryQuery, scoreHistoryParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
                     throw new Exception("No changes were made to the CreditScoreHistory.");
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw new Exception($"Error updating credit score history: {ex.Message}", ex);
+                throw new Exception($"Error updating credit score history: {exception.Message}", exception);
             }
         }
     }

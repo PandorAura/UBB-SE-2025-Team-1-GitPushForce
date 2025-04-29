@@ -99,7 +99,7 @@ namespace src.Services
 
         public void UpdateHistoryForUser(string UserCNP, int NewScore)
         {
-            this._chatReportRepository.UpdateHistoryForUser(UserCNP, NewScore);
+            this._chatReportRepository.UpdateScoreHistoryForUser(UserCNP, NewScore);
         }
 
         public List<ChatReport> GetChatReports()

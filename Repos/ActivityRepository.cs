@@ -109,9 +109,9 @@ namespace src.Repos
 
                 return activitiesList;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw new Exception("Error retrieving activity for user", ex);
+                throw new Exception("Error retrieving activity for user", exception);
             }
         }
     }
