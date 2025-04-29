@@ -20,10 +20,10 @@ namespace src.View
 
         private async void UpdateCreditScoreCommand(object sender, RoutedEventArgs e)
         {
-            DatabaseConnection dbConn = new DatabaseConnection();
-            InvestmentsRepository repo = new InvestmentsRepository(dbConn);
-            InvestmentsService service = new InvestmentsService(new UserRepository(dbConn), repo);
-            service.CreditScoreUpdateInvestmentsBased();
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            InvestmentsRepository investmentsRepository = new InvestmentsRepository(dbConnection);
+            InvestmentsService investmentsService = new InvestmentsService(new UserRepository(dbConnection), investmentsRepository);
+            investmentsService.CreditScoreUpdateInvestmentsBased();
         }
 
         private async void CalculateROICommand(object sender, RoutedEventArgs e)

@@ -12,7 +12,7 @@ namespace src.Data
 
         public DatabaseConnection()
         {
-            connectionString = "Server=DESKTOP-MK4PKC5;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
+            connectionString = "Server=DESKTOP-2UI353C\\SQLEXPRESS;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
 
             try
             {
