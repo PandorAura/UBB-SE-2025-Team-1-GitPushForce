@@ -234,7 +234,7 @@ namespace src.Repos
                     new SqlParameter("@ReportingUserCnp", billSplitReport.ReportingUserCnp)
                 };
 
-                int count = _dbConnection.ExecuteScalar<int>(selectQuery, selectParameters, CommandType.Text);
+                int count = _dbConnection.ExecuteScalar<int>(SelectQuery, selectParameters, CommandType.Text);
                 return count >= 5;
             }
             catch (SqlException sqlException)
