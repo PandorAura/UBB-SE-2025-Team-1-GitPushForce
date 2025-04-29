@@ -3,7 +3,6 @@ using src.Repos;
 using src.Services;
 using src.Data;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Threading.Tasks;
 using System;
 
@@ -31,9 +30,9 @@ namespace src.ViewModel
                     BillSplitReports.Add(report);
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {exception.Message}");
             }
         }
     }
