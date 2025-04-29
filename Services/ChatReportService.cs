@@ -64,11 +64,17 @@ namespace src.Services
             };
             
             int countTips = dbConn.ExecuteScalar<int>("GetNumberOfGivenTipsForUser", tipsParameters, CommandType.StoredProcedure);
+
+
+            
+
             if (countTips % 3 == 0)
             {
                 MessagesService services = new MessagesService(new MessagesRepository(dbConn));
                 services.GiveMessageToUser(chatReportToBeSolved.ReportedUserCnp);
             }
+
+
 
             SqlParameter[] activityParameters = new SqlParameter[]
             {
@@ -98,5 +104,12 @@ namespace src.Services
         {
             return _chatReportRepository.GetChatReports();
         }
+
+        public void DeleteChatReport(int id)
+        {
+            _chatReportRepository.DeleteChatReport(id);
+        }
+       
+        
     }
 }
