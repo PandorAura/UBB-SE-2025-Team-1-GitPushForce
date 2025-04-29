@@ -7,7 +7,7 @@ using src.Model;
 
 namespace src.Repos
 {
-    public class UserRepository
+    public class UserRepository:IUserRepository
     {
         private readonly DatabaseConnection dbConn;
 

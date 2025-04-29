@@ -12,9 +12,9 @@ namespace src.Services
 {
     class LoanRequestService
     {
-        LoanRequestRepository _loanRequestRepository;
+        ILoanRequestRepository _loanRequestRepository;
 
-        public LoanRequestService(LoanRequestRepository loanRequestRepository)
+        public LoanRequestService(ILoanRequestRepository loanRequestRepository)
         {
             _loanRequestRepository = loanRequestRepository;
         }

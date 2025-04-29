@@ -10,9 +10,9 @@ namespace src.Services
 {
     public class HistoryService
     {
-        private readonly HistoryRepository _historyRepository;
+        private readonly IHistoryRepository _historyRepository;
 
-        public HistoryService(HistoryRepository historyRepository)
+        public HistoryService(IHistoryRepository historyRepository)
         {
             _historyRepository = historyRepository ?? throw new ArgumentNullException(nameof(historyRepository));
         }

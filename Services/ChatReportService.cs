@@ -15,9 +15,9 @@ namespace src.Services
 {
     public class ChatReportService
     {
-        ChatReportRepository _chatReportRepository;
+        IChatReportRepository _chatReportRepository;
 
-        public ChatReportService(ChatReportRepository chatReportRepository)
+        public ChatReportService(IChatReportRepository chatReportRepository)
         {
             _chatReportRepository = chatReportRepository;
         }

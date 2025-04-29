@@ -10,9 +10,9 @@ namespace src.Services
 {
     public class ActivityService
     {
-        private readonly ActivityRepository _activityRepository;
+        private readonly IActivityRepository _activityRepository;
 
-        public ActivityService(ActivityRepository activityRepository)
+        public ActivityService(IActivityRepository activityRepository)
         {
             _activityRepository = activityRepository ?? throw new ArgumentNullException(nameof(activityRepository));
         }

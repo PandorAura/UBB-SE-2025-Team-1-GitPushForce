@@ -11,7 +11,7 @@ using Windows.UI.WebUI;
 
 namespace src.Repos
 {
-    class LoanRequestRepository
+    class LoanRequestRepository:ILoanRequestRepository
     {
         private readonly DatabaseConnection dbConn;
 

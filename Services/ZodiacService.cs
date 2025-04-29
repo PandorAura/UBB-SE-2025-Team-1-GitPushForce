@@ -17,10 +17,10 @@ namespace src.Services
     public class ZodiacService
     {
 
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private static readonly Random random = new Random();
 
-        public ZodiacService(UserRepository userRepository)
+        public ZodiacService(IUserRepository userRepository)
         {
 
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));

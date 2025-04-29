@@ -14,9 +14,9 @@ namespace src.Services
 {
     class LoanServices
     {
-        LoanRepository _loanRepository;
+        ILoanRepository _loanRepository;
 
-        public LoanServices(LoanRepository loanRepository)
+        public LoanServices(ILoanRepository loanRepository)
         {
             _loanRepository = loanRepository;
         }

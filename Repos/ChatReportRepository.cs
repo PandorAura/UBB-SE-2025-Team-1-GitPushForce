@@ -10,7 +10,7 @@ using Microsoft.Data.SqlClient;
 
 namespace src.Repos
 {
-    public class ChatReportRepository
+    public class ChatReportRepository: IChatReportRepository
     {
         private readonly DatabaseConnection dbConn;
 

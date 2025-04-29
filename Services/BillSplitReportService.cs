@@ -10,9 +10,9 @@ namespace src.Services
 {
     class BillSplitReportService
     {
-        BillSplitReportRepository _billSplitReportRepository;
+        IBillSplitReportRepository _billSplitReportRepository;
 
-        public BillSplitReportService(BillSplitReportRepository billSplitReportRepository)
+        public BillSplitReportService(IBillSplitReportRepository billSplitReportRepository)
         {
             this._billSplitReportRepository = billSplitReportRepository;
         }

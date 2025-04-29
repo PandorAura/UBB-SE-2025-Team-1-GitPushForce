@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace src.Repos
 {
-    class LoanRepository
+    class LoanRepository: ILoanRepository
     {
         private readonly DatabaseConnection dbConn;
 

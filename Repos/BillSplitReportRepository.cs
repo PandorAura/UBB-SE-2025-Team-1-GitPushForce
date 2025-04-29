@@ -7,7 +7,7 @@ using src.Model;
 
 namespace src.Repos
 {
-    public class BillSplitReportRepository
+    public class BillSplitReportRepository: IBillSplitReportRepository
     {
         private readonly DatabaseConnection dbConn;
 
