@@ -2,15 +2,13 @@
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Services
 {
     public class UserService
     {
         private readonly UserRepository _userRepository;
+
         public UserService(UserRepository userRepository)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -22,9 +20,9 @@ namespace src.Services
             {
                 throw new ArgumentException("CNP cannot be empty");
             }
+
             return _userRepository.GetUserByCnp(cnp);
         }
-
 
         public List<User> GetUsers()
         {
