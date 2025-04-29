@@ -32,7 +32,7 @@ namespace src.Services
             DatabaseConnection dbConn = new DatabaseConnection();
             UserRepository userRepo = new UserRepository(dbConn);
 
-            User reportedUser = userRepo.GetUserByCNP(chatReportToBeSolved.ReportedUserCnp);
+            User reportedUser = userRepo.GetUserByCnp(chatReportToBeSolved.ReportedUserCnp);
 
             Int32 noOffenses = reportedUser.NumberOfOffenses;
             const Int32 MINIMUM_NUMBER_OF_OFFENSES_BEFORE_PUNISHMENT_GROWS_DISTOPIANLY_ABSURD = 3;
@@ -50,11 +50,11 @@ namespace src.Services
             else
             {
                 userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCnp, CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
-                Int32 decrease = userRepo.GetUserByCNP(chatReportToBeSolved.ReportedUserCnp).CreditScore - CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
+                Int32 decrease = userRepo.GetUserByCnp(chatReportToBeSolved.ReportedUserCnp).CreditScore - CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
                 UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
                 amount = CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
             }
-            userRepo.IncrementOffenesesCountByOne(chatReportToBeSolved.ReportedUserCnp);
+            userRepo.IncrementOffensesCount(chatReportToBeSolved.ReportedUserCnp);
             _chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
             TipsService service = new TipsService(new TipsRepository(dbConn));
             service.GiveTipToUser(chatReportToBeSolved.ReportedUserCnp);

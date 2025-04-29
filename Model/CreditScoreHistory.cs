@@ -9,10 +9,10 @@ namespace src.Model
         public DateOnly Date { get; set; }
         public int Score { get; set; }
 
-        public CreditScoreHistory(int id, string userCNP, DateOnly date, int creditScore)
+        public CreditScoreHistory(int id, string userCnp, DateOnly date, int creditScore)
         {
             Id = id;
-            UserCnp = userCNP;
+            UserCnp = userCnp;
             Date = date;
             Score = creditScore;
         }

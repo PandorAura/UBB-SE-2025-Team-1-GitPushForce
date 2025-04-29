@@ -25,7 +25,7 @@ namespace src.Services
             UserRepository userRepo = new UserRepository(dbConn);
             LoanServices loanService = new LoanServices(new LoanRepository(dbConn));
 
-            User user = userRepo.GetUserByCNP(loanRequest.UserCnp);
+            User user = userRepo.GetUserByCnp(loanRequest.UserCnp);
 
             string suggestion = string.Empty;
 

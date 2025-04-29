@@ -9,7 +9,6 @@ namespace src.Repos
 {
     public class ActivityRepository
     {
-
         private readonly DatabaseConnection dbConn;
         private readonly UserRepository userRepository;
 
@@ -26,45 +25,47 @@ namespace src.Repos
                 throw new ArgumentException("User CNP, activity name and amount cannot be empty or less than 0");
             }
 
-            User? existingUser;
-
             try
             {
-                existingUser = userRepository.GetUserByCNP(userCnp);
-            }catch(ArgumentException ex)
+                User? existingUser = userRepository.GetUserByCnp(userCnp);
+                if (existingUser == null)
+                {
+                    throw new ArgumentException("User not found");
+                }
+            }
+            catch (ArgumentException ex)
             {
-                throw new ArgumentException("", ex);
+                throw new ArgumentException("Invalid user CNP", ex);
             }
             catch (Exception ex)
             {
                 throw new Exception("Error retrieving user", ex);
             }
+
             string sqlInsert = @"
-                            INSERT INTO ActivityLog (UserCNP, Name, LastModifiedAmount, Details)
-                                        VALUES (@UserCNP, @Name, @LastModifiedAmount, @Details);
-                                ";
+                INSERT INTO ActivityLog (UserCnp, ActivityName, LastModifiedAmount, ActivityDetails)
+                VALUES (@UserCnp, @ActivityName, @LastModifiedAmount, @ActivityDetails)";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@UserCnp", userCnp),
                 new SqlParameter("@ActivityName", activityName),
                 new SqlParameter("@LastModifiedAmount", amount),
-                new SqlParameter("@Details", details ?? (object)DBNull.Value)
+                new SqlParameter("@ActivityDetails", details ?? (object)DBNull.Value)
             };
 
             try
             {
                 int rowsAffected = dbConn.ExecuteNonQuery(sqlInsert, parameters, CommandType.Text);
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("No rows were inserted");
+                }
             }
-            catch (SqlException exception)
+            catch (SqlException ex)
             {
-                throw new Exception($"Database error: {exception.Message}");
+                throw new Exception($"Database error: {ex.Message}", ex);
             }
-
-
-
-
-
         }
 
         public List<ActivityLog> GetActivityForUser(string userCnp)
@@ -74,7 +75,10 @@ namespace src.Repos
                 throw new ArgumentException("User CNP cannot be empty");
             }
 
-            string sqlQuery = "SELECT * FROM ActivityLog WHERE UserCNP = @UserCNP";
+            string sqlQuery = @"
+                SELECT Id, UserCnp, ActivityName, LastModifiedAmount, ActivityDetails 
+                FROM ActivityLog 
+                WHERE UserCnp = @UserCnp";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -87,7 +91,7 @@ namespace src.Repos
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
-                    throw new Exception("No activities found for user");
+                    return new List<ActivityLog>();
                 }
 
                 List<ActivityLog> activitiesList = new List<ActivityLog>();
@@ -99,7 +103,7 @@ namespace src.Repos
                         userCNP: row["UserCnp"].ToString()!,
                         name: row["ActivityName"].ToString()!,
                         amount: Convert.ToInt32(row["LastModifiedAmount"]),
-                        details: row["Details"].ToString()!
+                        details: row["ActivityDetails"].ToString() ?? string.Empty
                     ));
                 }
 
@@ -110,7 +114,5 @@ namespace src.Repos
                 throw new Exception("Error retrieving activity for user", ex);
             }
         }
-
-
     }
 }

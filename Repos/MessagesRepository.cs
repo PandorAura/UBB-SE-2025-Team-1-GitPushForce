@@ -1,74 +1,128 @@
-﻿using src.Data;
+﻿using Microsoft.Data.SqlClient;
+using src.Data;
+using src.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using src.Repos;
-using src.Model;
 
 namespace src.Repos
 {
-    class MessagesRepository
+    public class MessagesRepository
     {
-        private readonly DatabaseConnection dbConn;
+        private readonly DatabaseConnection _dbConnection;
 
-        public MessagesRepository(DatabaseConnection dbConn)
+        public MessagesRepository(DatabaseConnection dbConnection)
         {
-            this.dbConn = dbConn;
+            _dbConnection = dbConnection;
         }
 
-        public void GiveUserRandomMessage(string userCNP)
+        public void GiveUserRandomMessage(string userCnp)
         {
-            string selectQuery = "SELECT * FROM Messages WHERE Type = 'Congrats-message' ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;";
-            DataTable messagesTable = dbConn.ExecuteReader(selectQuery, null, CommandType.Text);
-
-            Random random = new Random();
-            DataRow randomMessage = messagesTable.Rows[random.Next(messagesTable.Rows.Count)];
-
-            Message selectedMessage = new Message
+            if (string.IsNullOrWhiteSpace(userCnp))
             {
-                Id = Convert.ToInt32(randomMessage["ID"]),
-                Type = randomMessage["Type"].ToString(),
-                MessageText = randomMessage["Message"].ToString()
-            };
+                throw new ArgumentException("User CNP cannot be empty", nameof(userCnp));
+            }
 
-            SqlParameter[] insertParams = new SqlParameter[]
+            try
             {
-                new SqlParameter("@UserCNP", SqlDbType.VarChar, 16) { Value = userCNP },
-                new SqlParameter("@MessageID", SqlDbType.Int) { Value = selectedMessage.Id }
-            };
+                const string selectQuery = @"
+                    SELECT TOP 1 Id, Type, Message 
+                    FROM Messages 
+                    WHERE Type = 'Congrats-message' 
+                    ORDER BY NEWID()";
 
-            string insertQuery = "INSERT INTO GivenTips (UserCNP, MessageID, Date) VALUES (@UserCNP, @MessageID, GETDATE());";
-            dbConn.ExecuteNonQuery(insertQuery, insertParams, CommandType.Text);
+                DataTable messagesTable = _dbConnection.ExecuteReader(selectQuery, null, CommandType.Text);
+
+                if (messagesTable == null || messagesTable.Rows.Count == 0)
+                {
+                    throw new Exception("No congratulatory messages found");
+                }
+
+                DataRow messageRow = messagesTable.Rows[0];
+                var message = new Message
+                {
+                    Id = Convert.ToInt32(messageRow["Id"]),
+                    Type = messageRow["Type"].ToString(),
+                    MessageText = messageRow["Message"].ToString()
+                };
+
+                SqlParameter[] insertParameters = new SqlParameter[]
+                {
+                    new SqlParameter("@UserCnp", userCnp),
+                    new SqlParameter("@MessageId", message.Id)
+                };
+
+                const string insertQuery = @"
+                    INSERT INTO GivenTips 
+                        (UserCnp, MessageId, Date) 
+                    VALUES 
+                        (@UserCnp, @MessageId, GETDATE())";
+
+                int rowsAffected = _dbConnection.ExecuteNonQuery(insertQuery, insertParameters, CommandType.Text);
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Failed to record message for user");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception("Error giving user random message", exception);
+            }
         }
 
-        public void GiveUserRandomRoastMessage(string userCNP)
+        public void GiveUserRandomRoastMessage(string userCnp)
         {
-            string selectQuery = "SELECT * FROM Messages WHERE Type = 'Roast-message' ORDER BY NEWID();";
-            DataTable roastMessagesTable = dbConn.ExecuteReader(selectQuery, null, CommandType.Text);
-
-            if (roastMessagesTable.Rows.Count > 0)
+            if (string.IsNullOrWhiteSpace(userCnp))
             {
-                Random random = new Random();
-                DataRow randomRoastMessage = roastMessagesTable.Rows[random.Next(roastMessagesTable.Rows.Count)];
+                throw new ArgumentException("User CNP cannot be empty", nameof(userCnp));
+            }
 
-                Message selectedRoastMessage = new Message
+            try
+            {
+                const string selectQuery = @"
+                    SELECT TOP 1 Id, Type, Message 
+                    FROM Messages 
+                    WHERE Type = 'Roast-message' 
+                    ORDER BY NEWID()";
+
+                DataTable messagesTable = _dbConnection.ExecuteReader(selectQuery, null, CommandType.Text);
+
+                if (messagesTable == null || messagesTable.Rows.Count == 0)
                 {
-                    Id = Convert.ToInt32(randomRoastMessage["ID"]),
-                    Type = randomRoastMessage["Type"].ToString(),
-                    MessageText = randomRoastMessage["Message"].ToString()
+                    throw new Exception("No roast messages found");
+                }
+
+                DataRow messageRow = messagesTable.Rows[0];
+                var message = new Message
+                {
+                    Id = Convert.ToInt32(messageRow["Id"]),
+                    Type = messageRow["Type"].ToString(),
+                    MessageText = messageRow["Message"].ToString()
                 };
 
-                SqlParameter[] insertParams = new SqlParameter[]
+                SqlParameter[] insertParameters = new SqlParameter[]
                 {
-                    new SqlParameter("@UserCNP", SqlDbType.VarChar, 16) { Value = userCNP },
-                    new SqlParameter("@MessageID", SqlDbType.Int) { Value = selectedRoastMessage.Id }
+                    new SqlParameter("@UserCnp", userCnp),
+                    new SqlParameter("@MessageId", message.Id)
                 };
-                string insertQuery = "INSERT INTO GivenTips (UserCNP, MessageID, Date) VALUES (@UserCNP, @MessageID, GETDATE());";
-                dbConn.ExecuteNonQuery(insertQuery, insertParams, CommandType.Text);
+
+                const string insertQuery = @"
+                    INSERT INTO GivenTips 
+                        (UserCnp, MessageId, Date) 
+                    VALUES 
+                        (@UserCnp, @MessageId, GETDATE())";
+
+                int rowsAffected = _dbConnection.ExecuteNonQuery(insertQuery, insertParameters, CommandType.Text);
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Failed to record roast message for user");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception("Error giving user random roast message", exception);
             }
         }
     }

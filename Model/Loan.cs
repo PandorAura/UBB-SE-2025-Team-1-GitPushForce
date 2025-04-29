@@ -17,17 +17,17 @@ namespace src.Model
         public float RepaidAmount { get; set; }
         public float Penalty { get; set; }
 
-        public Loan(int loanID, string userCNP, float loanAmount, DateTime applicationDate, DateTime repaymentDate, float interestRate, int noMonths, float monthlyPaymentAmount, int monthlyPaymentsCompleted, float repaidAmount, float penalty, string state)
+        public Loan(int loanID, string userCnp, float loanAmount, DateTime applicationDate, DateTime repaymentDate, float interestRate, int numberOfMonths, float monthlyPaymentAmount, int monthlyPaymentsCompleted, float repaidAmount, float penalty, string status)
         {
             Id = loanID;
-            UserCnp = userCNP;
+            UserCnp = userCnp;
             LoanAmount = loanAmount;
             ApplicationDate = applicationDate;
             RepaymentDate = repaymentDate;
             InterestRate = interestRate;
-            NumberOfMonths = noMonths;
+            NumberOfMonths = numberOfMonths;
             MonthlyPaymentAmount = monthlyPaymentAmount;
-            Status = state;
+            Status = status;
             MonthlyPaymentsCompleted = monthlyPaymentsCompleted;
             RepaidAmount = repaidAmount;
             Penalty = penalty;

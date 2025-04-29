@@ -11,10 +11,10 @@ namespace src.Model
         public float AmountReturned { get; set; }
         public DateTime InvestmentDate { get; set; }
 
-        public Investment(int id, string investorCNP, string details, float amountInvested, float amountReturned, DateTime investmentDate)
+        public Investment(int id, string investorCnp, string details, float amountInvested, float amountReturned, DateTime investmentDate)
         {
             Id = id;
-            InvestorCnp = investorCNP;
+            InvestorCnp = investorCnp;
             Details = details;
             AmountInvested = amountInvested;
             AmountReturned = amountReturned;

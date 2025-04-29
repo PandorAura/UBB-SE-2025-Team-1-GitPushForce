@@ -30,14 +30,14 @@ namespace src.Model
             string email,
             string phoneNumber,
             string hashedPassword,
-            int noOffenses,
+            int numberOfOffenses,
             int riskScore,
             decimal roi,
             int creditScore,
             DateOnly birthday,
             string zodiacSign,
             string zodiacAttribute,
-            int noOfBillSharesPaid,
+            int numberOfBillSharesPaid,
             int income,
             decimal balance)
         {
@@ -48,14 +48,14 @@ namespace src.Model
             Email = email;
             PhoneNumber = phoneNumber;
             HashedPassword = hashedPassword;
-            NumberOfOffenses = noOffenses;
+            NumberOfOffenses = numberOfOffenses;
             RiskScore = riskScore;
             ROI = roi;
             CreditScore = creditScore;
             Birthday = birthday;
             ZodiacSign = zodiacSign;
             ZodiacAttribute = zodiacAttribute;
-            NumberOfBillSharesPaid = noOfBillSharesPaid;
+            NumberOfBillSharesPaid = numberOfBillSharesPaid;
             Income = income;
             Balance = balance;
         }

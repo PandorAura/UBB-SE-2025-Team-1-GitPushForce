@@ -36,7 +36,7 @@ namespace src.Services
             DatabaseConnection dbConn = new DatabaseConnection();
             UserRepository userRepo = new UserRepository(dbConn);
 
-            User user = userRepo.GetUserByCNP(loanRequest.UserCnp);
+            User user = userRepo.GetUserByCnp(loanRequest.UserCnp);
 
             if (user == null)
             {
@@ -74,14 +74,17 @@ namespace src.Services
             foreach (Loan loan in loans)
             {
                 int numberOfMonthsPassed = (DateTime.Today.Year - loan.ApplicationDate.Year) * 12 + DateTime.Today.Month - loan.ApplicationDate.Month;
-                User user = new UserRepository(new DatabaseConnection()).GetUserByCNP(loan.UserCnp);
+                User user = new UserRepository(new DatabaseConnection()).GetUserByCnp(loan.UserCnp);
                 if (loan.MonthlyPaymentsCompleted >= loan.NumberOfMonths)
                 {
                     loan.Status = "completed";
                     int newUserCreditScore = ComputeNewCreditScore(user, loan);
 
                     new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCnp, newUserCreditScore);
-                    UpdateHistoryForUser(loan.UserCnp, newUserCreditScore);
+
+
+                    // (loan.UserCnp, newUserCreditScore); TODO: idk what is happenning here
+                    //UpdateHistoryForUser(loan.UserCnp, newUserCreditScore); maybe this ???? 
 
                 }
                 if (numberOfMonthsPassed > loan.MonthlyPaymentsCompleted)
@@ -144,12 +147,12 @@ namespace src.Services
 
         public void UpdateHistoryForUser(string UserCNP, int NewScore)
         {
-            _loanRepository.UpdateHistoryForUser(UserCNP, NewScore);
+            _loanRepository.UpdateCreditScoreHistoryForUser(UserCNP, NewScore);
         }
 
         public void incrementMonthlyPaymentsCompleted(int loanID, float penalty)
         {
-            Loan loan = _loanRepository.GetLoanByID(loanID);
+            Loan loan = _loanRepository.GetLoanById(loanID);
             loan.MonthlyPaymentsCompleted++;
             loan.RepaidAmount += loan.MonthlyPaymentAmount + penalty;
             _loanRepository.UpdateLoan(loan);

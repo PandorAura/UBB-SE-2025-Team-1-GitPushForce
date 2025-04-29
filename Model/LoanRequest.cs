@@ -11,14 +11,14 @@ namespace src.Model
         public DateTime RepaymentDate { get; set; }
         public string Status { get; set; }
 
-        public LoanRequest(int requestID, string userCNP, float amount, DateTime applicationDate, DateTime repaymentDate, string state)
+        public LoanRequest(int requestId, string userCnp, float amount, DateTime applicationDate, DateTime repaymentDate, string status)
         {
-            Id = requestID;
-            UserCnp = userCNP;
+            Id = requestId;
+            UserCnp = userCnp;
             Amount = amount;
             ApplicationDate = applicationDate;
             RepaymentDate = repaymentDate;
-            Status = state;
+            Status = status;
         }
     }
 }

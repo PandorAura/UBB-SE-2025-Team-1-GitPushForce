@@ -22,7 +22,7 @@ namespace src.Services
             {
                 throw new ArgumentException("CNP cannot be empty");
             }
-            return _userRepository.GetUserByCNP(cnp);
+            return _userRepository.GetUserByCnp(cnp);
         }
 
 

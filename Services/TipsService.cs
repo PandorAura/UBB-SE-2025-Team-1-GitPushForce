@@ -30,7 +30,7 @@ namespace src.Services
             
             try{
                
-                Int32 userCreditScore = userRepository.GetUserByCNP(UserCNP).CreditScore;
+                Int32 userCreditScore = userRepository.GetUserByCnp(UserCNP).CreditScore;
                 if (userCreditScore < 300 ) 
                 {
                     _tipsRepository.GiveUserTipForLowBracket(UserCNP);

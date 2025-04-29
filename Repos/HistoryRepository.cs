@@ -4,15 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Repos
 {
     public class HistoryRepository
     {
-
         private readonly DatabaseConnection dbConn;
 
         public HistoryRepository(DatabaseConnection dbConn)
@@ -20,27 +16,31 @@ namespace src.Repos
             this.dbConn = dbConn;
         }
 
-        public List<CreditScoreHistory> GetHistoryForUser(string userCNP)
+        public List<CreditScoreHistory> GetHistoryForUser(string userCnp)
         {
-            if (string.IsNullOrWhiteSpace(userCNP))
+            if (string.IsNullOrWhiteSpace(userCnp))
             {
-                throw new ArgumentException("Invalid CNP");
+                throw new ArgumentException("User CNP cannot be empty");
             }
 
             try
             {
-                string query = "SELECT Id, UserCNP, Date, Score FROM CreditScoreHistory WHERE UserCNP = @UserCNP";
+                string query = @"
+                    SELECT Id, UserCnp, Date, Score 
+                    FROM CreditScoreHistory 
+                    WHERE UserCnp = @UserCnp
+                    ORDER BY Date DESC";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-            new SqlParameter("@UserCNP", SqlDbType.VarChar, 16) { Value = userCNP }
+                    new SqlParameter("@UserCnp", userCnp)
                 };
 
                 DataTable? dataTable = dbConn.ExecuteReader(query, parameters, CommandType.Text);
 
-                if (dataTable == null || dataTable.Rows.Count == 0)
+                if (dataTable == null)
                 {
-                    throw new Exception("User not found");
+                    return new List<CreditScoreHistory>();
                 }
 
                 List<CreditScoreHistory> historyList = new List<CreditScoreHistory>();
@@ -49,8 +49,8 @@ namespace src.Repos
                 {
                     historyList.Add(new CreditScoreHistory(
                         id: Convert.ToInt32(row["Id"]),
-                        userCNP: row["UserCNP"].ToString()!,
-                        date: DateOnly.FromDateTime(((DateTime)row["Date"])),
+                        userCnp: row["UserCnp"].ToString()!,
+                        date: DateOnly.FromDateTime(Convert.ToDateTime(row["Date"])),
                         creditScore: Convert.ToInt32(row["Score"])
                     ));
                 }
@@ -59,9 +59,8 @@ namespace src.Repos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error retrieving history for user", ex);
+                throw new Exception("Error retrieving credit score history", ex);
             }
         }
-
     }
 }

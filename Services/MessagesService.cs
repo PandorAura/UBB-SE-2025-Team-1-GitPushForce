@@ -26,7 +26,7 @@ namespace src.Services
             DatabaseConnection dbConn = new DatabaseConnection();
             UserRepository userRepository = new UserRepository(dbConn);
 
-            Int32 userCreditScore = userRepository.GetUserByCNP(UserCNP).CreditScore;
+            Int32 userCreditScore = userRepository.GetUserByCnp(UserCNP).CreditScore;
             try
             {
                 if (userCreditScore >= 550)
