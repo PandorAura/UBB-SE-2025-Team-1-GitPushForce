@@ -21,6 +21,8 @@ namespace src.Repos
 
         public Loan GetLoanByID(int loanID);
 
+        public void UpdateHistoryForUser(string UserCNP, int NewScore);
+
 
     }
 }
