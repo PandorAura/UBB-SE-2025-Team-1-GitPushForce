@@ -37,9 +37,9 @@ namespace src.Repos
             {
                 throw new ArgumentException("Invalid user CNP", exception);
             }
-            catch (Exception exeception)
+            catch (Exception exception)
             {
-                throw new Exception("Error retrieving user", exeception);
+                throw new Exception("Error retrieving user", exception);
             }
 
             const string InsertQuery = @"
