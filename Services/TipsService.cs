@@ -7,7 +7,7 @@ namespace src.Services
 {
     class TipsService
     {
-        TipsRepository _tipsRepository;
+        private TipsRepository _tipsRepository;
 
         public TipsService(TipsRepository tipsRepository)
         {
@@ -16,8 +16,8 @@ namespace src.Services
 
         public void GiveTipToUser(string UserCNP)
         {
-            DatabaseConnection dbConn = new DatabaseConnection();
-            UserRepository userRepository = new UserRepository(dbConn);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            UserRepository userRepository = new UserRepository(dbConnection);
             
             try{
                
@@ -35,9 +35,9 @@ namespace src.Services
                     _tipsRepository.GiveUserTipForHighBracket(UserCNP);
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine($"{e.Message},User is not found");
+                Console.WriteLine($"{exception.Message},User is not found");
             }
         }
     }

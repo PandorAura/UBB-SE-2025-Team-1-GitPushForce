@@ -45,7 +45,7 @@ namespace src.View.Components
 
         private async void OnSolveClick(object sender, RoutedEventArgs e)
         {
-            var billSplitReport = new BillSplitReport
+            BillSplitReport billSplitReport = new BillSplitReport
             {
                 Id = Id,
                 ReportedUserCnp = ReportedUserCNP,
@@ -60,7 +60,7 @@ namespace src.View.Components
 
         private void OnDropReportClick(object sender, RoutedEventArgs e)
         {
-            var billSplitReport = new BillSplitReport
+            BillSplitReport billSplitReport = new BillSplitReport
             {
                 Id = Id,
                 ReportedUserCnp = ReportedUserCNP,
