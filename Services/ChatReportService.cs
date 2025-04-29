@@ -2,18 +2,15 @@
 using src.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using src.Helpers;
 using src.Data;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using src.Services;
 
 namespace src.Services
 {
-    public class ChatReportService
+    public class ChatReportService : IChatReportService
     {
         IChatReportRepository _chatReportRepository;
 

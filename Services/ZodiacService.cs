@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using src.Model;
 using src.Repos;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.IO;
-
-
 
 namespace src.Services
 {
-    public class ZodiacService
+    public class ZodiacService : IZodiacService
     {
 
         private readonly IUserRepository _userRepository;

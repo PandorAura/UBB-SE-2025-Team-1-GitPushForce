@@ -2,13 +2,10 @@
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Services
 {
-    public class HistoryService
+    public class HistoryService : IHistoryService
     {
         private readonly IHistoryRepository _historyRepository;
 

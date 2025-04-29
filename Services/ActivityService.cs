@@ -2,13 +2,10 @@
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace src.Services
 {
-    public class ActivityService
+    public class ActivityService : IActivityService
     {
         private readonly IActivityRepository _activityRepository;
 

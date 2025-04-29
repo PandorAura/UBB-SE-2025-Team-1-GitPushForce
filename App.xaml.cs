@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -56,6 +52,21 @@ namespace src
                 services.AddSingleton<ILoanRequestRepository, LoanRequestRepository>();
                 services.AddSingleton<IUserRepository, UserRepository>();
             }).Build();  
+        }
+        private static IServiceProvider ConfigureServices()
+        {
+            services.AddSingleton<IActivityService, ActivityService>();
+            services.AddSingleton<IBillSplitReportService, BillSplitReportService>();
+            services.AddSingleton<IChatReportService, ChatReportService>();
+            services.AddSingleton<IHistoryService, HistoryService>();
+            services.AddSingleton<IInvestmentsService, InvestmentsService>();
+            services.AddSingleton<ILoanCheckerService, LoanCheckerService>();
+            services.AddSingleton<ILoanRequestService, LoanRequestService>();
+            services.AddSingleton<ILoanService, LoanService>();
+            services.AddSingleton<IMessagesService, MessagesService>();
+            services.AddSingleton<ITipsService, TipsService>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IZodiacService, ZodiacService>();
         }
         /// <summary>
         /// Invoked when the application is launched.

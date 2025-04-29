@@ -1,18 +1,12 @@
-﻿using Microsoft.Data.SqlClient;
-using src.Data;
+﻿using src.Data;
 using src.Model;
 using src.Repos;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Appointments;
 
 namespace src.Services
 {
-    class LoanServices
+    class LoanService : ILoanService
     {
         ILoanRepository _loanRepository;
 
