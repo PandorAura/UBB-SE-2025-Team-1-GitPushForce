@@ -17,45 +17,20 @@ namespace src.View.Pages
     public sealed partial class TipHistoryWindow : Window
     {
         private User selectedUser;
+        MessagesRepository _messagesRepository;
+        TipsRepository _tipsRepository;
 
-        public TipHistoryWindow(User selectedUser)
+        public TipHistoryWindow(User selectedUser, MessagesRepository messagesRepository, TipsRepository tipsRepository)
         {
             this.InitializeComponent();
             this.selectedUser = selectedUser;
             DatabaseConnection dbConn = new DatabaseConnection();
+            _messagesRepository = messagesRepository;
+            _tipsRepository = tipsRepository;
 
-            SqlParameter[] messageParameters = new SqlParameter[]
-            {
-                 new SqlParameter("@UserCNP", selectedUser.Cnp)
-            };
+            List<Message> messages = _messagesRepository.GetMessagesForGivenUser(selectedUser.Cnp);
+            List<Tip> tips = _tipsRepository.GetTipsForGivenUser(selectedUser.Cnp);
 
-            DataTable messagesRows = dbConn.ExecuteReader("GetMessagesForGivenUser", messageParameters, CommandType.StoredProcedure);
-            List<Message> messages = new List<Message>();
-
-            foreach (DataRow row in messagesRows.Rows)
-            {
-                messages.Add(new Message
-                {
-                    Id = Convert.ToInt32(row["ID"]),
-                    Type = row["Type"].ToString(),
-                    MessageText = row["Message"].ToString()
-                });
-            }
-            SqlParameter[] tipsParameters = new SqlParameter[]
-            {
-                 new SqlParameter("@UserCNP", selectedUser.Cnp)
-            };
-            DataTable tipsRows = dbConn.ExecuteReader("GetTipsForGivenUser", tipsParameters, CommandType.StoredProcedure);
-            List<Tip> tips = new List<Tip>();
-            foreach (DataRow row in tipsRows.Rows)
-            {
-                tips.Add(new Tip
-                {
-                    Id = Convert.ToInt32(row["ID"]),
-                    CreditScoreBracket = row["CreditScoreBracket"].ToString(),
-                    TipText = row["TipText"].ToString()
-                });
-            }
             LoadHistory(tips);
             LoadHistory(messages);
         }

@@ -56,7 +56,8 @@ namespace src.View.Components
         {
             if (user != null)
             {
-                TipHistoryWindow tipHistoryWindow = new TipHistoryWindow(user);
+                DatabaseConnection _dbConnection = new DatabaseConnection();
+                TipHistoryWindow tipHistoryWindow = new TipHistoryWindow(user, new MessagesRepository(_dbConnection), new TipsRepository(_dbConnection));
                 tipHistoryWindow.Activate();
             }
         }

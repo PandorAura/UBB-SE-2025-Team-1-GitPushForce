@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using Microsoft.Data.SqlClient;
 using src.Data;
+using src.Model;
 using src.Repos;
 
 
@@ -39,6 +43,11 @@ namespace src.Services
             {
                 Console.WriteLine($"{e.Message},User is not found");
             }
+        }
+
+        public List<Tip> GetTipsForGivenUser(string userCnp)
+        {
+            return _tipsRepository.GetTipsForGivenUser(userCnp);
         }
     }
 }

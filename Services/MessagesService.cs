@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using src.Data;
+using src.Model;
 using src.Repos;
 
 
@@ -36,6 +39,11 @@ namespace src.Services
             {
                 Console.WriteLine($"{e.Message},User is not found");
             }
+        }
+
+        public List<Message> GetMessagesForGivenUser(string userCnp)
+        {
+            return _messagesRepository.GetMessagesForGivenUser(userCnp);
         }
     }
 }
