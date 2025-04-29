@@ -30,7 +30,7 @@ namespace src.View.Components
             var chatReport = new ChatReport
             {
                 Id = ReportId,
-                ReportedUserCNP = ReportedUserCNP, 
+                ReportedUserCnp = ReportedUserCNP, 
                 ReportedMessage = ReportedMessage 
             };
 
@@ -43,7 +43,7 @@ namespace src.View.Components
             var chatReport = new ChatReport
             {
                 Id = ReportId,
-                ReportedUserCNP = ReportedUserCNP,
+                ReportedUserCnp = ReportedUserCNP,
                 ReportedMessage = ReportedMessage
             };
             _chatReportService.DoNotPunishUser(chatReport);

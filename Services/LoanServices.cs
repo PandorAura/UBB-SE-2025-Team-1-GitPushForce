@@ -36,7 +36,7 @@ namespace src.Services
             DatabaseConnection dbConn = new DatabaseConnection();
             UserRepository userRepo = new UserRepository(dbConn);
 
-            User user = userRepo.GetUserByCNP(loanRequest.UserCNP);
+            User user = userRepo.GetUserByCNP(loanRequest.UserCnp);
 
             if (user == null)
             {
@@ -51,8 +51,8 @@ namespace src.Services
             float penalty = 0;
 
             Loan loan =  new Loan(
-                loanRequest.RequestID,
-                loanRequest.UserCNP,
+                loanRequest.Id,
+                loanRequest.UserCnp,
                 loanRequest.Amount,
                 loanRequest.ApplicationDate,
                 loanRequest.RepaymentDate,
@@ -74,14 +74,14 @@ namespace src.Services
             foreach (Loan loan in loans)
             {
                 int numberOfMonthsPassed = (DateTime.Today.Year - loan.ApplicationDate.Year) * 12 + DateTime.Today.Month - loan.ApplicationDate.Month;
-                User user = new UserRepository(new DatabaseConnection()).GetUserByCNP(loan.UserCNP);
-                if (loan.MonthlyPaymentsCompleted >= loan.NoMonths)
+                User user = new UserRepository(new DatabaseConnection()).GetUserByCNP(loan.UserCnp);
+                if (loan.MonthlyPaymentsCompleted >= loan.NumberOfMonths)
                 {
-                    loan.State = "completed";
+                    loan.Status = "completed";
                     int newUserCreditScore = ComputeNewCreditScore(user, loan);
 
-                    new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCNP, newUserCreditScore);
-                    UpdateHistoryForUser(loan.UserCNP, newUserCreditScore);
+                    new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCnp, newUserCreditScore);
+                    UpdateHistoryForUser(loan.UserCnp, newUserCreditScore);
 
                 }
                 if (numberOfMonthsPassed > loan.MonthlyPaymentsCompleted)
@@ -94,28 +94,28 @@ namespace src.Services
                 { 
                     loan.Penalty = 0;
                 }
-                if (DateTime.Today > loan.RepaymentDate && loan.State == "active")
+                if (DateTime.Today > loan.RepaymentDate && loan.Status == "active")
                 {
-                    loan.State = "overdue";
+                    loan.Status = "overdue";
                     int newUserCreditScore = ComputeNewCreditScore(user, loan);
 
-                    new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCNP, newUserCreditScore);
-                    UpdateHistoryForUser(loan.UserCNP, newUserCreditScore);
+                    new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCnp, newUserCreditScore);
+                    UpdateHistoryForUser(loan.UserCnp, newUserCreditScore);
                 }
-                else if (loan.State == "overdue")
+                else if (loan.Status == "overdue")
                 {
-                    if (loan.MonthlyPaymentsCompleted >= loan.NoMonths)
+                    if (loan.MonthlyPaymentsCompleted >= loan.NumberOfMonths)
                     {
-                        loan.State = "completed";
+                        loan.Status = "completed";
                         int newUserCreditScore = ComputeNewCreditScore(user, loan);
 
-                        new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCNP, newUserCreditScore);
-                        UpdateHistoryForUser(loan.UserCNP, newUserCreditScore);
+                        new UserRepository(new DatabaseConnection()).UpdateUserCreditScore(loan.UserCnp, newUserCreditScore);
+                        UpdateHistoryForUser(loan.UserCnp, newUserCreditScore);
                     }
                 }
-                if (loan.State == "completed")
+                if (loan.Status == "completed")
                 {
-                    _loanRepository.DeleteLoan(loan.LoanID);
+                    _loanRepository.DeleteLoan(loan.Id);
                 }
                 else
                 {

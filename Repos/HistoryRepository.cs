@@ -20,7 +20,7 @@ namespace src.Repos
             this.dbConn = dbConn;
         }
 
-        public List<HistoryCreditScore> GetHistoryForUser(string userCNP)
+        public List<CreditScoreHistory> GetHistoryForUser(string userCNP)
         {
             if (string.IsNullOrWhiteSpace(userCNP))
             {
@@ -41,11 +41,11 @@ namespace src.Repos
                     throw new Exception("User not found");
                 }
 
-                List<HistoryCreditScore> historyList = new List<HistoryCreditScore>();
+                List<CreditScoreHistory> historyList = new List<CreditScoreHistory>();
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    historyList.Add(new HistoryCreditScore(
+                    historyList.Add(new CreditScoreHistory(
                         id: Convert.ToInt32(row["Id"]),
                         userCNP: row["userCNP"].ToString()!,
                         date: DateOnly.FromDateTime(((DateTime)row["Date"])),

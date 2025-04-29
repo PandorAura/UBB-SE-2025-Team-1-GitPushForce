@@ -32,9 +32,9 @@ namespace src.Services
             DatabaseConnection dbConn = new DatabaseConnection();
             UserRepository userRepo = new UserRepository(dbConn);
 
-            User reportedUser = userRepo.GetUserByCNP(chatReportToBeSolved.ReportedUserCNP);
+            User reportedUser = userRepo.GetUserByCNP(chatReportToBeSolved.ReportedUserCnp);
 
-            Int32 noOffenses = reportedUser.NoOffenses;
+            Int32 noOffenses = reportedUser.NumberOfOffenses;
             const Int32 MINIMUM_NUMBER_OF_OFFENSES_BEFORE_PUNISHMENT_GROWS_DISTOPIANLY_ABSURD = 3;
             const Int32 CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE = 15;
 
@@ -42,37 +42,37 @@ namespace src.Services
 
             if (noOffenses >= MINIMUM_NUMBER_OF_OFFENSES_BEFORE_PUNISHMENT_GROWS_DISTOPIANLY_ABSURD)
             {
-                userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCNP, noOffenses * CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
+                userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCnp, noOffenses * CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
                 Int32 decrease = reportedUser.CreditScore - CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE * noOffenses;
-                UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCNP, decrease);
+                UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
                 amount = CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE * noOffenses;
             }
             else
             {
-                userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCNP, CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
-                Int32 decrease = userRepo.GetUserByCNP(chatReportToBeSolved.ReportedUserCNP).CreditScore - CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
-                UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCNP, decrease);
+                userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCnp, CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
+                Int32 decrease = userRepo.GetUserByCNP(chatReportToBeSolved.ReportedUserCnp).CreditScore - CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
+                UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
                 amount = CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
             }
-            userRepo.IncrementOffenesesCountByOne(chatReportToBeSolved.ReportedUserCNP);
+            userRepo.IncrementOffenesesCountByOne(chatReportToBeSolved.ReportedUserCnp);
             _chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
             TipsService service = new TipsService(new TipsRepository(dbConn));
-            service.GiveTipToUser(chatReportToBeSolved.ReportedUserCNP);
+            service.GiveTipToUser(chatReportToBeSolved.ReportedUserCnp);
             SqlParameter[] tipsParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCNP", chatReportToBeSolved.ReportedUserCNP)
+                 new SqlParameter("@UserCNP", chatReportToBeSolved.ReportedUserCnp)
             };
             
             int countTips = dbConn.ExecuteScalar<int>("GetNumberOfGivenTipsForUser", tipsParameters, CommandType.StoredProcedure);
             if (countTips % 3 == 0)
             {
                 MessagesService services = new MessagesService(new MessagesRepository(dbConn));
-                services.GiveMessageToUser(chatReportToBeSolved.ReportedUserCNP);
+                services.GiveMessageToUser(chatReportToBeSolved.ReportedUserCnp);
             }
 
             SqlParameter[] activityParameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", chatReportToBeSolved.ReportedUserCNP),
+                new SqlParameter("@UserCNP", chatReportToBeSolved.ReportedUserCnp),
                 new SqlParameter("@ActivityName", "Chat"),
                 new SqlParameter("@Amount", amount),
                 new SqlParameter("@Details", "Chat abuse")

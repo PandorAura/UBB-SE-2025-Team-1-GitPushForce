@@ -81,7 +81,7 @@ namespace src.Services
 
             // increase the number of offenses
             UserRepository userRepo = new UserRepository(this._billSplitReportRepository.getDbConn());
-            userRepo.IncrementOffenesesCountByOne(billSplitReportToBeSolved.ReportedCNP);
+            userRepo.IncrementOffenesesCountByOne(billSplitReportToBeSolved.ReportedUserCnp);
 
             _billSplitReportRepository.DeleteBillSplitReport(billSplitReportToBeSolved.Id);
         }

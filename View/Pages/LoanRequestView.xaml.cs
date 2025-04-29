@@ -43,7 +43,7 @@ namespace src.Views
                 foreach (var request in loanRequests)
                 {
                     LoanRequestComponent requestComponent = new LoanRequestComponent();
-                    requestComponent.SetRequestData(request.RequestID, request.UserCNP, request.Amount, request.ApplicationDate, request.RepaymentDate, request.State, service.GiveSuggestion(request));
+                    requestComponent.SetRequestData(request.Id, request.UserCnp, request.Amount, request.ApplicationDate, request.RepaymentDate, request.Status, service.GiveSuggestion(request));
 
                     // Subscribe to the event to refresh when a request is solved
                     requestComponent.LoanRequestSolved += OnLoanRequestSolved;

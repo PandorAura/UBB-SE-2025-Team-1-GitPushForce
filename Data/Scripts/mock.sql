@@ -53,7 +53,7 @@ VALUES
 ('5121119223456', 'You make everything worse!');
 
 
-INSERT INTO BillSplitReports (ReportedUserCNP, ReporterUserCNP, DateOfTransaction, BillShare)
+INSERT INTO BillSplitReports (ReportedUserCNP, ReportingUserCNP, DateOfTransaction, BillShare)
 VALUES
 -- David Miller (3 report)
 ('1801231123459', '7050415109876', '2025-02-20', 180.00),
@@ -327,7 +327,7 @@ VALUES
 ('5121119223456', '2025-03-31', 600);
 
 
-INSERT INTO ActivityLog (Name, UserCNP, LastModifiedAmount, Details) 
+INSERT INTO ActivityLog (ActivityName, UserCNP, LastModifiedAmount, ActivityDetails) 
 VALUES
 -- John Doe (4 activities)
 ('Bill splitting', '5040203070016', -250, 'Paid for dinner with friends'),

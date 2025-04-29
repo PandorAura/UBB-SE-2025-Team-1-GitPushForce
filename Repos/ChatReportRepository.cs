@@ -37,7 +37,7 @@ namespace src.Repos
                     ChatReport chatReport = new ChatReport
                     {
                         Id = Convert.ToInt32(row["Id"]),
-                        ReportedUserCNP = row["ReportedUserCNP"].ToString() ?? "",
+                        ReportedUserCnp = row["ReportedUserCNP"].ToString() ?? "",
                         ReportedMessage = row["ReportedMessage"].ToString() ?? ""
                     };
 

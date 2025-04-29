@@ -93,14 +93,14 @@ namespace src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@LoanRequestID", loan.LoanID),
-                    new SqlParameter("@UserCNP", loan.UserCNP),
+                    new SqlParameter("@LoanRequestID", loan.Id),
+                    new SqlParameter("@UserCNP", loan.UserCnp),
                     new SqlParameter("@Amount", loan.LoanAmount),
                     new SqlParameter("@ApplicationDate", loan.ApplicationDate),
                     new SqlParameter("@RepaymentDate", loan.RepaymentDate),
                     new SqlParameter("@InterestRate", loan.InterestRate),
-                    new SqlParameter("@NoMonths", loan.NoMonths),
-                    new SqlParameter("@State", loan.State),
+                    new SqlParameter("@NoMonths", loan.NumberOfMonths),
+                    new SqlParameter("@State", loan.Status),
                     new SqlParameter("@MonthlyPaymentAmount", loan.MonthlyPaymentAmount),
                     new SqlParameter("@MonthlyPaymentsCompleted", loan.MonthlyPaymentsCompleted),
                     new SqlParameter("@RepaidAmount", loan.RepaidAmount),
@@ -122,14 +122,14 @@ namespace src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@LoanRequestID", loan.LoanID),
-                    new SqlParameter("@UserCNP", loan.UserCNP),
+                    new SqlParameter("@LoanRequestID", loan.Id),
+                    new SqlParameter("@UserCNP", loan.UserCnp),
                     new SqlParameter("@Amount", loan.LoanAmount),
                     new SqlParameter("@ApplicationDate", loan.ApplicationDate),
                     new SqlParameter("@RepaymentDate", loan.RepaymentDate),
                     new SqlParameter("@InterestRate", loan.InterestRate),
-                    new SqlParameter("@NoMonths", loan.NoMonths),
-                    new SqlParameter("@State", loan.State),
+                    new SqlParameter("@NoMonths", loan.NumberOfMonths),
+                    new SqlParameter("@State", loan.Status),
                     new SqlParameter("@MonthlyPaymentAmount", loan.MonthlyPaymentAmount),
                     new SqlParameter("@MonthlyPaymentsCompleted", loan.MonthlyPaymentsCompleted),
                     new SqlParameter("@RepaidAmount", loan.RepaidAmount),

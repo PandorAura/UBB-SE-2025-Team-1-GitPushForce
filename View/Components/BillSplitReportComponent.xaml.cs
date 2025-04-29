@@ -48,9 +48,9 @@ namespace src.View.Components
             var billSplitReport = new BillSplitReport
             {
                 Id = Id,
-                ReportedCNP = ReportedUserCNP,
-                ReporterCNP = ReporterUserCNP,
-                DateTransaction = DateTransaction,
+                ReportedUserCnp = ReportedUserCNP,
+                ReportingUserCnp = ReporterUserCNP,
+                DateOfTransaction = DateTransaction,
                 BillShare = BillShare
             };
 
@@ -63,9 +63,9 @@ namespace src.View.Components
             var billSplitReport = new BillSplitReport
             {
                 Id = Id,
-                ReportedCNP = ReportedUserCNP,
-                ReporterCNP = ReporterUserCNP,
-                DateTransaction = DateTransaction,
+                ReportedUserCnp = ReportedUserCNP,
+                ReportingUserCnp = ReporterUserCNP,
+                DateOfTransaction = DateTransaction,
                 BillShare = BillShare
             };
 
@@ -75,21 +75,21 @@ namespace src.View.Components
 
         public void SetReportData(BillSplitReport billSplitReport)
         {
-            User reportedUser = _billSplitReportService.GetUserByCNP(billSplitReport.ReportedCNP);
-            User reporterUser = _billSplitReportService.GetUserByCNP(billSplitReport.ReporterCNP);
+            User reportedUser = _billSplitReportService.GetUserByCNP(billSplitReport.ReportedUserCnp);
+            User reporterUser = _billSplitReportService.GetUserByCNP(billSplitReport.ReportingUserCnp);
 
             Id = billSplitReport.Id;
 
-            ReportedUserCNP = billSplitReport.ReportedCNP;
+            ReportedUserCNP = billSplitReport.ReportedUserCnp;
             ReportedUserFirstName = reportedUser.FirstName;
             ReportedUserLastName = reportedUser.LastName;
 
             
-            ReporterUserCNP = billSplitReport.ReporterCNP;
+            ReporterUserCNP = billSplitReport.ReportingUserCnp;
             ReporterUserFirstName = reporterUser.FirstName;
             ReporterUserLastName = reporterUser.LastName;
 
-            DateTransaction = billSplitReport.DateTransaction;
+            DateTransaction = billSplitReport.DateOfTransaction;
             BillShare = billSplitReport.BillShare;
 
 

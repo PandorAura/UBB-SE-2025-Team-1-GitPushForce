@@ -26,12 +26,12 @@ namespace src.Services
 
             foreach (var currentUser in allExistentUsers)
             {
-                var recentInvestments = GetRecentInvestments(currentUser.CNP);
+                var recentInvestments = GetRecentInvestments(currentUser.Cnp);
                 if (recentInvestments != null)
                 {
                     var riskScoreChange = CalculateRiskScoreChange(currentUser, recentInvestments);
                     UpdateUserRiskScore(currentUser, riskScoreChange);
-                    _userRepository.UpdateUserRiskScore(currentUser.CNP, currentUser.RiskScore);
+                    _userRepository.UpdateUserRiskScore(currentUser.Cnp, currentUser.RiskScore);
                 }
             }
         }
@@ -42,7 +42,7 @@ namespace src.Services
 
             // Since the list is sorted in ascending order, the latest investment is the last one.
             var latestInvestment = allInvestments
-                .Where(i => i.InvestorCNP == cnp)
+                .Where(i => i.InvestorCnp == cnp)
                 .OrderBy(i => i.InvestmentDate)
                 .LastOrDefault();
 
@@ -55,7 +55,7 @@ namespace src.Services
 
             // Return all investments from last week, taking in consideration last transaction
             return allInvestments
-                .Where(i => i.InvestorCNP == cnp)
+                .Where(i => i.InvestorCnp == cnp)
                 .Where(i => i.InvestmentDate >= latestInvestmentDate.AddDays(-7))
                 .OrderByDescending(i => i.InvestmentDate)
                 .ToList();
@@ -135,7 +135,7 @@ namespace src.Services
             foreach (var currentUser in allExistentUsers)
             {
                 CalculateAndSetUserROI(currentUser);
-                _userRepository.UpdateUserROI(currentUser.CNP, currentUser.ROI);
+                _userRepository.UpdateUserROI(currentUser.Cnp, currentUser.Roi);
             }
         }
 
@@ -144,13 +144,13 @@ namespace src.Services
             var investmentOpen = -1;
 
             var allInvestments = _investmentsRepository.GetInvestmentsHistory()
-                .Where(i => i.InvestorCNP == user.CNP)
+                .Where(i => i.InvestorCnp == user.Cnp)
                 .Where(i => i.AmountReturned != investmentOpen) // Exclude open transactions
                 .ToList();
 
             if (!allInvestments.Any())
             {
-                user.ROI = 1; // Set ROI to 1 if no closed transactions. This means no effect over credit score.
+                user.Roi = 1; // Set ROI to 1 if no closed transactions. This means no effect over credit score.
                 return;
             }
 
@@ -160,12 +160,12 @@ namespace src.Services
 
             if (totalInvested == 0) // Avoid division by zero
             {
-                user.ROI = 1;
+                user.Roi = 1;
                 return;
             }
 
             var newUserROI = (decimal)totalProfit / (decimal)totalInvested;
-            user.ROI = newUserROI;
+            user.Roi = newUserROI;
         }
 
         public void CreditScoreUpdateInvestmentsBased()
@@ -176,22 +176,22 @@ namespace src.Services
             {
                 var oldCreditScore = currentUser.CreditScore;
                 var oldRiskScore = currentUser.RiskScore;
-                var oldROI = currentUser.ROI;
+                var oldROI = currentUser.Roi;
 
                 var riskScorePercent = currentUser.RiskScore / 100;
                 var creditScoreSubstracted = currentUser.CreditScore * riskScorePercent;
                 currentUser.CreditScore -= creditScoreSubstracted;
 
-                if (currentUser.ROI <= 0)
+                if (currentUser.Roi <= 0)
                     currentUser.CreditScore -= 100; // maximum amount possible to be substracted
-                else if (currentUser.ROI < 1)
+                else if (currentUser.Roi < 1)
                 {
-                    var decreaseAmount = 10 / currentUser.ROI;
+                    var decreaseAmount = 10 / currentUser.Roi;
                     currentUser.CreditScore -= (int)decreaseAmount;
                 }
                 else
                 {
-                    var increaseAmount = 10 * currentUser.ROI;
+                    var increaseAmount = 10 * currentUser.Roi;
                     currentUser.CreditScore += (int)increaseAmount;
                 }
 
@@ -200,7 +200,7 @@ namespace src.Services
 
                 currentUser.CreditScore = Math.Min(maxCreditScore, Math.Max(minCreditScore, currentUser.CreditScore));
 
-                _userRepository.UpdateUserCreditScore(currentUser.CNP, currentUser.CreditScore);
+                _userRepository.UpdateUserCreditScore(currentUser.Cnp, currentUser.CreditScore);
             }
         }
 
@@ -215,7 +215,7 @@ namespace src.Services
             foreach (var user in userList)
             {
                 var investments = _investmentsRepository.GetInvestmentsHistory()
-                    .Where(i => i.InvestorCNP == user.CNP)
+                    .Where(i => i.InvestorCnp == user.Cnp)
                     .ToList();
 
                 if (investments.Any())

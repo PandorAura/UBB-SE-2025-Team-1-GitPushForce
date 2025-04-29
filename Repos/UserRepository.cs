@@ -27,7 +27,7 @@ namespace src.Repos
                 throw new ArgumentException("First and last names cannot be empty");
             }
 
-            User? existingUser = GetUserByCNP(user.CNP);
+            User? existingUser = GetUserByCNP(user.Cnp);
 
             if (existingUser != null)
             {
@@ -36,20 +36,20 @@ namespace src.Repos
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@CNP", user.CNP),
+                new SqlParameter("@CNP", user.Cnp),
                 new SqlParameter("@FirstName", user.FirstName),
                 new SqlParameter("@LastName", user.LastName),
                 new SqlParameter("@Email", user.Email),
                 new SqlParameter("@PhoneNumber", user.PhoneNumber ?? (object)DBNull.Value),
                 new SqlParameter("@HashedPassword", user.HashedPassword),
-                new SqlParameter("@NoOffenses", user.NoOffenses),
+                new SqlParameter("@NoOffenses", user.NumberOfOffenses),
                 new SqlParameter("@RiskScore", user.RiskScore),
-                new SqlParameter("@ROI", user.ROI),
+                new SqlParameter("@ROI", user.Roi),
                 new SqlParameter("@CreditScore", user.CreditScore),
                 new SqlParameter("@Birthday", user.Birthday.ToString("yyyy-MM-dd")),
                 new SqlParameter("@ZodiacSign", user.ZodiacSign),
                 new SqlParameter("@ZodiacAttribute", user.ZodiacAttribute),
-                new SqlParameter("@NoOfBillSharesPaid", user.NoOfBillSharesPaid),
+                new SqlParameter("@NoOfBillSharesPaid", user.NumberOfBillSharesPaid),
                 new SqlParameter("@Income", user.Income),
                 new SqlParameter("@Balance", user.Balance)
             };

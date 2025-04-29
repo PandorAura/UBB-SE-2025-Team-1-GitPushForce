@@ -72,7 +72,7 @@ namespace src.Services
                     user.CreditScore -= asciiJokeModulo10;
                 }
 
-                _userRepository.UpdateUserCreditScore(user.CNP, user.CreditScore);
+                _userRepository.UpdateUserCreditScore(user.Cnp, user.CreditScore);
             }
         }
 
@@ -93,7 +93,7 @@ namespace src.Services
             {
                 int gravityResult = ComputeGravity();
                 user.CreditScore += gravityResult;
-                _userRepository.UpdateUserCreditScore(user.CNP, user.CreditScore);
+                _userRepository.UpdateUserCreditScore(user.Cnp, user.CreditScore);
             }
         }
 

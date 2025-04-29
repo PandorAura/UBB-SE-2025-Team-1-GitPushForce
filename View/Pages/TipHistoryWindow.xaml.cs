@@ -26,7 +26,7 @@ namespace src.View.Pages
 
             SqlParameter[] messageParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCNP", selectedUser.CNP)
+                 new SqlParameter("@UserCNP", selectedUser.Cnp)
             };
 
             DataTable messagesRows = dbConn.ExecuteReader("GetMessagesForGivenUser", messageParameters, CommandType.StoredProcedure);
@@ -43,7 +43,7 @@ namespace src.View.Pages
             }
             SqlParameter[] tipsParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCNP", selectedUser.CNP)
+                 new SqlParameter("@UserCNP", selectedUser.Cnp)
             };
             DataTable tipsRows = dbConn.ExecuteReader("GetTipsForGivenUser", tipsParameters, CommandType.StoredProcedure);
             List<Tip> tips = new List<Tip>();

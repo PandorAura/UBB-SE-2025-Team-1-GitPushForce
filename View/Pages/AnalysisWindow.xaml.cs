@@ -37,7 +37,7 @@ namespace src.View.Pages
             _activityService = new ActivityService(new ActivityRepository(new DatabaseConnection(), new UserRepository(new DatabaseConnection())));
             _historyService = new HistoryService(new HistoryRepository(new DatabaseConnection()));
             LoadUserData();
-            LoadHistory(_historyService.GetHistoryMonthly(user.CNP));
+            LoadHistory(_historyService.GetHistoryMonthly(user.Cnp));
             LoadUserActivities();
             
         }
@@ -47,7 +47,7 @@ namespace src.View.Pages
             IdTextBlock.Text = $"Id: {user.Id}";
             FirstNameTextBlock.Text = $"First name: {user.FirstName}";
             LastNameTextBlock.Text = $"Last name: {user.LastName}";
-            CNPTextBlock.Text = $"CNP: {user.CNP}";
+            CNPTextBlock.Text = $"CNP: {user.Cnp}";
             EmailTextBlock.Text = $"Email: {user.Email}";
             PhoneNumberTextBlock.Text = $"Phone number: {user.PhoneNumber}";
         }
@@ -56,7 +56,7 @@ namespace src.View.Pages
         {
             try
             {
-                var activities = _activityService.GetActivityForUser(user.CNP);
+                var activities = _activityService.GetActivityForUser(user.Cnp);
 
                 ActivityListView.ItemsSource = activities;
             }
@@ -66,7 +66,7 @@ namespace src.View.Pages
             }
         }
 
-        public void LoadHistory(List<HistoryCreditScore> history)
+        public void LoadHistory(List<CreditScoreHistory> history)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace src.View.Pages
         {
             try
             {
-                var history = _historyService.GetHistoryMonthly(user.CNP);
+                var history = _historyService.GetHistoryMonthly(user.Cnp);
                 LoadHistory(history);
             }
             catch (Exception ex)
@@ -163,7 +163,7 @@ namespace src.View.Pages
         {
             try
             {
-                var history = _historyService.GetHistoryYearly(user.CNP);
+                var history = _historyService.GetHistoryYearly(user.Cnp);
                 LoadHistory(history);
             }
             catch (Exception ex)
@@ -176,7 +176,7 @@ namespace src.View.Pages
         {
             try
             {
-                var history = _historyService.GetHistoryWeekly(user.CNP);
+                var history = _historyService.GetHistoryWeekly(user.Cnp);
                 LoadHistory(history);
             }
             catch (Exception ex)

@@ -62,7 +62,7 @@ namespace src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@InvestorCNP", investment.InvestorCNP),
+                    new SqlParameter("@InvestorCNP", investment.InvestorCnp),
                     new SqlParameter("@Details", investment.Details),
                     new SqlParameter("@AmountInvested", investment.AmountInvested),
                     new SqlParameter("@AmountReturned", investment.AmountReturned),

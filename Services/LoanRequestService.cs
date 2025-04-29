@@ -25,7 +25,7 @@ namespace src.Services
             UserRepository userRepo = new UserRepository(dbConn);
             LoanServices loanService = new LoanServices(new LoanRepository(dbConn));
 
-            User user = userRepo.GetUserByCNP(loanRequest.UserCNP);
+            User user = userRepo.GetUserByCNP(loanRequest.UserCnp);
 
             string suggestion = string.Empty;
 
@@ -65,12 +65,12 @@ namespace src.Services
 
         public void SolveLoanRequest(LoanRequest loanRequest)
         {
-            _loanRequestRepository.SolveLoanRequest(loanRequest.RequestID);
+            _loanRequestRepository.SolveLoanRequest(loanRequest.Id);
         }
 
         public void DenyLoanRequest(LoanRequest loanRequest)
         {
-            _loanRequestRepository.DeleteLoanRequest(loanRequest.RequestID);
+            _loanRequestRepository.DeleteLoanRequest(loanRequest.Id); //TODO: double check, it was requestId
         }
 
         public bool PastUnpaidLoans(User user, LoanServices loanService)
@@ -78,7 +78,7 @@ namespace src.Services
             List<Loan> loans;
             try
             {
-                loans = loanService.GetUserLoans(user.CNP);
+                loans = loanService.GetUserLoans(user.Cnp);
             }
             catch (Exception)
             {
@@ -86,7 +86,7 @@ namespace src.Services
             }
             foreach (Loan loan in loans)
             {
-                if (loan.State == "Active" && loan.RepaymentDate < DateTime.Today)
+                if (loan.Status == "Active" && loan.RepaymentDate < DateTime.Today)
                 {
                     return true;
                 }
@@ -100,7 +100,7 @@ namespace src.Services
             List<Loan> loans;
             try
             {
-                loans = loanServices.GetUserLoans(user.CNP);
+                loans = loanServices.GetUserLoans(user.Cnp);
             }
             catch (Exception)
             {
@@ -110,7 +110,7 @@ namespace src.Services
 
             foreach (Loan loan in loans)
             {
-                if (loan.State == "Active")
+                if (loan.Status == "Active")
                 {
                     monthlyDebtAmount += loan.MonthlyPaymentAmount;
                 }

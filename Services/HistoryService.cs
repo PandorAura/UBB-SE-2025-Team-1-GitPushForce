@@ -17,14 +17,14 @@ namespace src.Services
             _historyRepository = historyRepository ?? throw new ArgumentNullException(nameof(historyRepository));
         }
 
-        public List<HistoryCreditScore> GetHistoryByUserCNP(string userCNP)
+        public List<CreditScoreHistory> GetHistoryByUserCNP(string userCNP)
         {
             if (string.IsNullOrWhiteSpace(userCNP))
             {
                 throw new ArgumentException("User CNP cannot be null");
             }
 
-            List<HistoryCreditScore> history = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> history = new List<CreditScoreHistory>();
 
             try
             {
@@ -42,9 +42,9 @@ namespace src.Services
             return history;
         }
 
-        public List<HistoryCreditScore> GetHistoryWeekly(string userCNP)
+        public List<CreditScoreHistory> GetHistoryWeekly(string userCNP)
         {
-            List<HistoryCreditScore> history = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> history = new List<CreditScoreHistory>();
 
             try
             {
@@ -60,9 +60,9 @@ namespace src.Services
             }
 
 
-            List<HistoryCreditScore> weeklyHistory = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> weeklyHistory = new List<CreditScoreHistory>();
 
-            foreach (HistoryCreditScore h in history)
+            foreach (CreditScoreHistory h in history)
             {
                 if(h.Date >= DateOnly.FromDateTime(DateTime.Now.AddDays(-7)))
                 {
@@ -73,9 +73,9 @@ namespace src.Services
             return weeklyHistory;
         }
 
-        public List<HistoryCreditScore> GetHistoryMonthly(string userCNP)
+        public List<CreditScoreHistory> GetHistoryMonthly(string userCNP)
         {
-            List<HistoryCreditScore> history = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> history = new List<CreditScoreHistory>();
 
             try
             {
@@ -90,9 +90,9 @@ namespace src.Services
                 throw new Exception("Error retrieving history for user: ", ex);
             }
 
-            List<HistoryCreditScore> monthlyHistory = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> monthlyHistory = new List<CreditScoreHistory>();
 
-            foreach (HistoryCreditScore h in history)
+            foreach (CreditScoreHistory h in history)
             {
                 if (h.Date >= DateOnly.FromDateTime(DateTime.Now.AddMonths(-1)))
                 {
@@ -104,9 +104,9 @@ namespace src.Services
         }
 
 
-        public List<HistoryCreditScore> GetHistoryYearly(string userCNP)
+        public List<CreditScoreHistory> GetHistoryYearly(string userCNP)
         {
-            List<HistoryCreditScore> history = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> history = new List<CreditScoreHistory>();
 
             try
             {
@@ -121,9 +121,9 @@ namespace src.Services
                 throw new Exception("Error retrieving history for user: ", ex);
             }
 
-            List<HistoryCreditScore> yearlyHistory = new List<HistoryCreditScore>();
+            List<CreditScoreHistory> yearlyHistory = new List<CreditScoreHistory>();
 
-            foreach (HistoryCreditScore h in history)
+            foreach (CreditScoreHistory h in history)
             {
                 if (h.Date >= DateOnly.FromDateTime(DateTime.Now.AddYears(-1)))
                 {

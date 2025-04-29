@@ -33,7 +33,7 @@ namespace src.Views
                 foreach (var report in chatReports)
                 {
                     ChatReportComponent reportComponent = new ChatReportComponent();
-                    reportComponent.SetReportData(report.Id, report.ReportedUserCNP, report.ReportedMessage);
+                    reportComponent.SetReportData(report.Id, report.ReportedUserCnp, report.ReportedMessage);
 
                     // Subscribe to the event to refresh when a report is solved
                     reportComponent.ReportSolved += OnReportSolved;

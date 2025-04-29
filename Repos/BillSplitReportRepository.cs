@@ -39,9 +39,9 @@ namespace src.Repos
                     BillSplitReport billSplitReport = new BillSplitReport
                     {
                         Id = Convert.ToInt32(row["Id"]),
-                        ReportedCNP = row["ReportedUserCNP"].ToString() ?? "",
-                        ReporterCNP = row["ReporterUserCNP"].ToString() ?? "",
-                        DateTransaction = Convert.ToDateTime(row["DateOfTransaction"]),
+                        ReportedUserCnp = row["ReportedUserCNP"].ToString() ?? "",
+                        ReportingUserCnp = row["ReporterUserCNP"].ToString() ?? "",
+                        DateOfTransaction = Convert.ToDateTime(row["DateOfTransaction"]),
                         BillShare = Convert.ToSingle(row["BillShare"]),
                     };
 
@@ -84,9 +84,9 @@ namespace src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@ReportedUserCNP", SqlDbType.VarChar, 16) { Value = billSplitReport.ReportedCNP },
-                    new SqlParameter("@ReporterUserCNP", SqlDbType.VarChar, 16) { Value = billSplitReport.ReporterCNP },
-                    new SqlParameter("@DateOfTransaction", SqlDbType.DateTime) { Value = billSplitReport.DateTransaction },
+                    new SqlParameter("@ReportedUserCNP", SqlDbType.VarChar, 16) { Value = billSplitReport.ReportedUserCnp },
+                    new SqlParameter("@ReporterUserCNP", SqlDbType.VarChar, 16) { Value = billSplitReport.ReportingUserCnp },
+                    new SqlParameter("@DateOfTransaction", SqlDbType.DateTime) { Value = billSplitReport.DateOfTransaction },
                     new SqlParameter("@BillShare", SqlDbType.Float) { Value = billSplitReport.BillShare },
                 };
 
@@ -103,9 +103,9 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP),
-                new SqlParameter("@ReporterUserCNP", billSplitReport.ReporterCNP),
-                new SqlParameter("@DateOfTransaction", billSplitReport.DateTransaction),
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp),
+                new SqlParameter("@ReporterUserCNP", billSplitReport.ReportingUserCnp),
+                new SqlParameter("@DateOfTransaction", billSplitReport.DateOfTransaction),
                 new SqlParameter("@BillShare", billSplitReport.BillShare)
             };
 
@@ -118,7 +118,7 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp)
             };
 
             return dbConn.ExecuteScalar<int>("GetCurrentBalance", parameters, CommandType.StoredProcedure);
@@ -129,8 +129,8 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP),
-                new SqlParameter("@DateOfTransaction", billSplitReport.DateTransaction)
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp),
+                new SqlParameter("@DateOfTransaction", billSplitReport.DateOfTransaction)
             };
 
             return dbConn.ExecuteScalar<decimal>("SumTransactionsSinceReport", parameters, CommandType.StoredProcedure);
@@ -141,7 +141,7 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp)
             };
 
             int count = dbConn.ExecuteScalar<int>("CheckHistoryOfBillShares", parameters, CommandType.StoredProcedure);
@@ -153,8 +153,8 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP),
-                new SqlParameter("@ReporterUserCNP", billSplitReport.ReporterCNP)
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp),
+                new SqlParameter("@ReporterUserCNP", billSplitReport.ReportingUserCnp)
             };
 
             int count = dbConn.ExecuteScalar<int>("CheckFrequentTransfers", parameters, CommandType.StoredProcedure);
@@ -166,7 +166,7 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp)
             };
 
             return dbConn.ExecuteScalar<int>("GetNumberOfOffenses", parameters, CommandType.StoredProcedure);
@@ -177,7 +177,7 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedCNP)
+                new SqlParameter("@ReportedUserCNP", billSplitReport.ReportedUserCnp)
             };
 
             return dbConn.ExecuteScalar<int>("GetCurrentCreditScore", parameters, CommandType.StoredProcedure);
@@ -188,7 +188,7 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", billSplitReport.ReportedCNP),
+                new SqlParameter("@UserCNP", billSplitReport.ReportedUserCnp),
                 new SqlParameter("@NewCreditScore", newCreditScore)
             };
             dbConn.ExecuteNonQuery("UpdateUserCreditScore", parameters, CommandType.StoredProcedure);
@@ -199,7 +199,7 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", billSplitReport.ReportedCNP),
+                new SqlParameter("@UserCNP", billSplitReport.ReportedUserCnp),
                 new SqlParameter("@NewScore", newCreditScore)
             };
             dbConn.ExecuteNonQuery("UpdateCreditScoreHistory", parameters, CommandType.StoredProcedure);
@@ -210,14 +210,14 @@ namespace src.Repos
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@UserCNP", billSplitReport.ReportedCNP)
+                new SqlParameter("@UserCNP", billSplitReport.ReportedUserCnp)
             };
             dbConn.ExecuteNonQuery("IncrementNoOfBillSharesPaidForGivenUser", parameters, CommandType.StoredProcedure);
         }
 
         public int GetDaysOverdue(BillSplitReport billSplitReport)
         {
-            return (DateTime.Now - billSplitReport.DateTransaction).Days;
+            return (DateTime.Now - billSplitReport.DateOfTransaction).Days;
         }
     }
 }
