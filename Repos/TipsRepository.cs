@@ -44,7 +44,7 @@ namespace src.Repos
 
             try
             {
-                string query = @"
+                const string SelectQuery = @"
                     SELECT TOP 1 Id, CreditScoreBracket, TipText 
                     FROM Tips 
                     WHERE CreditScoreBracket = @CreditScoreBracket
@@ -55,7 +55,7 @@ namespace src.Repos
                     new SqlParameter("@CreditScoreBracket", creditScoreBracket)
                 };
 
-                DataTable tipsTable = _dbConnection.ExecuteReader(query, selectParameters, CommandType.Text);
+                DataTable tipsTable = _dbConnection.ExecuteReader(SelectQuery, selectParameters, CommandType.Text);
 
                 if (tipsTable == null || tipsTable.Rows.Count == 0)
                 {
@@ -76,13 +76,13 @@ namespace src.Repos
                     new SqlParameter("@TipId", tip.Id)
                 };
 
-                string insertQuery = @"
+                const string InsertQuery = @"
                     INSERT INTO GivenTips 
                         (UserCnp, TipId, MessageId, Date) 
                     VALUES 
                         (@UserCnp, @TipId, NULL, GETDATE())";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(insertQuery, insertParameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

@@ -20,8 +20,8 @@ namespace src.Repos
         {
             try
             {
-                string query = "SELECT * FROM Loans";
-                DataTable dataTable = _dbConnection.ExecuteReader(query, null, CommandType.Text);
+                const string SelectQuery = "SELECT * FROM Loans";
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 List<Loan> loans = new List<Loan>();
 
@@ -47,14 +47,14 @@ namespace src.Repos
                     new SqlParameter("@UserCnp", userCnp)
                 };
 
-                string query = @"
+                const string SelectQuery = @"
                     SELECT LoanRequestId, UserCnp, Amount, ApplicationDate, RepaymentDate, 
                            InterestRate, NumberOfMonths, MonthlyPaymentAmount, 
                            MonthlyPaymentsCompleted, RepaidAmount, Penalty, Status 
                     FROM Loans 
                     WHERE UserCnp = @UserCnp";
 
-                DataTable dataTable = _dbConnection.ExecuteReader(query, parameters, CommandType.Text);
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -101,7 +101,7 @@ namespace src.Repos
                     new SqlParameter("@Penalty", loan.Penalty)
                 };
 
-                string query = @"
+                const string InsertQuery = @"
                     INSERT INTO Loans 
                         (LoanRequestId, UserCnp, Amount, ApplicationDate, RepaymentDate, 
                          InterestRate, NumberOfMonths, Status, MonthlyPaymentAmount, 
@@ -111,7 +111,7 @@ namespace src.Repos
                          @InterestRate, @NumberOfMonths, @Status, @MonthlyPaymentAmount, 
                          @MonthlyPaymentsCompleted, @RepaidAmount, @Penalty)";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(InsertQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -149,7 +149,7 @@ namespace src.Repos
                     new SqlParameter("@Penalty", loan.Penalty)
                 };
 
-                string query = @"
+                const string UpdateQuery = @"
                     UPDATE Loans 
                     SET UserCnp = @UserCnp, 
                         Amount = @Amount, 
@@ -164,7 +164,7 @@ namespace src.Repos
                         Penalty = @Penalty 
                     WHERE LoanRequestId = @LoanRequestId";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -191,8 +191,8 @@ namespace src.Repos
                     new SqlParameter("@LoanRequestId", loanId)
                 };
 
-                string query = "DELETE FROM Loans WHERE LoanRequestId = @LoanRequestId";
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                const string DeleteQuery = "DELETE FROM Loans WHERE LoanRequestId = @LoanRequestId";
+                int rowsAffected = _dbConnection.ExecuteNonQuery(DeleteQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -219,8 +219,8 @@ namespace src.Repos
                     new SqlParameter("@LoanRequestId", loanId)
                 };
 
-                string query = "SELECT * FROM Loans WHERE LoanRequestId = @LoanRequestId";
-                DataTable dataTable = _dbConnection.ExecuteReader(query, parameters, CommandType.Text);
+                const string SelectQuery = "SELECT * FROM Loans WHERE LoanRequestId = @LoanRequestId";
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -250,7 +250,7 @@ namespace src.Repos
                     new SqlParameter("@NewScore", newScore)
                 };
 
-                string query = @"
+                const string updateOrInsertQuery = @"
                     IF EXISTS (SELECT 1 FROM CreditScoreHistory WHERE UserCnp = @UserCnp AND Date = CAST(GETDATE() AS DATE))
                     BEGIN
                         UPDATE CreditScoreHistory
@@ -263,7 +263,7 @@ namespace src.Repos
                         VALUES (@UserCnp, CAST(GETDATE() AS DATE), @NewScore);
                     END";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(updateOrInsertQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

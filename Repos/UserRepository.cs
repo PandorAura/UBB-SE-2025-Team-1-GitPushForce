@@ -54,7 +54,7 @@ namespace src.Repos
                 new SqlParameter("@Balance", user.Balance)
             };
 
-            const string query = @"
+            const string InsertQuery = @"
                 INSERT INTO Users (
                     Cnp, FirstName, LastName, Email, PhoneNumber, 
                     HashedPassword, NumberOfOffenses, RiskScore, Roi, 
@@ -71,7 +71,7 @@ namespace src.Repos
 
             try
             {
-                int? result = _dbConnection.ExecuteScalar<int>(query, parameters, CommandType.Text);
+                int? result = _dbConnection.ExecuteScalar<int>(InsertQuery, parameters, CommandType.Text);
                 return result ?? 0;
             }
             catch (SqlException exception)
@@ -94,7 +94,7 @@ namespace src.Repos
 
             try
             {
-                const string query = @"
+                const string SelectQuery = @"
                     SELECT Id, Cnp, FirstName, LastName, Email, PhoneNumber, 
                            HashedPassword, NumberOfOffenses, RiskScore, Roi, 
                            CreditScore, Birthday, ZodiacSign, ZodiacAttribute, 
@@ -102,7 +102,7 @@ namespace src.Repos
                     FROM Users 
                     WHERE Cnp = @Cnp";
 
-                DataTable dataTable = _dbConnection.ExecuteReader(query, parameters, CommandType.Text);
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -131,14 +131,14 @@ namespace src.Repos
                 new SqlParameter("@Amount", penaltyAmount)
             };
 
-            const string query = @"
+            const string UpdateQuery = @"
                 UPDATE Users 
                 SET CreditScore = CreditScore - @Amount 
                 WHERE Cnp = @Cnp";
 
             try
             {
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -162,14 +162,14 @@ namespace src.Repos
                 new SqlParameter("@Cnp", cnp)
             };
 
-            const string query = @"
+            const string updateQuery = @"
                 UPDATE Users 
                 SET NumberOfOffenses = ISNULL(NumberOfOffenses, 0) + 1 
                 WHERE Cnp = @Cnp";
 
             try
             {
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(updateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -194,14 +194,14 @@ namespace src.Repos
                 new SqlParameter("@CreditScore", creditScore)
             };
 
-            const string query = @"
+            const string UpdateQuery = @"
                 UPDATE Users 
                 SET CreditScore = @CreditScore 
                 WHERE Cnp = @Cnp";
 
             try
             {
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -226,14 +226,14 @@ namespace src.Repos
                 new SqlParameter("@Roi", roi)
             };
 
-            const string query = @"
+            const string UpdateQuery = @"
                 UPDATE Users 
                 SET Roi = @Roi 
                 WHERE Cnp = @Cnp";
 
             try
             {
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -258,14 +258,14 @@ namespace src.Repos
                 new SqlParameter("@RiskScore", riskScore)
             };
 
-            const string query = @"
+            const string UpdateQuery = @"
                 UPDATE Users 
                 SET RiskScore = @RiskScore 
                 WHERE Cnp = @Cnp";
 
             try
             {
-                int rowsAffected = _dbConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -281,14 +281,14 @@ namespace src.Repos
         {
             try
             {
-                const string query = @"
+                const string SelectQuery = @"
                     SELECT Id, Cnp, FirstName, LastName, Email, PhoneNumber, 
                            HashedPassword, NumberOfOffenses, RiskScore, Roi, 
                            CreditScore, Birthday, ZodiacSign, ZodiacAttribute, 
                            NumberOfBillSharesPaid, Income, Balance 
                     FROM Users";
 
-                DataTable dataTable = _dbConnection.ExecuteReader(query, null, CommandType.Text);
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {

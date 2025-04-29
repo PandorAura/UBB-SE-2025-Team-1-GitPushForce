@@ -25,13 +25,13 @@ namespace src.Repos
 
             try
             {
-                const string selectQuery = @"
+                const string SelectQuery = @"
                     SELECT TOP 1 Id, Type, Message 
                     FROM Messages 
                     WHERE Type = 'Congrats-message' 
                     ORDER BY NEWID()";
 
-                DataTable messagesTable = _dbConnection.ExecuteReader(selectQuery, null, CommandType.Text);
+                DataTable messagesTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (messagesTable == null || messagesTable.Rows.Count == 0)
                 {
@@ -52,13 +52,13 @@ namespace src.Repos
                     new SqlParameter("@MessageId", message.Id)
                 };
 
-                const string insertQuery = @"
+                const string InsertQuery = @"
                     INSERT INTO GivenTips 
                         (UserCnp, MessageId, Date) 
                     VALUES 
                         (@UserCnp, @MessageId, GETDATE())";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(insertQuery, insertParameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -80,13 +80,13 @@ namespace src.Repos
 
             try
             {
-                const string selectQuery = @"
+                const string SelectQuery = @"
                     SELECT TOP 1 Id, Type, Message 
                     FROM Messages 
                     WHERE Type = 'Roast-message' 
                     ORDER BY NEWID()";
 
-                DataTable messagesTable = _dbConnection.ExecuteReader(selectQuery, null, CommandType.Text);
+                DataTable messagesTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (messagesTable == null || messagesTable.Rows.Count == 0)
                 {
@@ -107,13 +107,13 @@ namespace src.Repos
                     new SqlParameter("@MessageId", message.Id)
                 };
 
-                const string insertQuery = @"
+                const string InsertQuery = @"
                     INSERT INTO GivenTips 
                         (UserCnp, MessageId, Date) 
                     VALUES 
                         (@UserCnp, @MessageId, GETDATE())";
 
-                int rowsAffected = _dbConnection.ExecuteNonQuery(insertQuery, insertParameters, CommandType.Text);
+                int rowsAffected = _dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

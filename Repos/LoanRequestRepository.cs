@@ -9,19 +9,19 @@ namespace src.Repos
 {
     public class LoanRequestRepository
     {
-        private readonly DatabaseConnection _databaseConnection;
+        private readonly DatabaseConnection _dbConnection;
 
         public LoanRequestRepository(DatabaseConnection databaseConnection)
         {
-            _databaseConnection = databaseConnection;
+            _dbConnection = databaseConnection;
         }
 
         public List<LoanRequest> GetLoanRequests()
         {
             try
             {
-                const string query = "SELECT Id, UserCnp, Amount, ApplicationDate, RepaymentDate, Status FROM LoanRequest";
-                DataTable dataTable = _databaseConnection.ExecuteReader(query, null, CommandType.Text);
+                const string SelectQuery = "SELECT Id, UserCnp, Amount, ApplicationDate, RepaymentDate, Status FROM LoanRequest";
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -54,12 +54,12 @@ namespace src.Repos
         {
             try
             {
-                const string query = @"
+                const string SelectQuery = @"
                     SELECT Id, UserCnp, Amount, ApplicationDate, RepaymentDate, Status 
                     FROM LoanRequest 
                     WHERE Status <> 'Solved' OR Status IS NULL";
 
-                DataTable dataTable = _databaseConnection.ExecuteReader(query, null, CommandType.Text);
+                DataTable dataTable = _dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -102,8 +102,8 @@ namespace src.Repos
                     new SqlParameter("@LoanRequestId", loanRequestId)
                 };
 
-                const string query = "UPDATE LoanRequest SET Status = 'Solved' WHERE Id = @LoanRequestId";
-                int rowsAffected = _databaseConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                const string UpdateQuery = "UPDATE LoanRequest SET Status = 'Solved' WHERE Id = @LoanRequestId";
+                int rowsAffected = _dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -130,8 +130,8 @@ namespace src.Repos
                     new SqlParameter("@LoanRequestId", loanRequestId)
                 };
 
-                const string query = "DELETE FROM LoanRequest WHERE Id = @LoanRequestId";
-                int rowsAffected = _databaseConnection.ExecuteNonQuery(query, parameters, CommandType.Text);
+                const string DeleteQuery = "DELETE FROM LoanRequest WHERE Id = @LoanRequestId";
+                int rowsAffected = _dbConnection.ExecuteNonQuery(DeleteQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
