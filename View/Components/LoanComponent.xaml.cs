@@ -14,7 +14,7 @@ namespace src.View.Components
         private readonly LoanServices loanServices;
         public event EventHandler LoanUpdated;
 
-        // Loan attributes
+        
         private int _loanID;
         private string _userCNP;
         private float _loanAmount;
