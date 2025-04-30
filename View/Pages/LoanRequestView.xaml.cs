@@ -22,38 +22,51 @@ namespace src.Views
 {
     public sealed partial class LoanRequestView : Page
     {
-        public LoanRequestView()
+        private readonly ILoanRequestService _service;
+        private readonly Func<LoanRequestComponent> _componentFactory;
+        public LoanRequestView(ILoanRequestService loanRequestService, Func<LoanRequestComponent> componentFactory)
         {
             this.InitializeComponent();
+            _service = loanRequestService;
+            _componentFactory = componentFactory;
             LoadLoanRequests();
         }
 
         private void LoadLoanRequests()
         {
-            LoanRequestContainer.Items.Clear(); // Clear previous items before reloading
-
-            DatabaseConnection dbConn = new DatabaseConnection();
-            LoanRequestRepository repo = new LoanRequestRepository(dbConn);
-            LoanRequestService service = new LoanRequestService(repo);
+            LoanRequestContainer.Items.Clear();
 
             try
             {
-                List<LoanRequest> loanRequests = service.GetUnsolvedLoanRequests();
+                List<LoanRequest> loanRequests = _service.GetUnsolvedLoanRequests();
+
+                if (loanRequests.Count == 0)
+                {
+                    LoanRequestContainer.Items.Add("There are no loan requests that need solving.");
+                    return;
+                }
 
                 foreach (var request in loanRequests)
                 {
-                    LoanRequestComponent requestComponent = new LoanRequestComponent();
-                    requestComponent.SetRequestData(request.RequestID, request.UserCNP, request.Amount, request.ApplicationDate, request.RepaymentDate, request.State, service.GiveSuggestion(request));
+                    LoanRequestComponent requestComponent = _componentFactory();
+                    requestComponent.SetRequestData(
+                        request.RequestID,
+                        request.UserCNP,
+                        request.Amount,
+                        request.ApplicationDate,
+                        request.RepaymentDate,
+                        request.State,
+                        _service.GiveSuggestion(request)
+                    );
 
-                    // Subscribe to the event to refresh when a request is solved
                     requestComponent.LoanRequestSolved += OnLoanRequestSolved;
 
                     LoanRequestContainer.Items.Add(requestComponent);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                LoanRequestContainer.Items.Add("There are no loan requests that need solving.");
+                LoanRequestContainer.Items.Add($"Error loading loan requests: {ex.Message}");
             }
         }
 

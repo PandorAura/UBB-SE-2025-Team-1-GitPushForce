@@ -10,7 +10,7 @@ namespace src.Services
     {
         ILoanRepository _loanRepository;
 
-        public LoanServices(ILoanRepository loanRepository)
+        public LoanService(ILoanRepository loanRepository)
         {
             _loanRepository = loanRepository;
         }

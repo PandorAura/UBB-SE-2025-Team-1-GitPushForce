@@ -8,16 +8,24 @@ using System.Collections.Generic;
 using src.Model;
 using src.View;
 using src.View.Components;
+using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace src
 {
     public sealed partial class MainWindow : Window
     {
-        
-        public MainWindow()
+        private readonly IServiceProvider _serviceProvider;
+
+        public MainWindow(IServiceProvider serviceProvider)
         {
-            this.InitializeComponent();
-            MainFrame.Navigate(typeof(UsersView));
+            InitializeComponent();
+            _serviceProvider = serviceProvider;
+
+            // Navigate to an initial page if needed:
+            //MainFrame.Navigate(typeof(UsersView));
+            var usersView = _serviceProvider.GetRequiredService<UsersView>();
+            MainFrame.Content = usersView;
         }
 
 
@@ -29,19 +37,24 @@ namespace src
                 switch (invokedItemTag)
                 {
                     case "ChatReports":
-                        MainFrame.Navigate(typeof(ChatReportView));
+                        var chatReportsPage = _serviceProvider.GetRequiredService<ChatReportComponent>();
+                        MainFrame.Content = chatReportsPage;
                         break;
                     case "LoanRequest":
-                        MainFrame.Navigate(typeof(LoanRequestView));
+                        var loanRequestPage = _serviceProvider.GetRequiredService<LoanRequestView>();
+                        MainFrame.Content = loanRequestPage;
                         break;
                     case "Loans":
-                        MainFrame.Navigate(typeof(LoansView));
+                        var loansPage = _serviceProvider.GetRequiredService<LoansView>();
+                        MainFrame.Content = loansPage;
                         break;
                     case "UsersList":
-                        MainFrame.Navigate(typeof(UsersView));
+                        var usersView = _serviceProvider.GetRequiredService<UsersView>();
+                        MainFrame.Content = usersView;
                         break;
                     case "BillSplitReports":
-                        MainFrame.Navigate(typeof(BillSplitReportPage));
+                        var billSplitPage = _serviceProvider.GetRequiredService<BillSplitReportPage>();
+                        MainFrame.Content = billSplitPage;
                         break;
                     case "Zodiac":
                         ZodiacFeature(sender, null);

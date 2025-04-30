@@ -21,7 +21,7 @@ namespace src.View.Components
 {
     public sealed partial class BillSplitReportComponent : Page
     {
-        private readonly BillSplitReportService _billSplitReportService;
+        private readonly IBillSplitReportService _billSplitReportService;
         public event EventHandler ReportSolved;
 
         public int Id { get; set; }
@@ -37,10 +37,11 @@ namespace src.View.Components
         public DateTime DateTransaction { get; set; }
         private float BillShare { get; set; }
 
-        public BillSplitReportComponent()
+        public BillSplitReportComponent(IBillSplitReportService billSplitReportService)
         {
             this.InitializeComponent();
-            _billSplitReportService = new BillSplitReportService(new BillSplitReportRepository(new DatabaseConnection()));
+            _billSplitReportService= billSplitReportService;
+            //_billSplitReportService = new BillSplitReportService(new BillSplitReportRepository(new DatabaseConnection()));
         }
 
         private async void OnSolveClick(object sender, RoutedEventArgs e)

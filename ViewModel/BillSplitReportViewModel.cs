@@ -11,7 +11,7 @@ namespace src.ViewModel
 {
     public class BillSplitReportViewModel
     {
-        private readonly BillSplitReportService _billSplitReportService;
+        private readonly IBillSplitReportService _billSplitReportService;
         
         public ObservableCollection<BillSplitReport> BillSplitReports { get; set; }
 

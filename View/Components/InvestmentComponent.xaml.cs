@@ -10,7 +10,6 @@ namespace src.View.Components
 {
     public sealed partial class InvestmentComponent : Page
     {
-        private readonly InvestmentsService _investmentsService;
 
         public string FirstName { get; set; }
         public string SecondName { get; set; }

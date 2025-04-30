@@ -12,8 +12,14 @@ namespace src.Views
 {
     public sealed partial class ChatReportView : Page
     {
-        public ChatReportView()
+        private readonly Func<ChatReportComponent> _componentFactory;
+        private readonly IChatReportService _chatReportService;
+
+
+        public ChatReportView(Func<ChatReportComponent> componentFactory, IChatReportService chatReportService)
         {
+            _componentFactory = componentFactory;
+            _chatReportService = chatReportService;
             this.InitializeComponent();
             LoadChatReports();
         }
@@ -22,17 +28,15 @@ namespace src.Views
         {
             ChatReportsContainer.Items.Clear(); // Clear previous items before reloading
 
-            DatabaseConnection dbConn = new DatabaseConnection();
-            ChatReportRepository repo = new ChatReportRepository(dbConn);
-            ChatReportService service = new ChatReportService(repo);
+            /*DatabaseConnection dbConn = new DatabaseConnection();
+            ChatReportRepository repo = new ChatReportRepository(dbConn);*/
 
             try
             {
-                List<ChatReport> chatReports = service.GetChatReports();
-
+                List<ChatReport> chatReports = _chatReportService.GetChatReports();
                 foreach (var report in chatReports)
                 {
-                    ChatReportComponent reportComponent = new ChatReportComponent();
+                    ChatReportComponent reportComponent = _componentFactory();
                     reportComponent.SetReportData(report.Id, report.ReportedUserCNP, report.ReportedMessage);
 
                     // Subscribe to the event to refresh when a report is solved

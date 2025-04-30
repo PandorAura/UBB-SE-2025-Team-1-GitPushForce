@@ -11,7 +11,7 @@ namespace src.View.Components
 {
     public sealed partial class LoanComponent : Page
     {
-        private readonly LoanServices loanServices;
+        private readonly ILoanService _loanServices;
         public event EventHandler LoanUpdated;
 
         // Loan attributes
@@ -28,10 +28,11 @@ namespace src.View.Components
         private float _repaidAmount;
         private float _penalty;
 
-        public LoanComponent()
+        public LoanComponent(ILoanService loanServices)
         {
+            _loanServices = loanServices;
             this.InitializeComponent();
-            loanServices = new LoanServices(new LoanRepository(new DatabaseConnection()));
+            //_loanServices = new LoanService(new LoanRepository(new DatabaseConnection()));
         }
 
         public void SetLoanData(int loanID, string userCNP, float loanAmount, DateTime applicationDate,
@@ -68,7 +69,7 @@ namespace src.View.Components
 
         private async void OnSolveClick(object sender, RoutedEventArgs e)
         {
-            loanServices.incrementMonthlyPaymentsCompleted(_loanID, _penalty);
+            _loanServices.incrementMonthlyPaymentsCompleted(_loanID, _penalty);
             LoanUpdated?.Invoke(this, EventArgs.Empty);
         }
 

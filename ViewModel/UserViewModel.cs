@@ -14,11 +14,11 @@ namespace src.ViewModel
 {
     public class UserViewModel : INotifyPropertyChanged
     {
-        private UserService _userServices;
+        private IUserService _userServices;
         public ObservableCollection<User> Users { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public UserViewModel(UserService userServices)
+        public UserViewModel(IUserService userServices)
         {
             _userServices = userServices ?? throw new ArgumentNullException(nameof(userServices));
         }

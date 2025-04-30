@@ -11,39 +11,41 @@ namespace src.Views
 {
     public sealed partial class LoansView : Page
     {
-        private readonly LoanServices _service;
-        private readonly LoanCheckerService _loanCheckerService;
+        private readonly ILoanService _service;
+        private readonly ILoanCheckerService _loanCheckerService;
+        private readonly Func<LoanComponent> _componentFactory;
 
-        public LoansView()
+
+        public LoansView(ILoanService loanService, ILoanCheckerService loanCheckerService, Func<LoanComponent> componentFactory)
         {
             this.InitializeComponent();
 
-            DatabaseConnection dbConn = new DatabaseConnection();
-            LoanRepository loanRepository = new LoanRepository(dbConn);
-            _service = new LoanServices(loanRepository);
+            _service = loanService;
+            _loanCheckerService = loanCheckerService;
+            _componentFactory = componentFactory;
 
             _loanCheckerService = new LoanCheckerService(_service);
             _loanCheckerService.LoansUpdated += OnLoansUpdated;
-            _loanCheckerService.Start(); // Start periodic checking
+            _loanCheckerService.Start();
 
             LoadLoans();
         }
 
         private void OnLoansUpdated(object sender, EventArgs e)
         {
-            LoadLoans(); // Refresh the list instantly when a request is solved
+            LoadLoans();
         }
 
         private void LoadLoans()
         {
-            LoansContainer.Items.Clear(); // Clear previous items before reloading
+            LoansContainer.Items.Clear();
 
             try
             {
                 List<Loan> loans = _service.GetLoans();
                 foreach (Loan loan in loans)
                 {
-                    LoanComponent loanComponent = new LoanComponent();
+                    LoanComponent loanComponent = _componentFactory();
                     loanComponent.SetLoanData(loan.LoanID, loan.UserCNP, loan.LoanAmount, loan.ApplicationDate,
                                               loan.RepaymentDate, loan.InterestRate, loan.NoMonths, loan.MonthlyPaymentAmount,
                                               loan.State, loan.MonthlyPaymentsCompleted, loan.RepaidAmount, loan.Penalty);

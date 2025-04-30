@@ -10,8 +10,8 @@ namespace src.View.Components
 {
     public sealed partial class LoanRequestComponent : Page
     {
-        private readonly LoanRequestService _loanRequestService;
-        private readonly LoanServices _loanServices;
+        private readonly ILoanRequestService _loanRequestService;
+        private readonly ILoanService _loanServices;
         public event EventHandler LoanRequestSolved;
 
         // Properties
@@ -23,11 +23,13 @@ namespace src.View.Components
         public string State { get; set; }
         public string Suggestion { get; set; }
 
-        public LoanRequestComponent()
+        public LoanRequestComponent(ILoanRequestService loanRequestService, ILoanService loanService)
         {
+            _loanRequestService = loanRequestService;
+            _loanServices = loanService;
             this.InitializeComponent();
-            _loanRequestService = new LoanRequestService(new LoanRequestRepository(new DatabaseConnection()));
-            _loanServices = new LoanServices(new LoanRepository(new DatabaseConnection()));
+            //_loanRequestService = new LoanRequestService(new LoanRequestRepository(new DatabaseConnection()));
+            //_loanServices = new LoanService(new LoanRepository(new DatabaseConnection()));
         }
 
         private async void OnDenyClick(object sender, RoutedEventArgs e)

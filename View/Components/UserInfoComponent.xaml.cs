@@ -25,15 +25,11 @@ namespace src.View.Components
 
     public sealed partial class UserInfoComponent : Page
     {
-
-        private readonly UserViewModel _userViewModel;
-
         public User user;
 
         public UserInfoComponent()
         {
             this.InitializeComponent();
-            _userViewModel = new UserViewModel(new UserService(new UserRepository(new DatabaseConnection())));
         }
 
         public void SetUserData(User userData)

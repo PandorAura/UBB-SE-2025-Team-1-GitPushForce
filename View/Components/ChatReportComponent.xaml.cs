@@ -11,7 +11,7 @@ namespace src.View.Components
 {
     public sealed partial class ChatReportComponent : Page
     {
-        private readonly ChatReportService _chatReportService;
+        private readonly IChatReportService _chatReportService;
         public event EventHandler ReportSolved;
 
         public string ReportedUserCNP { get; set; }
@@ -19,10 +19,11 @@ namespace src.View.Components
 
         public int ReportId { get; set; }
 
-        public ChatReportComponent()
+        public ChatReportComponent(IChatReportService chatReportService)
         {
             this.InitializeComponent();
-            _chatReportService = new ChatReportService(new ChatReportRepository(new DatabaseConnection()));
+            _chatReportService = chatReportService;
+            //_chatReportService = new ChatReportService(new ChatReportRepository(new DatabaseConnection()));
         }
 
         private async void PunishReportedUser(object sender, RoutedEventArgs e)

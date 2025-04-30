@@ -18,6 +18,7 @@ namespace src.View.Pages
     {
         private User selectedUser;
 
+
         public TipHistoryWindow(User selectedUser)
         {
             this.InitializeComponent();
