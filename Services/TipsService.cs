@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using Microsoft.Data.SqlClient;
 using src.Data;
 using src.Repos;
+using src.Model;
 
 
 namespace src.Services
 {
     class TipsService : ITipsService
     {
-        TipsRepository _tipsRepository;
+        private TipsRepository _tipsRepository;
 
         public TipsService(TipsRepository tipsRepository)
         {
@@ -16,12 +20,12 @@ namespace src.Services
 
         public void GiveTipToUser(string UserCNP)
         {
-            DatabaseConnection dbConn = new DatabaseConnection();
-            UserRepository userRepository = new UserRepository(dbConn);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            UserRepository userRepository = new UserRepository(dbConnection);
             
             try{
                
-                Int32 userCreditScore = userRepository.GetUserByCNP(UserCNP).CreditScore;
+                Int32 userCreditScore = userRepository.GetUserByCnp(UserCNP).CreditScore;
                 if (userCreditScore < 300 ) 
                 {
                     _tipsRepository.GiveUserTipForLowBracket(UserCNP);
@@ -35,10 +39,15 @@ namespace src.Services
                     _tipsRepository.GiveUserTipForHighBracket(UserCNP);
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine($"{e.Message},User is not found");
+                Console.WriteLine($"{exception.Message},User is not found");
             }
+        }
+
+        public List<Tip> GetTipsForGivenUser(string userCnp)
+        {
+            return _tipsRepository.GetTipsForGivenUser(userCnp);
         }
     }
 }

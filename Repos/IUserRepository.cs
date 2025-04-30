@@ -12,11 +12,11 @@ namespace src.Repos
     {
         public int CreateUser(User user);
 
-        public User? GetUserByCNP(string CNP);
+        public User? GetUserByCnp(string CNP);
 
         public void PenalizeUser(string CNP, Int32 amountToBePenalizedWith);
 
-        public void IncrementOffenesesCountByOne(string CNP);
+        public void IncrementOffensesCount(string CNP);
 
         public void UpdateUserCreditScore(string CNP, int creditScore);
 

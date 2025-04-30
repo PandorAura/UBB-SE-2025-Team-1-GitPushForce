@@ -36,7 +36,7 @@ namespace src.View.Components
         {
             user = userData;
             NameTextBlock.Text = $"{user.FirstName}  {user.LastName}";
-            CNPTextBlock.Text = $"{user.CNP}";
+            CNPTextBlock.Text = $"{user.Cnp}";
             ScoreTextBlock.Text = $"Score: {user.CreditScore}";
         }
 
@@ -52,7 +52,8 @@ namespace src.View.Components
         {
             if (user != null)
             {
-                TipHistoryWindow tipHistoryWindow = new TipHistoryWindow(user);
+                DatabaseConnection _dbConnection = new DatabaseConnection();
+                TipHistoryWindow tipHistoryWindow = new TipHistoryWindow(user, new MessagesRepository(_dbConnection), new TipsRepository(_dbConnection));
                 tipHistoryWindow.Activate();
             }
         }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using src.Data;
 using src.Repos;
@@ -37,7 +36,7 @@ namespace src.Views
                 foreach (var report in chatReports)
                 {
                     ChatReportComponent reportComponent = _componentFactory();
-                    reportComponent.SetReportData(report.Id, report.ReportedUserCNP, report.ReportedMessage);
+                    reportComponent.SetReportData(report.Id, report.ReportedUserCnp, report.ReportedMessage);
 
                     // Subscribe to the event to refresh when a report is solved
                     reportComponent.ReportSolved += OnReportSolved;

@@ -13,7 +13,10 @@ namespace src.Repos
 
         public void DeleteChatReport(Int32 id);
 
-        public void UpdateHistoryForUser(string UserCNP, int NewScore);
+        public void UpdateScoreHistoryForUser(string UserCNP, int NewScore);
 
+        public int GetNumberOfGivenTipsForUser(string reportedUserCnp);
+
+        public void UpdateActivityLog(string reportedUserCnp, int amount);
     }
 }

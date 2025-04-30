@@ -25,12 +25,12 @@ namespace src.Services
 
             foreach (var currentUser in allExistentUsers)
             {
-                var recentInvestments = GetRecentInvestments(currentUser.CNP);
+                var recentInvestments = GetRecentInvestments(currentUser.Cnp);
                 if (recentInvestments != null)
                 {
                     var riskScoreChange = CalculateRiskScoreChange(currentUser, recentInvestments);
                     UpdateUserRiskScore(currentUser, riskScoreChange);
-                    _userRepository.UpdateUserRiskScore(currentUser.CNP, currentUser.RiskScore);
+                    _userRepository.UpdateUserRiskScore(currentUser.Cnp, currentUser.RiskScore);
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace src.Services
 
             // Since the list is sorted in ascending order, the latest investment is the last one.
             var latestInvestment = allInvestments
-                .Where(i => i.InvestorCNP == cnp)
+                .Where(i => i.InvestorCnp == cnp)
                 .OrderBy(i => i.InvestmentDate)
                 .LastOrDefault();
 
@@ -54,7 +54,7 @@ namespace src.Services
 
             // Return all investments from last week, taking in consideration last transaction
             return allInvestments
-                .Where(i => i.InvestorCNP == cnp)
+                .Where(i => i.InvestorCnp == cnp)
                 .Where(i => i.InvestmentDate >= latestInvestmentDate.AddDays(-7))
                 .OrderByDescending(i => i.InvestmentDate)
                 .ToList();
@@ -134,7 +134,7 @@ namespace src.Services
             foreach (var currentUser in allExistentUsers)
             {
                 CalculateAndSetUserROI(currentUser);
-                _userRepository.UpdateUserROI(currentUser.CNP, currentUser.ROI);
+                _userRepository.UpdateUserROI(currentUser.Cnp, currentUser.ROI);
             }
         }
 
@@ -143,7 +143,7 @@ namespace src.Services
             var investmentOpen = -1;
 
             var allInvestments = _investmentsRepository.GetInvestmentsHistory()
-                .Where(i => i.InvestorCNP == user.CNP)
+                .Where(i => i.InvestorCnp == user.Cnp)
                 .Where(i => i.AmountReturned != investmentOpen) // Exclude open transactions
                 .ToList();
 
@@ -199,7 +199,7 @@ namespace src.Services
 
                 currentUser.CreditScore = Math.Min(maxCreditScore, Math.Max(minCreditScore, currentUser.CreditScore));
 
-                _userRepository.UpdateUserCreditScore(currentUser.CNP, currentUser.CreditScore);
+                _userRepository.UpdateUserCreditScore(currentUser.Cnp, currentUser.CreditScore);
             }
         }
 
@@ -214,7 +214,7 @@ namespace src.Services
             foreach (var user in userList)
             {
                 var investments = _investmentsRepository.GetInvestmentsHistory()
-                    .Where(i => i.InvestorCNP == user.CNP)
+                    .Where(i => i.InvestorCnp == user.Cnp)
                     .ToList();
 
                 if (investments.Any())

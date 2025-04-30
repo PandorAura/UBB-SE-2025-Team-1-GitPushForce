@@ -10,8 +10,6 @@ namespace src.Repos
 {
     public interface IBillSplitReportRepository
     {
-        public DatabaseConnection getDbConn();
-
         public List<BillSplitReport> GetBillSplitReports();
 
         public void DeleteBillSplitReport(int id);

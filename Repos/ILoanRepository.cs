@@ -19,9 +19,9 @@ namespace src.Repos
 
         public void DeleteLoan(int loanID);
 
-        public Loan GetLoanByID(int loanID);
+        public Loan GetLoanById(int loanID);
 
-        public void UpdateHistoryForUser(string UserCNP, int NewScore);
+        public void UpdateCreditScoreHistoryForUser(string UserCNP, int NewScore);
 
 
     }

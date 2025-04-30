@@ -9,7 +9,7 @@ namespace src.Repos
 {
     public interface IHistoryRepository
     {
-        public List<HistoryCreditScore> GetHistoryForUser(string userCNP);
+        public List<CreditScoreHistory> GetHistoryForUser(string userCNP);
 
     }
 }

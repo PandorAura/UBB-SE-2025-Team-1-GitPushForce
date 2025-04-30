@@ -6,7 +6,7 @@ using src.Data;
 using src.Repos;
 using System;
 
-namespace src.ViewModels
+namespace src.ViewModel
 {
     public class ChatReportsViewModel
     {
@@ -30,9 +30,9 @@ namespace src.ViewModels
                     ChatReports.Add(report);
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             { 
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {exception.Message}");
             }
         }
     }

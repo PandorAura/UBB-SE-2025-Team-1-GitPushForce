@@ -1,11 +1,7 @@
 ﻿using src.Model;
 using src.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace src.ViewModel
 {
@@ -48,9 +44,9 @@ namespace src.ViewModel
                     UsersPortofolio.Add(userPortfolio);
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {exception.Message}");
             }
         }
     }

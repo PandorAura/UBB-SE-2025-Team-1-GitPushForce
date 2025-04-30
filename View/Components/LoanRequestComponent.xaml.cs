@@ -34,14 +34,14 @@ namespace src.View.Components
 
         private async void OnDenyClick(object sender, RoutedEventArgs e)
         {
-            var loanRequest = new LoanRequest(RequestID, RequestingUserCNP, RequestedAmount, ApplicationDate, RepaymentDate, State);
+            LoanRequest loanRequest = new LoanRequest(RequestID, RequestingUserCNP, RequestedAmount, ApplicationDate, RepaymentDate, State);
             _loanRequestService.DenyLoanRequest(loanRequest);
             LoanRequestSolved?.Invoke(this, EventArgs.Empty);
         }
 
         private async void OnApproveClick(object sender, RoutedEventArgs e)
         {
-            var loanRequest = new LoanRequest(RequestID, RequestingUserCNP, RequestedAmount, ApplicationDate, RepaymentDate, State);
+            LoanRequest loanRequest = new LoanRequest(RequestID, RequestingUserCNP, RequestedAmount, ApplicationDate, RepaymentDate, State);
             _loanServices.AddLoan(loanRequest);
             _loanRequestService.SolveLoanRequest(loanRequest);
             LoanRequestSolved?.Invoke(this, EventArgs.Empty);

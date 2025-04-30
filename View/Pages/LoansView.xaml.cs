@@ -46,9 +46,9 @@ namespace src.Views
                 foreach (Loan loan in loans)
                 {
                     LoanComponent loanComponent = _componentFactory();
-                    loanComponent.SetLoanData(loan.LoanID, loan.UserCNP, loan.LoanAmount, loan.ApplicationDate,
-                                              loan.RepaymentDate, loan.InterestRate, loan.NoMonths, loan.MonthlyPaymentAmount,
-                                              loan.State, loan.MonthlyPaymentsCompleted, loan.RepaidAmount, loan.Penalty);
+                    loanComponent.SetLoanData(loan.Id, loan.UserCnp, loan.LoanAmount, loan.ApplicationDate,
+                                              loan.RepaymentDate, loan.InterestRate, loan.NumberOfMonths, loan.MonthlyPaymentAmount,
+                                              loan.Status, loan.MonthlyPaymentsCompleted, loan.RepaidAmount, loan.Penalty);
 
                     loanComponent.LoanUpdated += OnLoansUpdated;
 
