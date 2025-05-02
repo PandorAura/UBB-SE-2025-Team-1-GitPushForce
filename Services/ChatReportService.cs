@@ -9,11 +9,11 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 namespace src.Services
 {
-    public class ChatReportService
+    public class ChatReportService : IChatReportService
     {
-        ChatReportRepository _chatReportRepository;
+        IChatReportRepository _chatReportRepository;
 
-        public ChatReportService(ChatReportRepository chatReportRepository)
+        public ChatReportService(IChatReportRepository chatReportRepository)
         {
             _chatReportRepository = chatReportRepository;
         }

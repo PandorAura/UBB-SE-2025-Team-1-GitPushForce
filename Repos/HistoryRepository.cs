@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace src.Repos
 {
-    public class HistoryRepository
+    public class HistoryRepository: IHistoryRepository
     {
         private readonly DatabaseConnection _dbConnection;
 

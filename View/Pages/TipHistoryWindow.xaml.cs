@@ -1,16 +1,8 @@
 using System.Collections.Generic;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using src.Model;
 using src.Repos;
 using src.View.Components;
-using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.UI.Xaml;
-using src.Data;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using System;
-using src.Services;
 
 namespace src.View.Pages
 {
@@ -33,6 +25,7 @@ namespace src.View.Pages
             LoadHistory(tips);
             LoadHistory(messages);
         }
+
         private void LoadHistory(List<Message> messages)
         {
             foreach (Message message in messages)
@@ -42,6 +35,7 @@ namespace src.View.Pages
                 MessageHistoryContainer.Items.Add(messageComponent);
             }
         }
+
         private void LoadHistory(List<Tip> tips)
         {
             foreach (Tip tip in tips)

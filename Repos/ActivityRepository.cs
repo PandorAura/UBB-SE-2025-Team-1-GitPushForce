@@ -7,7 +7,7 @@ using System.Data;
 
 namespace src.Repos
 {
-    public class ActivityRepository
+    public class ActivityRepository: IActivityRepository
     {
         private readonly DatabaseConnection _dbConnection;
         private readonly UserRepository userRepository;

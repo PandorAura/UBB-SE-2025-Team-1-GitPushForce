@@ -11,15 +11,18 @@ namespace src.View
 {
     public sealed partial class BillSplitReportPage : Page
     {
-        public BillSplitReportPage()
+        private readonly Func<BillSplitReportComponent> _componentFactory;
+
+        public BillSplitReportPage(Func<BillSplitReportComponent> componentFactory)
         {
+            _componentFactory = componentFactory;
             this.InitializeComponent();
             LoadReports();
         }
-
+        
         private void LoadReports()
         {
-            BillSplitReportsContainer.Items.Clear(); // Clear previous items before reloading
+            BillSplitReportsContainer.Items.Clear();
 
             DatabaseConnection dbConnection = new DatabaseConnection();
             BillSplitReportRepository billSplitReportRepository = new BillSplitReportRepository(dbConnection);
@@ -31,12 +34,9 @@ namespace src.View
 
                 foreach (var report in reports)
                 {
-                    BillSplitReportComponent reportComponent = new BillSplitReportComponent();
+                    var reportComponent = _componentFactory();
                     reportComponent.SetReportData(report);
-
-                    // Subscribe to the event to refresh when a report is solved
                     reportComponent.ReportSolved += OnReportSolved;
-
                     BillSplitReportsContainer.Items.Add(reportComponent);
                 }
             }
@@ -48,7 +48,7 @@ namespace src.View
 
         private void OnReportSolved(object sender, EventArgs e)
         {
-            LoadReports(); // Refresh the list instantly when a report is solved
+            LoadReports();
         }
     }
 }

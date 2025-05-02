@@ -7,7 +7,7 @@ using System.Data;
 
 namespace src.Repos
 {
-    public class LoanRequestRepository
+    class LoanRequestRepository:ILoanRequestRepository
     {
         private readonly DatabaseConnection _dbConnection;
 

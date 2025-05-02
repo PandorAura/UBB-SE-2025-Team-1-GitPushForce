@@ -7,11 +7,11 @@ namespace src.ViewModel
 {
     public class ActivityViewModel : INotifyPropertyChanged
     {
-        private ActivityService _activityService;
+        private IActivityService _activityService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ActivityViewModel(ActivityService activityService)
+        public ActivityViewModel(IActivityService activityService)
         {
             _activityService = activityService ?? throw new ArgumentNullException(nameof(activityService));
         }

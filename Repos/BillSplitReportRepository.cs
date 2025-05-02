@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace src.Repos
 {
-    public class BillSplitReportRepository
+    public class BillSplitReportRepository: IBillSplitReportRepository
     {
         private readonly DatabaseConnection _dbConnection;
 

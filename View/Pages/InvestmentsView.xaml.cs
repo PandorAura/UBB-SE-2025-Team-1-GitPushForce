@@ -45,7 +45,7 @@ namespace src.View
         }
         private void LoadInvestmentPortofolio()
         {
-            UsersPortofolioContainer.Items.Clear(); // Clear previous items before reloading
+            UsersPortofolioContainer.Items.Clear();
             try
             {
                 List<InvestmentPortfolio> usersInvestmentPortofolioo = _investmentsService.GetPortfolioSummary();

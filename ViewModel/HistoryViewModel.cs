@@ -8,11 +8,11 @@ namespace src.ViewModel
 {
     class HistoryViewModel : INotifyPropertyChanged
     {
-        private HistoryService _historyService;
+        private IHistoryService _historyService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public HistoryViewModel(HistoryService historyService)
+        public HistoryViewModel(IHistoryService historyService)
         {
             _historyService = historyService ?? throw new ArgumentNullException(nameof(historyService));
         }

@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace src.Services
 {
-    class LoanServices
+    class LoanService : ILoanService
     {
-        LoanRepository _loanRepository;
+        ILoanRepository _loanRepository;
 
-        public LoanServices(LoanRepository loanRepository)
+        public LoanService(ILoanRepository loanRepository)
         {
             _loanRepository = loanRepository;
         }

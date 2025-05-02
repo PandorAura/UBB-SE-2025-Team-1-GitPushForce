@@ -15,8 +15,8 @@ namespace src.View.Pages
     public sealed partial class AnalysisWindow : Window
     {
         User user;
-        private readonly ActivityService _activityService;
-        private readonly HistoryService _historyService;
+        private readonly IActivityService _activityService;
+        private readonly IHistoryService _historyService;
 
         public AnalysisWindow(User selectedUser)
         {

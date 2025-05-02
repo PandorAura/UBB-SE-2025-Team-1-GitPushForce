@@ -8,7 +8,7 @@ using src.Repos;
 
 namespace src.Services
 {
-    class MessagesService
+    class MessagesService : IMessagesService
     {
         MessagesRepository _messagesRepository;
 

@@ -1,23 +1,22 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
-using src.Data;
-using src.ViewModel;
-using src.Repos;
 using src.Services;
 using src.View.Components;
 using src.Model;
-
-
 
 namespace src.Views
 {
     public sealed partial class UsersView : Page
     {
+        private readonly IUserService _userService;
+        private readonly Func<UserInfoComponent> _userComponentFactory;
 
-        public UsersView()
+        public UsersView(IUserService userService, Func<UserInfoComponent> userComponentFactory)
         {
             this.InitializeComponent();
+            _userService = userService;
+            _userComponentFactory = userComponentFactory;
             LoadUsers();
         }
 
@@ -25,17 +24,12 @@ namespace src.Views
         {
             UsersContainer.Items.Clear();
 
-            DatabaseConnection dbConnection = new DatabaseConnection();
-            UserRepository userRepository = new UserRepository(dbConnection);
-            UserService userService = new UserService(userRepository);
-            UserViewModel userViewModel = new UserViewModel(userService);
-
             try
             {
-                List<User> users = userService.GetUsers();
+                List<User> users = _userService.GetUsers();
                 foreach (var user in users)
                 {
-                    UserInfoComponent userComponent = new UserInfoComponent();
+                    var userComponent = _userComponentFactory();
                     userComponent.SetUserData(user);
                     UsersContainer.Items.Add(userComponent);
                 }

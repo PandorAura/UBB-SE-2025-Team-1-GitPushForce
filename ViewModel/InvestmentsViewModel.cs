@@ -7,12 +7,11 @@ namespace src.ViewModel
 {
     public class InvestmentsViewModel
     {
-        private readonly InvestmentsService _investmentsService;
+        private readonly IInvestmentsService _investmentsService;
 
         public ObservableCollection<InvestmentPortfolio> UsersPortofolio { get; set; }
 
-
-        public InvestmentsViewModel(InvestmentsService investmentsService)
+        public InvestmentsViewModel(IInvestmentsService investmentsService)
         {
             _investmentsService = investmentsService ?? throw new ArgumentNullException(nameof(investmentsService));
             UsersPortofolio = new ObservableCollection<InvestmentPortfolio>();

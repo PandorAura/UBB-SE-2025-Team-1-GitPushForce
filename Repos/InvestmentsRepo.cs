@@ -7,7 +7,7 @@ using System.Data;
 
 namespace src.Repos
 {
-    public class InvestmentsRepository
+    public class InvestmentsRepository: IInvestmentsRepository
     {
         private readonly DatabaseConnection _dbConnection;
 

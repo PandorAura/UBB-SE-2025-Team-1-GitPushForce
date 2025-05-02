@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
-using src.Data;
-using src.Repos;
 using src.Services;
 using src.Model;
 using src.View.Components;
@@ -11,30 +9,29 @@ namespace src.Views
 {
     public sealed partial class ChatReportView : Page
     {
-        public ChatReportView()
+        private readonly Func<ChatReportComponent> _componentFactory;
+        private readonly IChatReportService _chatReportService;
+
+        public ChatReportView(Func<ChatReportComponent> componentFactory, IChatReportService chatReportService)
         {
+            _componentFactory = componentFactory;
+            _chatReportService = chatReportService;
             this.InitializeComponent();
             LoadChatReports();
         }
 
         private void LoadChatReports()
         {
-            ChatReportsContainer.Items.Clear(); // Clear previous items before reloading
-
-            DatabaseConnection dbConnection = new DatabaseConnection();
-            ChatReportRepository chatReportRepository = new ChatReportRepository(dbConnection);
-            ChatReportService chatReportService = new ChatReportService(chatReportRepository);
+            ChatReportsContainer.Items.Clear(); 
 
             try
             {
-                List<ChatReport> chatReports = chatReportService.GetChatReports();
-
+                List<ChatReport> chatReports = _chatReportService.GetChatReports();
                 foreach (var report in chatReports)
                 {
-                    ChatReportComponent reportComponent = new ChatReportComponent();
+                    ChatReportComponent reportComponent = _componentFactory();
                     reportComponent.SetReportData(report.Id, report.ReportedUserCnp, report.ReportedMessage);
 
-                    // Subscribe to the event to refresh when a report is solved
                     reportComponent.ReportSolved += OnReportSolved;
 
                     ChatReportsContainer.Items.Add(reportComponent);
@@ -48,7 +45,7 @@ namespace src.Views
 
         private void OnReportSolved(object sender, EventArgs e)
         {
-            LoadChatReports(); // Refresh the list instantly when a report is solved
+            LoadChatReports();
         }
     }
 }

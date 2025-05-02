@@ -8,7 +8,7 @@ using Windows.ApplicationModel.Contacts;
 
 namespace src.Repos
 {
-    public class ChatReportRepository
+    public class ChatReportRepository: IChatReportRepository
     {
         private readonly DatabaseConnection _dbConnection;
 

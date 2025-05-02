@@ -2,8 +2,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using src.Services;
 using src.Model;
-using src.Data;
-using src.Repos;
 using System;
 using src.Helpers;
 
@@ -11,18 +9,18 @@ namespace src.View.Components
 {
     public sealed partial class ChatReportComponent : Page
     {
-        private readonly ChatReportService _chatReportService;
+        private readonly IChatReportService _chatReportService;
+
         public event EventHandler ReportSolved;
 
         public string ReportedUserCNP { get; set; }
         public string ReportedMessage { get; set; }
-
         public int ReportId { get; set; }
 
-        public ChatReportComponent()
+        public ChatReportComponent(IChatReportService chatReportService)
         {
             this.InitializeComponent();
-            _chatReportService = new ChatReportService(new ChatReportRepository(new DatabaseConnection()));
+            _chatReportService = chatReportService;
         }
 
         private async void PunishReportedUser(object sender, RoutedEventArgs e)

@@ -8,12 +8,12 @@ using System.Linq;
 
 namespace src.Services
 {
-    public class InvestmentsService
+    public class InvestmentsService : IInvestmentsService
     {
-        private readonly UserRepository _userRepository;
-        private readonly InvestmentsRepository _investmentsRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IInvestmentsRepository _investmentsRepository;
 
-        public InvestmentsService(UserRepository userRepository, InvestmentsRepository investmentsRepository)
+        public InvestmentsService(IUserRepository userRepository, IInvestmentsRepository investmentsRepository)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _investmentsRepository = investmentsRepository ?? throw new ArgumentNullException(nameof(investmentsRepository));

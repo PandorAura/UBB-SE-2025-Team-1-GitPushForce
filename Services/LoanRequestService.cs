@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace src.Services
 {
-    class LoanRequestService
+    class LoanRequestService : ILoanRequestService
     {
-        LoanRequestRepository _loanRequestRepository;
+        ILoanRequestRepository _loanRequestRepository;
 
-        public LoanRequestService(LoanRequestRepository loanRequestRepository)
+        public LoanRequestService(ILoanRequestRepository loanRequestRepository)
         {
             _loanRequestRepository = loanRequestRepository;
         }
@@ -19,7 +19,7 @@ namespace src.Services
         {
             DatabaseConnection dbConnection = new DatabaseConnection();
             UserRepository userRepository = new UserRepository(dbConnection);
-            LoanServices loanService = new LoanServices(new LoanRepository(dbConnection));
+            LoanService loanService = new LoanService(new LoanRepository(dbConnection));
 
             User user = userRepository.GetUserByCnp(loanRequest.UserCnp);
 
@@ -69,7 +69,7 @@ namespace src.Services
             _loanRequestRepository.DeleteLoanRequest(loanRequest.Id); //TODO: double check, it was requestId
         }
 
-        public bool PastUnpaidLoans(User user, LoanServices loanService)
+        public bool PastUnpaidLoans(User user, LoanService loanService)
         {
             List<Loan> userLoanList;
             try
@@ -91,7 +91,7 @@ namespace src.Services
             return false;
         }
 
-        public float ComputeMonthlyDebtAmount(User user, LoanServices loanServices)
+        public float ComputeMonthlyDebtAmount(User user, LoanService loanServices)
         {
             List<Loan> loanList;
             try

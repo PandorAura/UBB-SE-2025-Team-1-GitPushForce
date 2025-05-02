@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using src.Data;
-using src.Model;
 using src.Repos;
+using src.Model;
 
 
 namespace src.Services
 {
-    class TipsService
+    class TipsService : ITipsService
     {
         private TipsRepository _tipsRepository;
 

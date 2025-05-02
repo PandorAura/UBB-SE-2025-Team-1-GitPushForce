@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace src.Repos
 {
-    public class LoanRepository
+    class LoanRepository: ILoanRepository
     {
         private readonly DatabaseConnection _dbConnection;
 

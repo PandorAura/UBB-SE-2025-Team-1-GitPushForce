@@ -3,14 +3,14 @@ using System;
 
 namespace src.Services
 {
-    class LoanCheckerService
+    class LoanCheckerService : ILoanCheckerService
     {
-        private readonly LoanServices _loanServices;
+        private readonly ILoanService _loanServices;
         private readonly DispatcherTimer _timer;
 
         public event EventHandler LoansUpdated;
 
-        public LoanCheckerService(LoanServices loanServices)
+        public LoanCheckerService(ILoanService loanServices)
         {
             _loanServices = loanServices;
             _timer = new DispatcherTimer

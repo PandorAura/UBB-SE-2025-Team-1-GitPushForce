@@ -10,7 +10,7 @@ namespace src.ViewModel
 {
     public class ChatReportsViewModel
     {
-        private readonly ChatReportService _chatReportService;
+        private readonly IChatReportService _chatReportService;
 
         public ObservableCollection<ChatReport> ChatReports { get; set; }
 
