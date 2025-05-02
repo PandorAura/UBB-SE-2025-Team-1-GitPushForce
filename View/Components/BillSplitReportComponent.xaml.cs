@@ -1,20 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using src.Data;
 using src.Model;
-using src.Repos;
 using src.Services;
 
 namespace src.View.Components
@@ -25,15 +12,12 @@ namespace src.View.Components
         public event EventHandler ReportSolved;
 
         public int Id { get; set; }
-
         public string ReportedUserCNP { get; set; }
         public string ReportedUserFirstName { get; set; }
         public string ReportedUserLastName { get; set; }
-
         public string ReporterUserCNP{ get; set; }
         public string ReporterUserFirstName { get; set; }
         public string ReporterUserLastName { get; set; }
-
         public DateTime DateTransaction { get; set; }
         private float BillShare { get; set; }
 
@@ -41,7 +25,6 @@ namespace src.View.Components
         {
             this.InitializeComponent();
             _billSplitReportService= billSplitReportService;
-            //_billSplitReportService = new BillSplitReportService(new BillSplitReportRepository(new DatabaseConnection()));
         }
 
         private async void OnSolveClick(object sender, RoutedEventArgs e)
@@ -80,31 +63,22 @@ namespace src.View.Components
             User reporterUser = _billSplitReportService.GetUserByCNP(billSplitReport.ReportingUserCnp);
 
             Id = billSplitReport.Id;
-
             ReportedUserCNP = billSplitReport.ReportedUserCnp;
             ReportedUserFirstName = reportedUser.FirstName;
             ReportedUserLastName = reportedUser.LastName;
-
-            
             ReporterUserCNP = billSplitReport.ReportingUserCnp;
             ReporterUserFirstName = reporterUser.FirstName;
             ReporterUserLastName = reporterUser.LastName;
-
             DateTransaction = billSplitReport.DateOfTransaction;
             BillShare = billSplitReport.BillShare;
 
-
             IdTextBlock.Text = $"Report ID: {Id}";
-
             ReportedUserCNPTextBlock.Text = $"CNP: {ReportedUserCNP}";
             ReportedUserNameTextBlock.Text = $"{reportedUser.FirstName} {reportedUser.LastName}";
-
             ReporterUserCNPTextBlock.Text = $"CNP: {ReporterUserCNP}";
             ReporterUserNameTextBlock.Text = $"{reporterUser.FirstName} {reporterUser.LastName}";
-
             DateTransactionTextBlock.Text = $"{DateTransaction}";
             DaysOverdueTextBlock.Text = $"{_billSplitReportService.GetDaysOverdue(billSplitReport)} days overdue!";
-
             BillShareTextBlock.Text = $"Bill share: {BillShare}";
         }
     }

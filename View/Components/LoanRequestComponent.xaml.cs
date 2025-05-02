@@ -2,8 +2,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using src.Services;
 using src.Model;
-using src.Data;
-using src.Repos;
 using System;
 
 namespace src.View.Components
@@ -12,9 +10,9 @@ namespace src.View.Components
     {
         private readonly ILoanRequestService _loanRequestService;
         private readonly ILoanService _loanServices;
+
         public event EventHandler LoanRequestSolved;
 
-        // Properties
         public int RequestID { get; set; }
         public string RequestingUserCNP { get; set; }
         public float RequestedAmount { get; set; }
@@ -28,8 +26,6 @@ namespace src.View.Components
             _loanRequestService = loanRequestService;
             _loanServices = loanService;
             this.InitializeComponent();
-            //_loanRequestService = new LoanRequestService(new LoanRequestRepository(new DatabaseConnection()));
-            //_loanServices = new LoanService(new LoanRepository(new DatabaseConnection()));
         }
 
         private async void OnDenyClick(object sender, RoutedEventArgs e)
@@ -57,8 +53,6 @@ namespace src.View.Components
             State = state;
             Suggestion = suggestion;
 
-
-            // Update UI elements
             IdTextBlock.Text = $"ID: {id}";
             RequestingUserCNPTextBlock.Text = $"User CNP: {requestingUserCnp}";
             RequestedAmountTextBlock.Text = $"Amount: {requestedAmount}";

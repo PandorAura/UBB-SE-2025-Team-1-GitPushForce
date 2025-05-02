@@ -11,7 +11,6 @@ namespace src.ViewModel
 
         public ObservableCollection<InvestmentPortfolio> UsersPortofolio { get; set; }
 
-
         public InvestmentsViewModel(IInvestmentsService investmentsService)
         {
             _investmentsService = investmentsService ?? throw new ArgumentNullException(nameof(investmentsService));

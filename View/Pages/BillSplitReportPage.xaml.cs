@@ -15,7 +15,6 @@ namespace src.View
 
         public BillSplitReportPage(Func<BillSplitReportComponent> componentFactory)
         {
-            
             _componentFactory = componentFactory;
             this.InitializeComponent();
             LoadReports();
@@ -23,7 +22,7 @@ namespace src.View
         
         private void LoadReports()
         {
-            BillSplitReportsContainer.Items.Clear(); // Clear previous items before reloading
+            BillSplitReportsContainer.Items.Clear();
 
             DatabaseConnection dbConnection = new DatabaseConnection();
             BillSplitReportRepository billSplitReportRepository = new BillSplitReportRepository(dbConnection);
@@ -49,7 +48,7 @@ namespace src.View
 
         private void OnReportSolved(object sender, EventArgs e)
         {
-            LoadReports(); // Refresh the list instantly when a report is solved
+            LoadReports();
         }
     }
 }

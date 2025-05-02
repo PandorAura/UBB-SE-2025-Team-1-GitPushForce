@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
-using src.Data;
-using src.Repos;
 using src.Services;
 using src.Model;
 using src.View.Components;
@@ -13,6 +11,7 @@ namespace src.Views
     {
         private readonly ILoanRequestService _service;
         private readonly Func<LoanRequestComponent> _componentFactory;
+
         public LoanRequestView(ILoanRequestService loanRequestService, Func<LoanRequestComponent> componentFactory)
         {
             this.InitializeComponent();
@@ -61,7 +60,7 @@ namespace src.Views
 
         private void OnLoanRequestSolved(object sender, EventArgs e)
         {
-            LoadLoanRequests(); // Refresh the list instantly when a request is solved
+            LoadLoanRequests();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace src
                 switch (invokedItemTag)
                 {
                     case "ChatReports":
-                        var chatReportsPage = _serviceProvider.GetRequiredService<ChatReportComponent>();
+                        var chatReportsPage = _serviceProvider.GetRequiredService<ChatReportView>();
                         MainFrame.Content = chatReportsPage;
                         break;
                     case "LoanRequest":

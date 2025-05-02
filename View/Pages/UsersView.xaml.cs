@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
-using src.Data;
-using src.ViewModel;
-using src.Repos;
 using src.Services;
 using src.View.Components;
 using src.Model;
-
-
 
 namespace src.Views
 {

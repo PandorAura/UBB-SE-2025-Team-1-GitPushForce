@@ -1,11 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using src.Services;
-using src.Model;
-using src.Data;
-using src.Repos;
 using System;
-using Azure.Core;
 
 namespace src.View.Components
 {
@@ -14,7 +10,6 @@ namespace src.View.Components
         private readonly ILoanService _loanServices;
         public event EventHandler LoanUpdated;
 
-        
         private int _loanID;
         private string _userCNP;
         private float _loanAmount;
@@ -32,7 +27,6 @@ namespace src.View.Components
         {
             _loanServices = loanServices;
             this.InitializeComponent();
-            //_loanServices = new LoanService(new LoanRepository(new DatabaseConnection()));
         }
 
         public void SetLoanData(int loanID, string userCNP, float loanAmount, DateTime applicationDate,
@@ -52,7 +46,6 @@ namespace src.View.Components
             _repaidAmount = repaidAmount;
             _penalty = penalty;
 
-            // Update UI elements
             LoanIDTextBlock.Text = $"Loan ID: {loanID}";
             UserCNPTextBlock.Text = $"User CNP: {userCNP}";
             LoanAmountTextBlock.Text = $"Amount: {loanAmount}";
@@ -72,6 +65,5 @@ namespace src.View.Components
             _loanServices.incrementMonthlyPaymentsCompleted(_loanID, _penalty);
             LoanUpdated?.Invoke(this, EventArgs.Empty);
         }
-
     }
 }

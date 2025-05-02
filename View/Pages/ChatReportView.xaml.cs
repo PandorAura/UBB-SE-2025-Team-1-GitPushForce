@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
-using src.Data;
-using src.Repos;
 using src.Services;
 using src.Model;
 using src.View.Components;
@@ -14,7 +12,6 @@ namespace src.Views
         private readonly Func<ChatReportComponent> _componentFactory;
         private readonly IChatReportService _chatReportService;
 
-
         public ChatReportView(Func<ChatReportComponent> componentFactory, IChatReportService chatReportService)
         {
             _componentFactory = componentFactory;
@@ -25,10 +22,7 @@ namespace src.Views
 
         private void LoadChatReports()
         {
-            ChatReportsContainer.Items.Clear(); // Clear previous items before reloading
-
-            /*DatabaseConnection dbConn = new DatabaseConnection();
-            ChatReportRepository repo = new ChatReportRepository(dbConn);*/
+            ChatReportsContainer.Items.Clear(); 
 
             try
             {
@@ -38,7 +32,6 @@ namespace src.Views
                     ChatReportComponent reportComponent = _componentFactory();
                     reportComponent.SetReportData(report.Id, report.ReportedUserCnp, report.ReportedMessage);
 
-                    // Subscribe to the event to refresh when a report is solved
                     reportComponent.ReportSolved += OnReportSolved;
 
                     ChatReportsContainer.Items.Add(reportComponent);
@@ -52,7 +45,7 @@ namespace src.Views
 
         private void OnReportSolved(object sender, EventArgs e)
         {
-            LoadChatReports(); // Refresh the list instantly when a report is solved
+            LoadChatReports();
         }
     }
 }

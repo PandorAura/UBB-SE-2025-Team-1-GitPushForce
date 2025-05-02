@@ -1,6 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using src.Data;
-using src.Repos;
 using src.Services;
 using src.Model;
 using src.View.Components;
@@ -14,7 +12,6 @@ namespace src.Views
         private readonly ILoanService _service;
         private readonly ILoanCheckerService _loanCheckerService;
         private readonly Func<LoanComponent> _componentFactory;
-
 
         public LoansView(ILoanService loanService, ILoanCheckerService loanCheckerService, Func<LoanComponent> componentFactory)
         {
