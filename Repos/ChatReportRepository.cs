@@ -21,9 +21,9 @@ namespace src.Repos
         {
             SqlParameter[] tipsParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCNP", reportedUserCnp)
+                 new SqlParameter("@UserCnp", reportedUserCnp)
             };
-            const string GetQuery = "SET NOCOUNT ON; SELECT COUNT(*) AS NumberOfTips FROM GivenTips WHERE UserCNP = @UserCNP;";
+            const string GetQuery = "SET NOCOUNT ON; SELECT COUNT(*) AS NumberOfTips FROM GivenTips WHERE UserCnp = @UserCnp;";
             int countTips = _dbConnection.ExecuteScalar<int>(GetQuery, tipsParameters, CommandType.Text);
             return countTips;
         }

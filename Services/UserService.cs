@@ -13,7 +13,7 @@ namespace src.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public User GetUserByCNP(string cnp)
+        public User GetUserByCnp(string cnp)
         {
             if (string.IsNullOrWhiteSpace(cnp))
             {
