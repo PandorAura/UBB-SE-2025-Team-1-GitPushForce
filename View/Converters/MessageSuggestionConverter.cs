@@ -25,7 +25,7 @@ namespace src.View.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException(); \
+            throw new NotImplementedException();
         }
     }
 }
