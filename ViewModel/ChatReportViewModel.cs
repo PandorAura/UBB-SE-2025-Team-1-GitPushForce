@@ -16,7 +16,6 @@ namespace src.ViewModel
 
         public ChatReportsViewModel()
         {
-            _chatReportService = new ChatReportService(new ChatReportRepository(new DatabaseConnection()));
             ChatReports = new ObservableCollection<ChatReport>();
         }
 

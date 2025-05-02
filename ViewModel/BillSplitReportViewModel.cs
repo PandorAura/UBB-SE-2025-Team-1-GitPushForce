@@ -16,7 +16,6 @@ namespace src.ViewModel
 
         public BillSplitReportViewModel()
         {
-            _billSplitReportService = new BillSplitReportService(new BillSplitReportRepository(new DatabaseConnection()));
             BillSplitReports = new ObservableCollection<BillSplitReport>(_billSplitReportService.GetBillSplitReports());
         }
 

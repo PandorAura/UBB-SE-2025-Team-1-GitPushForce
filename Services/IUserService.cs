@@ -5,7 +5,7 @@ namespace src.Services
 {
     public interface IUserService
     {
-        public User GetUserByCNP(string cnp);
+        public User GetUserByCnp(string cnp);
         public List<User> GetUsers();
     }
 }
