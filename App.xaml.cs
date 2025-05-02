@@ -1,16 +1,5 @@
 ﻿using System;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -109,21 +98,6 @@ namespace src
                 services.AddTransient<UsersView>();
             }).Build();  
         }
-        /*private static IServiceProvider ConfigureServices()
-        {
-            services.AddSingleton<IActivityService, ActivityService>();
-            services.AddSingleton<IBillSplitReportService, BillSplitReportService>();
-            services.AddSingleton<IChatReportService, ChatReportService>();
-            services.AddSingleton<IHistoryService, HistoryService>();
-            services.AddSingleton<IInvestmentsService, InvestmentsService>();
-            services.AddSingleton<ILoanCheckerService, LoanCheckerService>();
-            services.AddSingleton<ILoanRequestService, LoanRequestService>();
-            services.AddSingleton<ILoanService, LoanService>();
-            services.AddSingleton<IMessagesService, MessagesService>();
-            services.AddSingleton<ITipsService, TipsService>();
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IZodiacService, ZodiacService>();
-        }*/
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>

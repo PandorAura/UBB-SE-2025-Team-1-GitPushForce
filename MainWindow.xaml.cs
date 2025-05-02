@@ -1,11 +1,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using src.Views; // Import Views namespace
+using src.Views; 
 using src.Services;
-using src.Repos; // Import Services namespace
+using src.Repos; 
 using src.Data;
-using System.Collections.Generic;
-using src.Model;
 using src.View;
 using src.View.Components;
 using System;
@@ -22,8 +20,6 @@ namespace src
             InitializeComponent();
             _serviceProvider = serviceProvider;
 
-            // Navigate to an initial page if needed:
-            //MainFrame.Navigate(typeof(UsersView));
             var usersView = _serviceProvider.GetRequiredService<UsersView>();
             MainFrame.Content = usersView;
         }
