@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System.Collections.Generic;
+    using Src.Model;
+
     public interface IHistoryRepository
     {
         public List<CreditScoreHistory> GetHistoryForUser(string userCNP);

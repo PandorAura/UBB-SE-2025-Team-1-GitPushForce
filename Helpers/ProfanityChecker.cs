@@ -1,9 +1,9 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Src.Helpers
+﻿namespace Src.Helpers
 {
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     static public class ProfanityChecker
     {
         private static readonly HttpClient Client = new HttpClient();

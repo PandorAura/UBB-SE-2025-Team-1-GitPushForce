@@ -1,15 +1,16 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.UI.Xaml;
-using Src.Model;
-using Src.Services;
-using Src.Data;
-using Src.Repos;
-using OxyPlot.Axes;
-using OxyPlot.Series;
-using OxyPlot;
 namespace Src.View.Pages
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.UI.Xaml;
+    using OxyPlot;
+    using OxyPlot.Axes;
+    using OxyPlot.Series;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+    using Src.Services;
+
     public sealed partial class AnalysisWindow : Window
     {
         private User user;
@@ -19,31 +20,31 @@ namespace Src.View.Pages
         public AnalysisWindow(User selectedUser)
         {
             this.InitializeComponent();
-            user = selectedUser;
-            activityService = new ActivityService(new ActivityRepository(new DatabaseConnection(), new UserRepository(new DatabaseConnection())));
-            historyService = new HistoryService(new HistoryRepository(new DatabaseConnection()));
-            LoadUserData();
-            LoadHistory(historyService.GetHistoryMonthly(user.Cnp));
-            LoadUserActivities();
+            this.user = selectedUser;
+            this.activityService = new ActivityService(new ActivityRepository(new DatabaseConnection(), new UserRepository(new DatabaseConnection())));
+            this.historyService = new HistoryService(new HistoryRepository(new DatabaseConnection()));
+            this.LoadUserData();
+            this.LoadHistory(this.historyService.GetHistoryMonthly(this.user.Cnp));
+            this.LoadUserActivities();
         }
 
         public void LoadUserData()
         {
-            IdTextBlock.Text = $"Id: {user.Id}";
-            FirstNameTextBlock.Text = $"First name: {user.FirstName}";
-            LastNameTextBlock.Text = $"Last name: {user.LastName}";
-            CNPTextBlock.Text = $"CNP: {user.Cnp}";
-            EmailTextBlock.Text = $"Email: {user.Email}";
-            PhoneNumberTextBlock.Text = $"Phone number: {user.PhoneNumber}";
+            this.IdTextBlock.Text = $"Id: {this.user.Id}";
+            this.FirstNameTextBlock.Text = $"First name: {this.user.FirstName}";
+            this.LastNameTextBlock.Text = $"Last name: {this.user.LastName}";
+            this.CNPTextBlock.Text = $"CNP: {this.user.Cnp}";
+            this.EmailTextBlock.Text = $"Email: {this.user.Email}";
+            this.PhoneNumberTextBlock.Text = $"Phone number: {this.user.PhoneNumber}";
         }
 
         public void LoadUserActivities()
         {
             try
             {
-                var activities = activityService.GetActivityForUser(user.Cnp);
+                var activities = this.activityService.GetActivityForUser(this.user.Cnp);
 
-                ActivityListView.ItemsSource = activities;
+                this.ActivityListView.ItemsSource = activities;
             }
             catch (Exception exception)
             {
@@ -64,7 +65,7 @@ namespace Src.View.Pages
                 var barSeries = new BarSeries
                 {
                     Title = "Credit Score",
-                    StrokeThickness = 1
+                    StrokeThickness = 1,
                 };
 
                 for (int i = 0; i < history.Count; i++)
@@ -95,7 +96,7 @@ namespace Src.View.Pages
                     barSeries.Items.Add(new BarItem
                     {
                         Value = record.Score,
-                        Color = barColor
+                        Color = barColor,
                     });
                 }
                 foreach (var record in history)
@@ -104,7 +105,7 @@ namespace Src.View.Pages
                 }
                 var categoryAxis = new CategoryAxis
                 {
-                    Position = AxisPosition.Left
+                    Position = AxisPosition.Left,
                 };
                 foreach (var record in history)
                 {
@@ -114,8 +115,8 @@ namespace Src.View.Pages
                 plotModel.Axes.Add(categoryAxis);
                 plotModel.Series.Add(barSeries);
 
-                CreditScorePlotView.Model = plotModel;
-                CreditScorePlotView.InvalidatePlot(true);
+                this.CreditScorePlotView.Model = plotModel;
+                this.CreditScorePlotView.InvalidatePlot(true);
             }
             catch (Exception exception)
             {
@@ -127,8 +128,8 @@ namespace Src.View.Pages
         {
             try
             {
-                var history = historyService.GetHistoryMonthly(user.Cnp);
-                LoadHistory(history);
+                var history = this.historyService.GetHistoryMonthly(this.user.Cnp);
+                this.LoadHistory(history);
             }
             catch (Exception ex)
             {
@@ -140,8 +141,8 @@ namespace Src.View.Pages
         {
             try
             {
-                var history = historyService.GetHistoryYearly(user.Cnp);
-                LoadHistory(history);
+                var history = this.historyService.GetHistoryYearly(this.user.Cnp);
+                this.LoadHistory(history);
             }
             catch (Exception exception)
             {
@@ -153,8 +154,8 @@ namespace Src.View.Pages
         {
             try
             {
-                var history = historyService.GetHistoryWeekly(user.Cnp);
-                LoadHistory(history);
+                var history = this.historyService.GetHistoryWeekly(this.user.Cnp);
+                this.LoadHistory(history);
             }
             catch (Exception exception)
             {

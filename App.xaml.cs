@@ -1,19 +1,19 @@
-﻿using System;
-using Microsoft.UI.Xaml;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Src.Repos;
-using Src.Services;
-using Src.View.Components;
-using Src.View;
-using Src.Views;
-using Src.Data;
-
-// To learn more about WinUI, the WinUI project structure,
+﻿// To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 namespace Src
 {
+    using System;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.UI.Xaml;
+    using Src.Data;
+    using Src.Repos;
+    using Src.Services;
+    using Src.View;
+    using Src.View.Components;
+    using Src.Views;
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -104,8 +104,8 @@ namespace Src
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            window = Host.Services.GetRequiredService<MainWindow>();
-            window.Activate();
+            this.window = Host.Services.GetRequiredService<MainWindow>();
+            this.window.Activate();
         }
 
         private Window? window;

@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System.Threading.Tasks;
+
     public interface IZodiacService
     {
         public Task CreditScoreModificationBasedOnJokeAndCoinFlipAsync();

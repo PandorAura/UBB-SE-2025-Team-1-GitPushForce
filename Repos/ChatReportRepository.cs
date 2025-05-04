@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class ChatReportRepository : IChatReportRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -20,10 +20,10 @@ namespace Src.Repos
         {
             SqlParameter[] tipsParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCnp", reportedUserCnp)
+                 new SqlParameter("@UserCnp", reportedUserCnp),
             };
             const string GetQuery = "SET NOCOUNT ON; SELECT COUNT(*) AS NumberOfTips FROM GivenTips WHERE UserCnp = @UserCnp;";
-            int countTips = dbConnection.ExecuteScalar<int>(GetQuery, tipsParameters, CommandType.Text);
+            int countTips = this.dbConnection.ExecuteScalar<int>(GetQuery, tipsParameters, CommandType.Text);
             return countTips;
         }
 
@@ -34,10 +34,10 @@ namespace Src.Repos
                 new SqlParameter("@UserCnp", reportedUserCnp),
                 new SqlParameter("@ActivityName", "Chat"),
                 new SqlParameter("@LastModifiedAmount", amount),
-                new SqlParameter("@ActivityDetails", "Chat abuse")
+                new SqlParameter("@ActivityDetails", "Chat abuse"),
             };
             const string UpdateQuery = "DECLARE @count INT; SELECT @count = COUNT(*) FROM ActivityLog a WHERE a.UserCnp = @UserCnp and a.ActivityName = @ActivityName; IF @count = 0 BEGIN INSERT INTO ActivityLog (ActivityName, UserCnp, LastModifiedAmount, ActivityDetails) VALUES (@ActivityName, @UserCnp, @LastModifiedAmount, @ActivityDetails); END ELSE BEGIN UPDATE ActivityLog SET LastModifiedAmount = @LastModifiedAmount, ActivityDetails = @ActivityDetails WHERE UserCnp = @UserCnp AND ActivityName = @ActivityName; END;";
-            dbConnection.ExecuteNonQuery(UpdateQuery, activityParameters, CommandType.Text);
+            this.dbConnection.ExecuteNonQuery(UpdateQuery, activityParameters, CommandType.Text);
         }
 
         public List<ChatReport> GetChatReports()
@@ -48,7 +48,7 @@ namespace Src.Repos
                     SELECT Id, ReportedUserCnp, ReportedMessage 
                     FROM ChatReports";
 
-                DataTable? chatReportsDataTable = dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
+                DataTable? chatReportsDataTable = this.dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (chatReportsDataTable == null)
                 {
@@ -88,10 +88,10 @@ namespace Src.Repos
 
                 SqlParameter[] deleteParameters = new SqlParameter[]
                 {
-                    new SqlParameter("@Id", id)
+                    new SqlParameter("@Id", id),
                 };
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(DeleteQuery, deleteParameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(DeleteQuery, deleteParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -124,10 +124,10 @@ namespace Src.Repos
                 SqlParameter[] scoreHistoryParameters = new SqlParameter[]
                 {
             new SqlParameter("@UserCnp", SqlDbType.VarChar, 16) { Value = userCNP },
-            new SqlParameter("@NewScore", SqlDbType.Int) { Value = newScore }
+            new SqlParameter("@NewScore", SqlDbType.Int) { Value = newScore },
                 };
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateScoreHistoryQuery, scoreHistoryParameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateScoreHistoryQuery, scoreHistoryParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Src.Data;
-using Src.Model;
-using Src.Repos;
-using Src.Services;
-using Src.View.Components;
-
-namespace Src.View
+﻿namespace Src.View
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.UI.Xaml;
+    using Microsoft.UI.Xaml.Controls;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+    using Src.Services;
+    using Src.View.Components;
+
     public sealed partial class InvestmentsView : Page
     {
         private DatabaseConnection dbConnection;
@@ -18,48 +18,48 @@ namespace Src.View
         private UserRepository userRepository;
         public InvestmentsView()
         {
-            dbConnection = new DatabaseConnection();
-            investmentsRepository = new InvestmentsRepository(dbConnection);
-            userRepository = new UserRepository(dbConnection);
-            investmentsService = new InvestmentsService(userRepository, investmentsRepository);
+            this.dbConnection = new DatabaseConnection();
+            this.investmentsRepository = new InvestmentsRepository(this.dbConnection);
+            this.userRepository = new UserRepository(this.dbConnection);
+            this.investmentsService = new InvestmentsService(this.userRepository, this.investmentsRepository);
 
             this.InitializeComponent();
-            LoadInvestmentPortofolio();
+            this.LoadInvestmentPortofolio();
         }
 
         private async void UpdateCreditScoreCommand(object sender, RoutedEventArgs e)
         {
-            investmentsService.CreditScoreUpdateInvestmentsBased();
+            this.investmentsService.CreditScoreUpdateInvestmentsBased();
         }
 
         private async void CalculateROICommand(object sender, RoutedEventArgs e)
         {
-            investmentsService.CalculateAndUpdateROI();
+            this.investmentsService.CalculateAndUpdateROI();
         }
 
         private async void CalculateRiskScoreCommand(object sender, RoutedEventArgs e)
         {
-            investmentsService.CalculateAndUpdateRiskScore();
+            this.investmentsService.CalculateAndUpdateRiskScore();
             this.LoadInvestmentPortofolio();
         }
         private void LoadInvestmentPortofolio()
         {
-            UsersPortofolioContainer.Items.Clear();
+            this.UsersPortofolioContainer.Items.Clear();
             try
             {
-                List<InvestmentPortfolio> usersInvestmentPortofolioo = investmentsService.GetPortfolioSummary();
+                List<InvestmentPortfolio> usersInvestmentPortofolioo = this.investmentsService.GetPortfolioSummary();
 
                 foreach (var userPortofolio in usersInvestmentPortofolioo)
                 {
                     InvestmentComponent investmentComponent = new InvestmentComponent();
                     investmentComponent.SetPortfolioSummary(userPortofolio);
 
-                    UsersPortofolioContainer.Items.Add(investmentComponent);
+                    this.UsersPortofolioContainer.Items.Add(investmentComponent);
                 }
             }
             catch (Exception)
             {
-                UsersPortofolioContainer.Items.Add("There are no user investments.");
+                this.UsersPortofolioContainer.Items.Add("There are no user investments.");
             }
         }
     }

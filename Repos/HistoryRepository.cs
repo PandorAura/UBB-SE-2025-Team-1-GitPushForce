@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class HistoryRepository : IHistoryRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -33,10 +33,10 @@ namespace Src.Repos
 
                 SqlParameter[] selectParameters = new SqlParameter[]
                 {
-                    new SqlParameter("@UserCnp", userCnp)
+                    new SqlParameter("@UserCnp", userCnp),
                 };
 
-                DataTable? creditScoreDataTable = dbConnection.ExecuteReader(SelectQuery, selectParameters, CommandType.Text);
+                DataTable? creditScoreDataTable = this.dbConnection.ExecuteReader(SelectQuery, selectParameters, CommandType.Text);
 
                 if (creditScoreDataTable == null)
                 {

@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.UI.Xaml.Controls;
-using Src.Model;
-using Src.Services;
-using Src.View.Components;
-
 namespace Src.Views
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.UI.Xaml.Controls;
+    using Src.Model;
+    using Src.Services;
+    using Src.View.Components;
+
     public sealed partial class LoansView : Page
     {
         private readonly ILoanService service;
@@ -17,39 +17,39 @@ namespace Src.Views
         {
             this.InitializeComponent();
 
-            service = loanService;
+            this.service = loanService;
             this.loanCheckerService = loanCheckerService;
             this.componentFactory = componentFactory;
 
-            this.loanCheckerService = new LoanCheckerService(service);
-            this.loanCheckerService.LoansUpdated += OnLoansUpdated;
+            this.loanCheckerService = new LoanCheckerService(this.service);
+            this.loanCheckerService.LoansUpdated += this.OnLoansUpdated;
             this.loanCheckerService.Start();
 
-            LoadLoans();
+            this.LoadLoans();
         }
 
         private void OnLoansUpdated(object sender, EventArgs e)
         {
-            LoadLoans();
+            this.LoadLoans();
         }
 
         private void LoadLoans()
         {
-            LoansContainer.Items.Clear();
+            this.LoansContainer.Items.Clear();
 
             try
             {
-                List<Loan> loans = service.GetLoans();
+                List<Loan> loans = this.service.GetLoans();
                 foreach (Loan loan in loans)
                 {
-                    LoanComponent loanComponent = componentFactory();
+                    LoanComponent loanComponent = this.componentFactory();
                     loanComponent.SetLoanData(loan.Id, loan.UserCnp, loan.LoanAmount, loan.ApplicationDate,
                                               loan.RepaymentDate, loan.InterestRate, loan.NumberOfMonths, loan.MonthlyPaymentAmount,
                                               loan.Status, loan.MonthlyPaymentsCompleted, loan.RepaidAmount, loan.Penalty);
 
-                    loanComponent.LoanUpdated += OnLoansUpdated;
+                    loanComponent.LoanUpdated += this.OnLoansUpdated;
 
-                    LoansContainer.Items.Add(loanComponent);
+                    this.LoansContainer.Items.Add(loanComponent);
                 }
             }
             catch (Exception exception)

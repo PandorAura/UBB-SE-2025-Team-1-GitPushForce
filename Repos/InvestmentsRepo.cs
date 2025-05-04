@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class InvestmentsRepository : IInvestmentsRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -21,7 +21,7 @@ namespace Src.Repos
             try
             {
                 const string SelectQuery = "SELECT Id, InvestorCnp, Details, AmountInvested, AmountReturned, InvestmentDate FROM Investments";
-                DataTable investmentsDataTable = dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
+                DataTable investmentsDataTable = this.dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (investmentsDataTable == null || investmentsDataTable.Rows.Count == 0)
                 {
@@ -66,7 +66,7 @@ namespace Src.Repos
                     new SqlParameter("@Details", investment.Details),
                     new SqlParameter("@AmountInvested", investment.AmountInvested),
                     new SqlParameter("@AmountReturned", investment.AmountReturned),
-                    new SqlParameter("@InvestmentDate", investment.InvestmentDate)
+                    new SqlParameter("@InvestmentDate", investment.InvestmentDate),
                 };
 
                 const string InsertInvestmentQuery = @"INSERT INTO Investments 
@@ -74,7 +74,7 @@ namespace Src.Repos
                               VALUES 
                               (@InvestorCnp, @Details, @AmountInvested, @AmountReturned, @InvestmentDate)";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(InsertInvestmentQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(InsertInvestmentQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -105,11 +105,11 @@ namespace Src.Repos
                 {
                     new SqlParameter("@InvestmentId", investmentId),
                     new SqlParameter("@InvestorCnp", investorCnp),
-                    new SqlParameter("@AmountReturned", amountReturned)
+                    new SqlParameter("@AmountReturned", amountReturned),
                 };
 
                 const string SelectQuery = "SELECT Id, InvestorCnp, AmountReturned FROM Investments WHERE Id = @InvestmentId AND InvestorCnp = @InvestorCnp";
-                DataTable dataTable = dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
+                DataTable dataTable = this.dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -129,7 +129,7 @@ namespace Src.Repos
                 }
 
                 const string UpdateQuery = "UPDATE Investments SET AmountReturned = @AmountReturned WHERE Id = @InvestmentId AND AmountReturned = -1";
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

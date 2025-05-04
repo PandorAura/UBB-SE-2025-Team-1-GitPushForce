@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System.Collections.Generic;
+    using Src.Model;
+
     public interface IActivityRepository
     {
         public void AddActivity(string userCNP, string activityName, int amount, string details);

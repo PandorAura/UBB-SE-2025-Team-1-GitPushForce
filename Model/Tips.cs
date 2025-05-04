@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
    public class Tip
     {
         public int Id { get; set; }
@@ -15,16 +15,16 @@ namespace Src.Model
 
         public Tip(int id, string creditScoreBracket, string tipText)
         {
-            Id = id;
-            CreditScoreBracket = creditScoreBracket;
-            TipText = tipText;
+            this.Id = id;
+            this.CreditScoreBracket = creditScoreBracket;
+            this.TipText = tipText;
         }
 
         public Tip()
         {
-            Id = 0;
-            CreditScoreBracket = string.Empty;
-            TipText = string.Empty;
+            this.Id = 0;
+            this.CreditScoreBracket = string.Empty;
+            this.TipText = string.Empty;
         }
     }
 }

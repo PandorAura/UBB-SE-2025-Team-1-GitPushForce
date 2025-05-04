@@ -16,7 +16,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<CodeAnalysisRuleSet>SE.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet></CodeAnalysisRuleSet>
 		<RunCodeAnalysis>false</RunCodeAnalysis>
 		<RunCodeAnalysisAfterBuild>true</RunCodeAnalysisAfterBuild>
 	</PropertyGroup>

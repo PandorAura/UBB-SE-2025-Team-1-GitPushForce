@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using Src.Model;
+
     public interface IChatReportRepository
     {
         public List<ChatReport> GetChatReports();

@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Src.Model;
-using Src.Repos;
-using Src.View.Components;
-using Microsoft.UI.Xaml;
-
 namespace Src.View.Pages
 {
+    using System.Collections.Generic;
+    using Microsoft.UI.Xaml;
+    using Src.Model;
+    using Src.Repos;
+    using Src.View.Components;
+
     public sealed partial class TipHistoryWindow : Window
     {
         private User selectedUser;
@@ -22,8 +22,8 @@ namespace Src.View.Pages
             List<Message> messages = this.messagesRepository.GetMessagesForGivenUser(selectedUser.Cnp);
             List<Tip> tips = this.tipsRepository.GetTipsForGivenUser(selectedUser.Cnp);
 
-            LoadHistory(tips);
-            LoadHistory(messages);
+            this.LoadHistory(tips);
+            this.LoadHistory(messages);
         }
 
         private void LoadHistory(List<Message> messages)
@@ -32,7 +32,7 @@ namespace Src.View.Pages
             {
                 MessageHistoryComponent messageComponent = new MessageHistoryComponent();
                 messageComponent.SetMessageData(message);
-                MessageHistoryContainer.Items.Add(messageComponent);
+                this.MessageHistoryContainer.Items.Add(messageComponent);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Src.View.Pages
             {
                 TipHistoryComponent tipComponent = new TipHistoryComponent();
                 tipComponent.SetTipData(tip);
-                TipHistoryContainer.Items.Add(tipComponent);
+                this.TipHistoryContainer.Items.Add(tipComponent);
             }
         }
     }

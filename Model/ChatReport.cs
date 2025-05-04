@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+
     public class ChatReport
     {
         public int Id { get; set; }
@@ -10,9 +10,9 @@ namespace Src.Model
 
         public ChatReport(int id = 0, string reportedUserCNP = "", string reportedMessage = "")
         {
-            Id = id;
-            ReportedUserCnp = reportedUserCNP;
-            ReportedMessage = reportedMessage;
+            this.Id = id;
+            this.ReportedUserCnp = reportedUserCNP;
+            this.ReportedMessage = reportedMessage;
         }
     }
 }

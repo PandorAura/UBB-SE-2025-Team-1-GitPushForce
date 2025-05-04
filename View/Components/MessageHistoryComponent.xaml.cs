@@ -1,8 +1,8 @@
-using Microsoft.UI.Xaml.Controls;
-using Src.Model;
-
 namespace Src.View.Components
 {
+    using Microsoft.UI.Xaml.Controls;
+    using Src.Model;
+
     public sealed partial class MessageHistoryComponent : Page
     {
         public Message Message;
@@ -14,9 +14,9 @@ namespace Src.View.Components
 
         public void SetMessageData(Message givenMessage)
         {
-            Message = givenMessage;
-            MessageTypeTextBlock.Text = $"Type: {Message.Type}";
-            MessageTextBlock.Text = $"{Message.MessageText}";
+            this.Message = givenMessage;
+            this.MessageTypeTextBlock.Text = $"Type: {this.Message.Type}";
+            this.MessageTextBlock.Text = $"{this.Message.MessageText}";
         }
     }
 }

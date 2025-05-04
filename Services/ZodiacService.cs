@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Src.Model;
-using Src.Repos;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Text.Json;
+    using System.Threading.Tasks;
+    using Src.Model;
+    using Src.Repos;
+
     public class ZodiacService : IZodiacService
     {
         private readonly IUserRepository userRepository;
@@ -54,7 +54,7 @@ namespace Src.Services
             string joke = doc.RootElement.GetProperty("value").GetString();
 
             int asciiJokeModulo10 = ComputeJokeAsciiModulo10(joke);
-            List<User> users = userRepository.GetUsers();
+            List<User> users = this.userRepository.GetUsers();
             bool flip = FlipCoin();
 
             foreach (User user in users)
@@ -68,7 +68,7 @@ namespace Src.Services
                     user.CreditScore -= asciiJokeModulo10;
                 }
 
-                userRepository.UpdateUserCreditScore(user.Cnp, user.CreditScore);
+                this.userRepository.UpdateUserCreditScore(user.Cnp, user.CreditScore);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Src.Services
         }
         public void CreditScoreModificationBasedOnAttributeAndGravity()
         {
-            List<User> userList = userRepository.GetUsers();
+            List<User> userList = this.userRepository.GetUsers();
 
             if (userList == null || userList.Count == 0)
             {
@@ -89,7 +89,7 @@ namespace Src.Services
             {
                 int gravityResult = ComputeGravity();
                 user.CreditScore += gravityResult;
-                userRepository.UpdateUserCreditScore(user.Cnp, user.CreditScore);
+                this.userRepository.UpdateUserCreditScore(user.Cnp, user.CreditScore);
             }
         }
     }

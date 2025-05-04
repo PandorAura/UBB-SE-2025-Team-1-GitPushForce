@@ -1,6 +1,7 @@
-﻿using System;
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+
     public class BillSplitReport
     {
         public int Id { get; set; }
@@ -11,20 +12,20 @@ namespace Src.Model
 
         public BillSplitReport(int id, string reportedCNP, string reporterCNP, DateTime dateTransaction, float billShare)
         {
-            Id = id;
-            ReportedUserCnp = reportedCNP;
-            ReportingUserCnp = reporterCNP;
-            DateOfTransaction = dateTransaction;
-            BillShare = billShare;
+            this.Id = id;
+            this.ReportedUserCnp = reportedCNP;
+            this.ReportingUserCnp = reporterCNP;
+            this.DateOfTransaction = dateTransaction;
+            this.BillShare = billShare;
         }
 
         public BillSplitReport()
         {
-            Id = 0;
-            ReportedUserCnp = string.Empty;
-            ReportingUserCnp = string.Empty;
-            DateOfTransaction = DateTime.Now;
-            BillShare = 0;
+            this.Id = 0;
+            this.ReportedUserCnp = string.Empty;
+            this.ReportingUserCnp = string.Empty;
+            this.DateOfTransaction = DateTime.Now;
+            this.BillShare = 0;
         }
     }
 }

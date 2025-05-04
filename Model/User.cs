@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+
     public class User
     {
         public int Id { get; set; }
@@ -41,44 +41,44 @@ namespace Src.Model
             int income,
             decimal balance)
         {
-            Id = id;
-            Cnp = cnp;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            PhoneNumber = phoneNumber;
-            HashedPassword = hashedPassword;
-            NumberOfOffenses = numberOfOffenses;
-            RiskScore = riskScore;
-            ROI = roi;
-            CreditScore = creditScore;
-            Birthday = birthday;
-            ZodiacSign = zodiacSign;
-            ZodiacAttribute = zodiacAttribute;
-            NumberOfBillSharesPaid = numberOfBillSharesPaid;
-            Income = income;
-            Balance = balance;
+            this.Id = id;
+            this.Cnp = cnp;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.PhoneNumber = phoneNumber;
+            this.HashedPassword = hashedPassword;
+            this.NumberOfOffenses = numberOfOffenses;
+            this.RiskScore = riskScore;
+            this.ROI = roi;
+            this.CreditScore = creditScore;
+            this.Birthday = birthday;
+            this.ZodiacSign = zodiacSign;
+            this.ZodiacAttribute = zodiacAttribute;
+            this.NumberOfBillSharesPaid = numberOfBillSharesPaid;
+            this.Income = income;
+            this.Balance = balance;
         }
 
         public User()
         {
-            Id = 0;
-            Cnp = string.Empty;
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            Email = string.Empty;
-            PhoneNumber = string.Empty;
-            HashedPassword = string.Empty;
-            NumberOfOffenses = 0;
-            RiskScore = 0;
-            ROI = 0;
-            CreditScore = 0;
-            Birthday = new DateOnly();
-            ZodiacSign = string.Empty;
-            ZodiacAttribute = string.Empty;
-            NumberOfBillSharesPaid = 0;
-            Income = 0;
-            Balance = 0;
+            this.Id = 0;
+            this.Cnp = string.Empty;
+            this.FirstName = string.Empty;
+            this.LastName = string.Empty;
+            this.Email = string.Empty;
+            this.PhoneNumber = string.Empty;
+            this.HashedPassword = string.Empty;
+            this.NumberOfOffenses = 0;
+            this.RiskScore = 0;
+            this.ROI = 0;
+            this.CreditScore = 0;
+            this.Birthday = new DateOnly();
+            this.ZodiacSign = string.Empty;
+            this.ZodiacAttribute = string.Empty;
+            this.NumberOfBillSharesPaid = 0;
+            this.Income = 0;
+            this.Balance = 0;
         }
     }
 }

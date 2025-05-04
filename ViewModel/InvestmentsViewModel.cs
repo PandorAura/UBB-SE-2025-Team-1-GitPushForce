@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using Src.Model;
-using Src.Services;
-
-namespace Src.ViewModel
+﻿namespace Src.ViewModel
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using Src.Model;
+    using Src.Services;
+
     public class InvestmentsViewModel
     {
         private readonly IInvestmentsService investmentsService;
@@ -14,33 +14,33 @@ namespace Src.ViewModel
         public InvestmentsViewModel(IInvestmentsService investmentsService)
         {
             this.investmentsService = investmentsService ?? throw new ArgumentNullException(nameof(investmentsService));
-            UsersPortofolio = new ObservableCollection<InvestmentPortfolio>();
+            this.UsersPortofolio = new ObservableCollection<InvestmentPortfolio>();
         }
 
         public void CalculateAndUpdateRiskScore()
         {
-            investmentsService.CalculateAndUpdateRiskScore();
+            this.investmentsService.CalculateAndUpdateRiskScore();
         }
 
         public void CalculateAndUpdateROI()
         {
-            investmentsService.CalculateAndUpdateROI();
+            this.investmentsService.CalculateAndUpdateROI();
         }
 
         public void CreditScoreUpdateInvestmentsBased()
         {
-            investmentsService.CreditScoreUpdateInvestmentsBased();
+            this.investmentsService.CreditScoreUpdateInvestmentsBased();
         }
 
         public void LoadPortfolioSummary(string userCNP)
         {
             try
             {
-                var portfoliosSummary = investmentsService.GetPortfolioSummary();
+                var portfoliosSummary = this.investmentsService.GetPortfolioSummary();
 
                 foreach (var userPortfolio in portfoliosSummary)
                 {
-                    UsersPortofolio.Add(userPortfolio);
+                    this.UsersPortofolio.Add(userPortfolio);
                 }
             }
             catch (Exception exception)

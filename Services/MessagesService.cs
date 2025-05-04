@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Src.Data;
-using Src.Model;
-using Src.Repos;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+
     public class MessagesService : IMessagesService
     {
         private readonly MessagesRepository messagesRepository;
@@ -25,11 +25,11 @@ namespace Src.Services
             {
                 if (userCreditScore >= 550)
                 {
-                    messagesRepository.GiveUserRandomMessage(userCNP);
+                    this.messagesRepository.GiveUserRandomMessage(userCNP);
                 }
                 else
                 {
-                    messagesRepository.GiveUserRandomRoastMessage(userCNP);
+                    this.messagesRepository.GiveUserRandomRoastMessage(userCNP);
                 }
             }
             catch (Exception e)
@@ -40,7 +40,7 @@ namespace Src.Services
 
         public List<Message> GetMessagesForGivenUser(string userCnp)
         {
-            return messagesRepository.GetMessagesForGivenUser(userCnp);
+            return this.messagesRepository.GetMessagesForGivenUser(userCnp);
         }
     }
 }

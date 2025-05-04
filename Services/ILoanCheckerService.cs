@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+
     public interface ILoanCheckerService
     {
         public event EventHandler LoansUpdated;

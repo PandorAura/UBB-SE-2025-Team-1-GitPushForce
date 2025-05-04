@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class UserRepository : IUserRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -28,7 +28,7 @@ namespace Src.Repos
                 throw new ArgumentException("First and last names cannot be empty");
             }
 
-            User existingUser = GetUserByCnp(user.Cnp);
+            User existingUser = this.GetUserByCnp(user.Cnp);
             if (existingUser != null)
             {
                 return existingUser.Id;
@@ -51,7 +51,7 @@ namespace Src.Repos
                 new SqlParameter("@ZodiacAttribute", user.ZodiacAttribute),
                 new SqlParameter("@NumberOfBillSharesPaid", user.NumberOfBillSharesPaid),
                 new SqlParameter("@Income", user.Income),
-                new SqlParameter("@Balance", user.Balance)
+                new SqlParameter("@Balance", user.Balance),
             };
 
             const string InsertQuery = @"
@@ -71,7 +71,7 @@ namespace Src.Repos
 
             try
             {
-                int? result = dbConnection.ExecuteScalar<int>(InsertQuery, parameters, CommandType.Text);
+                int? result = this.dbConnection.ExecuteScalar<int>(InsertQuery, parameters, CommandType.Text);
                 return result ?? 0;
             }
             catch (SqlException exception)
@@ -89,7 +89,7 @@ namespace Src.Repos
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Cnp", cnp)
+                new SqlParameter("@Cnp", cnp),
             };
 
             try
@@ -102,7 +102,7 @@ namespace Src.Repos
                     FROM Users 
                     WHERE Cnp = @Cnp";
 
-                DataTable dataTable = dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
+                DataTable dataTable = this.dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -110,7 +110,7 @@ namespace Src.Repos
                 }
 
                 DataRow row = dataTable.Rows[0];
-                return CreateUserFromDataRow(row);
+                return this.CreateUserFromDataRow(row);
             }
             catch (SqlException exception)
             {
@@ -128,7 +128,7 @@ namespace Src.Repos
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Cnp", cnp),
-                new SqlParameter("@Amount", penaltyAmount)
+                new SqlParameter("@Amount", penaltyAmount),
             };
 
             const string UpdateQuery = @"
@@ -138,7 +138,7 @@ namespace Src.Repos
 
             try
             {
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -159,7 +159,7 @@ namespace Src.Repos
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Cnp", cnp)
+                new SqlParameter("@Cnp", cnp),
             };
 
             const string updateQuery = @"
@@ -169,7 +169,7 @@ namespace Src.Repos
 
             try
             {
-                int rowsAffected = dbConnection.ExecuteNonQuery(updateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(updateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -191,7 +191,7 @@ namespace Src.Repos
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Cnp", cnp),
-                new SqlParameter("@CreditScore", creditScore)
+                new SqlParameter("@CreditScore", creditScore),
             };
 
             const string UpdateQuery = @"
@@ -201,7 +201,7 @@ namespace Src.Repos
 
             try
             {
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -223,7 +223,7 @@ namespace Src.Repos
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Cnp", cnp),
-                new SqlParameter("@Roi", roi)
+                new SqlParameter("@Roi", roi),
             };
 
             const string UpdateQuery = @"
@@ -233,7 +233,7 @@ namespace Src.Repos
 
             try
             {
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -255,7 +255,7 @@ namespace Src.Repos
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Cnp", cnp),
-                new SqlParameter("@RiskScore", riskScore)
+                new SqlParameter("@RiskScore", riskScore),
             };
 
             const string UpdateQuery = @"
@@ -265,7 +265,7 @@ namespace Src.Repos
 
             try
             {
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception($"No user found with CNP: {cnp}");
@@ -288,7 +288,7 @@ namespace Src.Repos
                            NumberOfBillSharesPaid, Income, Balance 
                     FROM Users";
 
-                DataTable dataTable = dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
+                DataTable dataTable = this.dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -298,7 +298,7 @@ namespace Src.Repos
                 List<User> users = new List<User>();
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    users.Add(CreateUserFromDataRow(row));
+                    users.Add(this.CreateUserFromDataRow(row));
                 }
 
                 return users;

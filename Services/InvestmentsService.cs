@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Src.Data;
-using Src.Model;
-using Src.Repos;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+
     public class InvestmentsService : IInvestmentsService
     {
         private readonly IUserRepository userRepository;
@@ -21,23 +21,23 @@ namespace Src.Services
 
         public void CalculateAndUpdateRiskScore()
         {
-            var allExistentUsers = userRepository.GetUsers();
+            var allExistentUsers = this.userRepository.GetUsers();
 
             foreach (var currentUser in allExistentUsers)
             {
-                var recentInvestments = GetRecentInvestments(currentUser.Cnp);
+                var recentInvestments = this.GetRecentInvestments(currentUser.Cnp);
                 if (recentInvestments != null)
                 {
-                    var riskScoreChange = CalculateRiskScoreChange(currentUser, recentInvestments);
-                    UpdateUserRiskScore(currentUser, riskScoreChange);
-                    userRepository.UpdateUserRiskScore(currentUser.Cnp, currentUser.RiskScore);
+                    var riskScoreChange = this.CalculateRiskScoreChange(currentUser, recentInvestments);
+                    this.UpdateUserRiskScore(currentUser, riskScoreChange);
+                    this.userRepository.UpdateUserRiskScore(currentUser.Cnp, currentUser.RiskScore);
                 }
             }
         }
 
         private List<Investment> GetRecentInvestments(string cnp)
         {
-            var allInvestments = investmentsRepository.GetInvestmentsHistory();
+            var allInvestments = this.investmentsRepository.GetInvestmentsHistory();
 
             var latestInvestment = allInvestments
                 .Where(i => i.InvestorCnp == cnp)
@@ -120,12 +120,12 @@ namespace Src.Services
         }
         public void CalculateAndUpdateROI()
         {
-            var allExistentUsers = userRepository.GetUsers();
+            var allExistentUsers = this.userRepository.GetUsers();
 
             foreach (var currentUser in allExistentUsers)
             {
-                CalculateAndSetUserROI(currentUser);
-                userRepository.UpdateUserROI(currentUser.Cnp, currentUser.ROI);
+                this.CalculateAndSetUserROI(currentUser);
+                this.userRepository.UpdateUserROI(currentUser.Cnp, currentUser.ROI);
             }
         }
 
@@ -133,7 +133,7 @@ namespace Src.Services
         {
             var investmentOpen = -1;
 
-            var allInvestments = investmentsRepository.GetInvestmentsHistory()
+            var allInvestments = this.investmentsRepository.GetInvestmentsHistory()
                 .Where(i => i.InvestorCnp == user.Cnp)
                 .Where(i => i.AmountReturned != investmentOpen)
                 .ToList();
@@ -159,7 +159,7 @@ namespace Src.Services
 
         public void CreditScoreUpdateInvestmentsBased()
         {
-            var allExistentUsers = userRepository.GetUsers();
+            var allExistentUsers = this.userRepository.GetUsers();
 
             foreach (var currentUser in allExistentUsers)
             {
@@ -191,7 +191,7 @@ namespace Src.Services
 
                 currentUser.CreditScore = Math.Min(maxCreditScore, Math.Max(minCreditScore, currentUser.CreditScore));
 
-                userRepository.UpdateUserCreditScore(currentUser.Cnp, currentUser.CreditScore);
+                this.userRepository.UpdateUserCreditScore(currentUser.Cnp, currentUser.CreditScore);
             }
         }
         public List<InvestmentPortfolio> GetPortfolioSummary()
@@ -203,7 +203,7 @@ namespace Src.Services
 
             foreach (var user in userList)
             {
-                var investments = investmentsRepository.GetInvestmentsHistory()
+                var investments = this.investmentsRepository.GetInvestmentsHistory()
                     .Where(i => i.InvestorCnp == user.Cnp)
                     .ToList();
 

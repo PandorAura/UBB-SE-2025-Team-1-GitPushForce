@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class LoanRepository : ILoanRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -21,13 +21,13 @@ namespace Src.Repos
             try
             {
                 const string SelectQuery = "SELECT * FROM Loans";
-                DataTable dataTable = dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
+                DataTable dataTable = this.dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 List<Loan> loans = new List<Loan>();
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    loans.Add(CreateLoanFromDataRow(row));
+                    loans.Add(this.CreateLoanFromDataRow(row));
                 }
 
                 return loans;
@@ -44,7 +44,7 @@ namespace Src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@UserCnp", userCnp)
+                    new SqlParameter("@UserCnp", userCnp),
                 };
 
                 const string SelectQuery = @"
@@ -54,7 +54,7 @@ namespace Src.Repos
                     FROM Loans 
                     WHERE UserCnp = @UserCnp";
 
-                DataTable dataTable = dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
+                DataTable dataTable = this.dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
@@ -65,7 +65,7 @@ namespace Src.Repos
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    loans.Add(CreateLoanFromDataRow(row));
+                    loans.Add(this.CreateLoanFromDataRow(row));
                 }
 
                 return loans;
@@ -98,7 +98,7 @@ namespace Src.Repos
                     new SqlParameter("@MonthlyPaymentAmount", loan.MonthlyPaymentAmount),
                     new SqlParameter("@MonthlyPaymentsCompleted", loan.MonthlyPaymentsCompleted),
                     new SqlParameter("@RepaidAmount", loan.RepaidAmount),
-                    new SqlParameter("@Penalty", loan.Penalty)
+                    new SqlParameter("@Penalty", loan.Penalty),
                 };
 
                 const string InsertQuery = @"
@@ -111,7 +111,7 @@ namespace Src.Repos
                          @InterestRate, @NumberOfMonths, @Status, @MonthlyPaymentAmount, 
                          @MonthlyPaymentsCompleted, @RepaidAmount, @Penalty)";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(InsertQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(InsertQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -146,7 +146,7 @@ namespace Src.Repos
                     new SqlParameter("@MonthlyPaymentAmount", loan.MonthlyPaymentAmount),
                     new SqlParameter("@MonthlyPaymentsCompleted", loan.MonthlyPaymentsCompleted),
                     new SqlParameter("@RepaidAmount", loan.RepaidAmount),
-                    new SqlParameter("@Penalty", loan.Penalty)
+                    new SqlParameter("@Penalty", loan.Penalty),
                 };
 
                 const string UpdateQuery = @"
@@ -164,7 +164,7 @@ namespace Src.Repos
                         Penalty = @Penalty 
                     WHERE LoanRequestId = @LoanRequestId";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(UpdateQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -188,11 +188,11 @@ namespace Src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@LoanRequestId", loanId)
+                    new SqlParameter("@LoanRequestId", loanId),
                 };
 
                 const string DeleteQuery = "DELETE FROM Loans WHERE LoanRequestId = @LoanRequestId";
-                int rowsAffected = dbConnection.ExecuteNonQuery(DeleteQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(DeleteQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -216,18 +216,18 @@ namespace Src.Repos
             {
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@LoanRequestId", loanId)
+                    new SqlParameter("@LoanRequestId", loanId),
                 };
 
                 const string SelectQuery = "SELECT * FROM Loans WHERE LoanRequestId = @LoanRequestId";
-                DataTable dataTable = dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
+                DataTable dataTable = this.dbConnection.ExecuteReader(SelectQuery, parameters, CommandType.Text);
 
                 if (dataTable == null || dataTable.Rows.Count == 0)
                 {
                     throw new Exception($"Loan with ID {loanId} not found");
                 }
 
-                return CreateLoanFromDataRow(dataTable.Rows[0]);
+                return this.CreateLoanFromDataRow(dataTable.Rows[0]);
             }
             catch (Exception exception)
             {
@@ -247,7 +247,7 @@ namespace Src.Repos
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", userCnp),
-                    new SqlParameter("@NewScore", newScore)
+                    new SqlParameter("@NewScore", newScore),
                 };
 
                 const string updateOrInsertQuery = @"
@@ -263,7 +263,7 @@ namespace Src.Repos
                         VALUES (@UserCnp, CAST(GETDATE() AS DATE), @NewScore);
                     END";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(updateOrInsertQuery, parameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(updateOrInsertQuery, parameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {

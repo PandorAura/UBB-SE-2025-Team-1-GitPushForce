@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Src.Model;
-using Src.Services;
-
-namespace Src.ViewModel
+﻿namespace Src.ViewModel
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
+    using Src.Model;
+    using Src.Services;
+
     public class ChatReportsViewModel
     {
         private readonly IChatReportService chatReportService;
@@ -14,17 +14,17 @@ namespace Src.ViewModel
 
         public ChatReportsViewModel()
         {
-            ChatReports = new ObservableCollection<ChatReport>();
+            this.ChatReports = new ObservableCollection<ChatReport>();
         }
 
         public async Task LoadChatReports()
         {
             try
             {
-                var reports = chatReportService.GetChatReports();
+                var reports = this.chatReportService.GetChatReports();
                 foreach (var report in reports)
                 {
-                    ChatReports.Add(report);
+                    this.ChatReports.Add(report);
                 }
             }
             catch (Exception exception)

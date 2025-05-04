@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+
     public class ZodiacModel
     {
         public int Id { get; set; }

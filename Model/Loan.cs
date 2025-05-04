@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+
     public class Loan
     {
         public int Id { get; set; }
@@ -19,18 +19,18 @@ namespace Src.Model
 
         public Loan(int loanID, string userCnp, float loanAmount, DateTime applicationDate, DateTime repaymentDate, float interestRate, int numberOfMonths, float monthlyPaymentAmount, int monthlyPaymentsCompleted, float repaidAmount, float penalty, string status)
         {
-            Id = loanID;
-            UserCnp = userCnp;
-            LoanAmount = loanAmount;
-            ApplicationDate = applicationDate;
-            RepaymentDate = repaymentDate;
-            InterestRate = interestRate;
-            NumberOfMonths = numberOfMonths;
-            MonthlyPaymentAmount = monthlyPaymentAmount;
-            Status = status;
-            MonthlyPaymentsCompleted = monthlyPaymentsCompleted;
-            RepaidAmount = repaidAmount;
-            Penalty = penalty;
+            this.Id = loanID;
+            this.UserCnp = userCnp;
+            this.LoanAmount = loanAmount;
+            this.ApplicationDate = applicationDate;
+            this.RepaymentDate = repaymentDate;
+            this.InterestRate = interestRate;
+            this.NumberOfMonths = numberOfMonths;
+            this.MonthlyPaymentAmount = monthlyPaymentAmount;
+            this.Status = status;
+            this.MonthlyPaymentsCompleted = monthlyPaymentsCompleted;
+            this.RepaidAmount = repaidAmount;
+            this.Penalty = penalty;
         }
     }
 }

@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.UI.Xaml.Controls;
-using Src.Services;
-using Src.View.Components;
-using Src.Model;
-
 namespace Src.Views
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.UI.Xaml.Controls;
+    using Src.Model;
+    using Src.Services;
+    using Src.View.Components;
+
     public sealed partial class UsersView : Page
     {
         private readonly IUserService userService;
@@ -17,26 +17,26 @@ namespace Src.Views
             this.InitializeComponent();
             this.userService = userService;
             this.userComponentFactory = userComponentFactory;
-            LoadUsers();
+            this.LoadUsers();
         }
 
         private void LoadUsers()
         {
-            UsersContainer.Items.Clear();
+            this.UsersContainer.Items.Clear();
 
             try
             {
-                List<User> users = userService.GetUsers();
+                List<User> users = this.userService.GetUsers();
                 foreach (var user in users)
                 {
-                    var userComponent = userComponentFactory();
+                    var userComponent = this.userComponentFactory();
                     userComponent.SetUserData(user);
-                    UsersContainer.Items.Add(userComponent);
+                    this.UsersContainer.Items.Add(userComponent);
                 }
             }
             catch (Exception)
             {
-                UsersContainer.Items.Add("There are no users to display.");
+                this.UsersContainer.Items.Add("There are no users to display.");
             }
         }
     }

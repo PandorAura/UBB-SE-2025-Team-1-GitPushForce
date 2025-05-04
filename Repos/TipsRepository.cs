@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class TipsRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -18,17 +18,17 @@ namespace Src.Repos
 
         public void GiveUserTipForLowBracket(string userCnp)
         {
-            GiveUserTipByBracket(userCnp, "Low-credit");
+            this.GiveUserTipByBracket(userCnp, "Low-credit");
         }
 
         public void GiveUserTipForMediumBracket(string userCnp)
         {
-            GiveUserTipByBracket(userCnp, "Medium-credit");
+            this.GiveUserTipByBracket(userCnp, "Medium-credit");
         }
 
         public void GiveUserTipForHighBracket(string userCnp)
         {
-            GiveUserTipByBracket(userCnp, "High-credit");
+            this.GiveUserTipByBracket(userCnp, "High-credit");
         }
 
         private void GiveUserTipByBracket(string userCnp, string creditScoreBracket)
@@ -53,10 +53,10 @@ namespace Src.Repos
 
                 SqlParameter[] selectParameters = new SqlParameter[]
                 {
-                    new SqlParameter("@CreditScoreBracket", creditScoreBracket)
+                    new SqlParameter("@CreditScoreBracket", creditScoreBracket),
                 };
 
-                DataTable tipsTable = dbConnection.ExecuteReader(SelectQuery, selectParameters, CommandType.Text);
+                DataTable tipsTable = this.dbConnection.ExecuteReader(SelectQuery, selectParameters, CommandType.Text);
 
                 if (tipsTable == null || tipsTable.Rows.Count == 0)
                 {
@@ -68,13 +68,13 @@ namespace Src.Repos
                 {
                     Id = Convert.ToInt32(tipRow["Id"]),
                     CreditScoreBracket = tipRow["CreditScoreBracket"].ToString(),
-                    TipText = tipRow["TipText"].ToString()
+                    TipText = tipRow["TipText"].ToString(),
                 };
 
                 SqlParameter[] insertParameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", userCnp),
-                    new SqlParameter("@TipId", tip.Id)
+                    new SqlParameter("@TipId", tip.Id),
                 };
 
                 const string InsertQuery = @"
@@ -83,7 +83,7 @@ namespace Src.Repos
                     VALUES 
                         (@UserCnp, @TipId, NULL, GETDATE())";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -100,10 +100,10 @@ namespace Src.Repos
         {
             SqlParameter[] tipsParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCnp", userCnp)
+                 new SqlParameter("@UserCnp", userCnp),
             };
             const string GetQuery = "SELECT T.ID, T.CreditScoreBracket, T.TipText, GT.Date FROM GivenTips GT INNER JOIN Tips T ON GT.TipID = T.ID WHERE GT.UserCnp = @UserCnp;";
-            DataTable tipsRows = dbConnection.ExecuteReader(GetQuery, tipsParameters, CommandType.Text);
+            DataTable tipsRows = this.dbConnection.ExecuteReader(GetQuery, tipsParameters, CommandType.Text);
             List<Tip> tips = new List<Tip>();
             foreach (DataRow row in tipsRows.Rows)
             {
@@ -111,7 +111,7 @@ namespace Src.Repos
                 {
                     Id = Convert.ToInt32(row["ID"]),
                     CreditScoreBracket = row["CreditScoreBracket"].ToString(),
-                    TipText = row["TipText"].ToString()
+                    TipText = row["TipText"].ToString(),
                 });
             }
             return tips;

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Src.Data;
-using Src.Helpers;
-using Src.Model;
-using Src.Repos;
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Src.Data;
+    using Src.Helpers;
+    using Src.Model;
+    using Src.Repos;
+
     public class ChatReportService : IChatReportService
     {
         private readonly IChatReportRepository chatReportRepository;
@@ -17,7 +18,7 @@ namespace Src.Services
 
         public void DoNotPunishUser(ChatReport chatReportToBeSolved)
         {
-            chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
+            this.chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
         }
 
         public async Task<bool> PunishUser(ChatReport chatReportToBeSolved)
@@ -37,22 +38,22 @@ namespace Src.Services
             {
                 userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCnp, noOffenses * CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
                 int decrease = reportedUser.CreditScore - (CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE * noOffenses);
-                UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
+                this.UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
                 amount = CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE * noOffenses;
             }
             else
             {
                 userRepo.PenalizeUser(chatReportToBeSolved.ReportedUserCnp, CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE);
                 int decrease = userRepo.GetUserByCnp(chatReportToBeSolved.ReportedUserCnp).CreditScore - CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
-                UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
+                this.UpdateHistoryForUser(chatReportToBeSolved.ReportedUserCnp, decrease);
                 amount = CREDIT_SCORE_DECREASE_AMOUNT_FLAT_RATE;
             }
             userRepo.IncrementOffensesCount(chatReportToBeSolved.ReportedUserCnp);
-            chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
+            this.chatReportRepository.DeleteChatReport(chatReportToBeSolved.Id);
             TipsService service = new TipsService(new TipsRepository(dbConn));
             service.GiveTipToUser(chatReportToBeSolved.ReportedUserCnp);
 
-            int countTips = chatReportRepository.GetNumberOfGivenTipsForUser(chatReportToBeSolved.ReportedUserCnp);
+            int countTips = this.chatReportRepository.GetNumberOfGivenTipsForUser(chatReportToBeSolved.ReportedUserCnp);
 
             if (countTips % 3 == 0)
             {
@@ -60,7 +61,7 @@ namespace Src.Services
                 services.GiveMessageToUser(chatReportToBeSolved.ReportedUserCnp);
             }
 
-            chatReportRepository.UpdateActivityLog(chatReportToBeSolved.ReportedUserCnp, amount);
+            this.chatReportRepository.UpdateActivityLog(chatReportToBeSolved.ReportedUserCnp, amount);
             return true;
         }
         public async Task<bool> IsMessageOffensive(string messageToBeChecked)
@@ -76,12 +77,12 @@ namespace Src.Services
 
         public List<ChatReport> GetChatReports()
         {
-            return chatReportRepository.GetChatReports();
+            return this.chatReportRepository.GetChatReports();
         }
 
         public void DeleteChatReport(int id)
         {
-            chatReportRepository.DeleteChatReport(id);
+            this.chatReportRepository.DeleteChatReport(id);
         }
     }
 }

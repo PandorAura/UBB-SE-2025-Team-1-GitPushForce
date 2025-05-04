@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Src.Model;
-using Src.Repos;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Src.Model;
+    using Src.Repos;
+
     public class HistoryService : IHistoryService
     {
         private readonly IHistoryRepository historyRepository;
@@ -25,7 +25,7 @@ namespace Src.Services
 
             try
             {
-                history = historyRepository.GetHistoryForUser(userCNP);
+                history = this.historyRepository.GetHistoryForUser(userCNP);
             }
             catch (ArgumentException ex)
             {
@@ -45,7 +45,7 @@ namespace Src.Services
 
             try
             {
-                history = historyRepository.GetHistoryForUser(userCNP);
+                history = this.historyRepository.GetHistoryForUser(userCNP);
             }
             catch (ArgumentException ex)
             {
@@ -74,7 +74,7 @@ namespace Src.Services
 
             try
             {
-                history = historyRepository.GetHistoryForUser(userCNP);
+                history = this.historyRepository.GetHistoryForUser(userCNP);
             }
             catch (ArgumentException ex)
             {
@@ -103,7 +103,7 @@ namespace Src.Services
 
             try
             {
-                history = historyRepository.GetHistoryForUser(userCNP);
+                history = this.historyRepository.GetHistoryForUser(userCNP);
             }
             catch (ArgumentException ex)
             {

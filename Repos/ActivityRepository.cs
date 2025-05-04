@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class ActivityRepository : IActivityRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -27,7 +27,7 @@ namespace Src.Repos
 
             try
             {
-                User? existingUser = userRepository.GetUserByCnp(userCnp);
+                User? existingUser = this.userRepository.GetUserByCnp(userCnp);
                 if (existingUser == null)
                 {
                     throw new ArgumentException("User not found");
@@ -51,12 +51,12 @@ namespace Src.Repos
                 new SqlParameter("@UserCnp", userCnp),
                 new SqlParameter("@ActivityName", activityName),
                 new SqlParameter("@LastModifiedAmount", amount),
-                new SqlParameter("@ActivityDetails", details ?? (object)DBNull.Value)
+                new SqlParameter("@ActivityDetails", details ?? (object)DBNull.Value),
             };
 
             try
             {
-                int rowsAffected = dbConnection.ExecuteNonQuery(InsertQuery, activityParameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(InsertQuery, activityParameters, CommandType.Text);
                 if (rowsAffected == 0)
                 {
                     throw new Exception("No rows were inserted");
@@ -82,12 +82,12 @@ namespace Src.Repos
 
             SqlParameter[] selectQueryParameter = new SqlParameter[]
             {
-                new SqlParameter("@UserCnp", userCnp)
+                new SqlParameter("@UserCnp", userCnp),
             };
 
             try
             {
-                DataTable? userActivityTable = dbConnection.ExecuteReader(SelectQuery, selectQueryParameter, CommandType.Text);
+                DataTable? userActivityTable = this.dbConnection.ExecuteReader(SelectQuery, selectQueryParameter, CommandType.Text);
 
                 if (userActivityTable == null || userActivityTable.Rows.Count == 0)
                 {

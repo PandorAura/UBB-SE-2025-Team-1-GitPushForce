@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Src.Data;
-using Src.Repos;
-using Src.Model;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+
     public class TipsService : ITipsService
     {
         private TipsRepository tipsRepository;
@@ -25,15 +25,15 @@ namespace Src.Services
                 int userCreditScore = userRepository.GetUserByCnp(userCNP).CreditScore;
                 if (userCreditScore < 300)
                 {
-                    tipsRepository.GiveUserTipForLowBracket(userCNP);
+                    this.tipsRepository.GiveUserTipForLowBracket(userCNP);
                 }
                 else if (userCreditScore < 550)
                 {
-                    tipsRepository.GiveUserTipForMediumBracket(userCNP);
+                    this.tipsRepository.GiveUserTipForMediumBracket(userCNP);
                 }
                 else if (userCreditScore > 549)
                 {
-                    tipsRepository.GiveUserTipForHighBracket(userCNP);
+                    this.tipsRepository.GiveUserTipForHighBracket(userCNP);
                 }
             }
             catch (Exception exception)
@@ -44,7 +44,7 @@ namespace Src.Services
 
         public List<Tip> GetTipsForGivenUser(string userCnp)
         {
-            return tipsRepository.GetTipsForGivenUser(userCnp);
+            return this.tipsRepository.GetTipsForGivenUser(userCnp);
         }
     }
 }

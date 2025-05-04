@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Src.Model
+﻿namespace Src.Model
 {
+    using System;
+
     public class LoanRequest
     {
         public int Id { get; set; }
@@ -13,12 +13,12 @@ namespace Src.Model
 
         public LoanRequest(int requestId, string userCnp, float amount, DateTime applicationDate, DateTime repaymentDate, string status)
         {
-            Id = requestId;
-            UserCnp = userCnp;
-            Amount = amount;
-            ApplicationDate = applicationDate;
-            RepaymentDate = repaymentDate;
-            Status = status;
+            this.Id = requestId;
+            this.UserCnp = userCnp;
+            this.Amount = amount;
+            this.ApplicationDate = applicationDate;
+            this.RepaymentDate = repaymentDate;
+            this.Status = status;
         }
     }
 }

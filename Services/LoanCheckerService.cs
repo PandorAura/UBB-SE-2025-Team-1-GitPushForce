@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.UI.Xaml;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using Microsoft.UI.Xaml;
+
     public class LoanCheckerService : ILoanCheckerService
     {
         private readonly ILoanService loanServices;
@@ -13,27 +13,27 @@ namespace Src.Services
         public LoanCheckerService(ILoanService loanServices)
         {
             this.loanServices = loanServices;
-            timer = new DispatcherTimer
+            this.timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1) // set to 1 second for testing purposes, should be higher since this checks for monthly payments
+                Interval = TimeSpan.FromSeconds(1), // set to 1 second for testing purposes, should be higher since this checks for monthly payments
             };
-            timer.Tick += Timer_Tick;
+            this.timer.Tick += this.Timer_Tick;
         }
 
         private void Timer_Tick(object sender, object e)
         {
-            loanServices.CheckLoans();
-            LoansUpdated?.Invoke(this, EventArgs.Empty);
+            this.loanServices.CheckLoans();
+            this.LoansUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         public void Start()
         {
-            timer.Start();
+            this.timer.Start();
         }
 
         public void Stop()
         {
-            timer.Stop();
+            this.timer.Stop();
         }
     }
 }

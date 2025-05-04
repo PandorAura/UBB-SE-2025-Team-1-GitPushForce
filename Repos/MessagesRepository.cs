@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Src.Data;
-using Src.Model;
-
-namespace Src.Repos
+﻿namespace Src.Repos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+    using Src.Data;
+    using Src.Model;
+
     public class MessagesRepository
     {
         private readonly DatabaseConnection dbConnection;
@@ -31,7 +31,7 @@ namespace Src.Repos
                     WHERE Type = 'Congrats-message' 
                     ORDER BY NEWID()";
 
-                DataTable messagesTable = dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
+                DataTable messagesTable = this.dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (messagesTable == null || messagesTable.Rows.Count == 0)
                 {
@@ -43,13 +43,13 @@ namespace Src.Repos
                 {
                     Id = Convert.ToInt32(messageRow["Id"]),
                     Type = messageRow["Type"].ToString(),
-                    MessageText = messageRow["Message"].ToString()
+                    MessageText = messageRow["Message"].ToString(),
                 };
 
                 SqlParameter[] insertParameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", userCnp),
-                    new SqlParameter("@MessageId", message.Id)
+                    new SqlParameter("@MessageId", message.Id),
                 };
 
                 const string InsertQuery = @"
@@ -58,7 +58,7 @@ namespace Src.Repos
                     VALUES 
                         (@UserCnp, @MessageId, GETDATE())";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -86,7 +86,7 @@ namespace Src.Repos
                     WHERE Type = 'Roast-message' 
                     ORDER BY NEWID()";
 
-                DataTable messagesTable = dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
+                DataTable messagesTable = this.dbConnection.ExecuteReader(SelectQuery, null, CommandType.Text);
 
                 if (messagesTable == null || messagesTable.Rows.Count == 0)
                 {
@@ -98,13 +98,13 @@ namespace Src.Repos
                 {
                     Id = Convert.ToInt32(messageRow["Id"]),
                     Type = messageRow["Type"].ToString(),
-                    MessageText = messageRow["Message"].ToString()
+                    MessageText = messageRow["Message"].ToString(),
                 };
 
                 SqlParameter[] insertParameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserCnp", userCnp),
-                    new SqlParameter("@MessageId", message.Id)
+                    new SqlParameter("@MessageId", message.Id),
                 };
 
                 const string InsertQuery = @"
@@ -113,7 +113,7 @@ namespace Src.Repos
                     VALUES 
                         (@UserCnp, @MessageId, GETDATE())";
 
-                int rowsAffected = dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
+                int rowsAffected = this.dbConnection.ExecuteNonQuery(InsertQuery, insertParameters, CommandType.Text);
 
                 if (rowsAffected == 0)
                 {
@@ -130,10 +130,10 @@ namespace Src.Repos
         {
             SqlParameter[] messageParameters = new SqlParameter[]
             {
-                 new SqlParameter("@UserCNP", userCnp)
+                 new SqlParameter("@UserCNP", userCnp),
             };
             const string GetQuery = "SELECT m.ID, m.Type, m.Message FROM GivenTips gt INNER JOIN Messages m ON gt.MessageID = m.ID WHERE gt.UserCNP = @UserCNP;";
-            DataTable messagesRows = dbConnection.ExecuteReader(GetQuery, messageParameters, CommandType.Text);
+            DataTable messagesRows = this.dbConnection.ExecuteReader(GetQuery, messageParameters, CommandType.Text);
             List<Message> messages = new List<Message>();
 
             foreach (DataRow row in messagesRows.Rows)
@@ -142,7 +142,7 @@ namespace Src.Repos
                 {
                     Id = Convert.ToInt32(row["ID"]),
                     Type = row["Type"].ToString(),
-                    MessageText = row["Message"].ToString()
+                    MessageText = row["Message"].ToString(),
                 });
             }
             return messages;

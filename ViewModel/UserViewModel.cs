@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Src.Model;
-using Src.Services;
-
-namespace Src.ViewModel
+﻿namespace Src.ViewModel
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+    using Src.Model;
+    using Src.Services;
+
     public class UserViewModel : INotifyPropertyChanged
     {
         private IUserService userService;
@@ -21,17 +21,17 @@ namespace Src.ViewModel
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async Task LoadUsers()
         {
             try
             {
-                var users = userService.GetUsers();
+                var users = this.userService.GetUsers();
                 foreach (var user in users)
                 {
-                    Users.Add(user);
+                    this.Users.Add(user);
                 }
             }
             catch (Exception exception)

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Src.Data;
-using Src.Model;
-using Src.Repos;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+
     public class LoanRequestService : ILoanRequestService
     {
         private readonly ILoanRequestRepository loanRequestRepository;
@@ -58,12 +58,12 @@ namespace Src.Services
 
         public void SolveLoanRequest(LoanRequest loanRequest)
         {
-            loanRequestRepository.SolveLoanRequest(loanRequest.Id);
+            this.loanRequestRepository.SolveLoanRequest(loanRequest.Id);
         }
 
         public void DenyLoanRequest(LoanRequest loanRequest)
         {
-            loanRequestRepository.DeleteLoanRequest(loanRequest.Id);
+            this.loanRequestRepository.DeleteLoanRequest(loanRequest.Id);
         }
 
         public bool PastUnpaidLoans(User user, LoanService loanService)
@@ -114,12 +114,12 @@ namespace Src.Services
 
         public List<LoanRequest> GetLoanRequests()
         {
-            return loanRequestRepository.GetLoanRequests();
+            return this.loanRequestRepository.GetLoanRequests();
         }
 
         public List<LoanRequest> GetUnsolvedLoanRequests()
         {
-            return loanRequestRepository.GetUnsolvedLoanRequests();
+            return this.loanRequestRepository.GetUnsolvedLoanRequests();
         }
     }
 }

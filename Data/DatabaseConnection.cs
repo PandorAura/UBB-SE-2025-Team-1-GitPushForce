@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data;
-using Microsoft.Data.SqlClient;
-
-namespace Src.Data
+﻿namespace Src.Data
 {
+    using System;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+
     public class DatabaseConnection
     {
         private SqlConnection sqlConnection;
@@ -11,11 +11,11 @@ namespace Src.Data
 
         public DatabaseConnection()
         {
-            connectionString = "Server=MINNIE;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
+            this.connectionString = "Server=MINNIE;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
 
             try
             {
-                sqlConnection = new SqlConnection(connectionString);
+                this.sqlConnection = new SqlConnection(this.connectionString);
             }
             catch (Exception exception)
             {
@@ -25,17 +25,17 @@ namespace Src.Data
 
         public void OpenConnection()
         {
-            if (sqlConnection.State != ConnectionState.Open)
+            if (this.sqlConnection.State != ConnectionState.Open)
             {
-                sqlConnection.Open();
+                this.sqlConnection.Open();
             }
         }
 
         public void CloseConnection()
         {
-            if (sqlConnection.State != ConnectionState.Closed)
+            if (this.sqlConnection.State != ConnectionState.Closed)
             {
-                sqlConnection.Close();
+                this.sqlConnection.Close();
             }
         }
         // TODO
@@ -43,8 +43,8 @@ namespace Src.Data
         {
             try
             {
-                OpenConnection();
-                using (SqlCommand command = new SqlCommand(query, sqlConnection))
+                this.OpenConnection();
+                using (SqlCommand command = new SqlCommand(query, this.sqlConnection))
                 {
                     command.CommandType = commandType;
 
@@ -68,7 +68,7 @@ namespace Src.Data
             }
             finally
             {
-                CloseConnection();
+                this.CloseConnection();
             }
         }
 
@@ -76,8 +76,8 @@ namespace Src.Data
         {
             try
             {
-                OpenConnection();
-                using (SqlCommand command = new SqlCommand(query, sqlConnection))
+                this.OpenConnection();
+                using (SqlCommand command = new SqlCommand(query, this.sqlConnection))
                 {
                     command.CommandType = commandType;
 
@@ -100,7 +100,7 @@ namespace Src.Data
             }
             finally
             {
-                CloseConnection();
+                this.CloseConnection();
             }
         }
 
@@ -108,8 +108,8 @@ namespace Src.Data
         {
             try
             {
-                OpenConnection();
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                this.OpenConnection();
+                using (SqlCommand sqlCommand = new SqlCommand(query, this.sqlConnection))
                 {
                     sqlCommand.CommandType = commandType;
 
@@ -127,7 +127,7 @@ namespace Src.Data
             }
             finally
             {
-                CloseConnection();
+                this.CloseConnection();
             }
         }
     }

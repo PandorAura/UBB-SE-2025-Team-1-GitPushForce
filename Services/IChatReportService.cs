@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Src.Model;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Src.Model;
+
     public interface IChatReportService
     {
         public void DoNotPunishUser(ChatReport chatReportToBeSolved);

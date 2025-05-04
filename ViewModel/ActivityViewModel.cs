@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Src.Services;
-
-namespace Src.ViewModel
+﻿namespace Src.ViewModel
 {
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using Src.Services;
+
     public class ActivityViewModel : INotifyPropertyChanged
     {
         private IActivityService activityService;
@@ -18,7 +18,7 @@ namespace Src.ViewModel
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

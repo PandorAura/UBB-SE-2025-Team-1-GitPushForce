@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Src.Model;
-
-namespace Src.Services
+﻿namespace Src.Services
 {
+    using System.Collections.Generic;
+    using Src.Model;
+
     public interface ILoanRequestService
     {
         public string GiveSuggestion(LoanRequest loanRequest);

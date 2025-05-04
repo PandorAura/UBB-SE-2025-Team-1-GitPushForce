@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Src.Data;
-using Src.Model;
-using Src.Repos;
-using Src.Services;
-
-namespace Src.ViewModel
+﻿namespace Src.ViewModel
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
+    using Src.Data;
+    using Src.Model;
+    using Src.Repos;
+    using Src.Services;
+
     public class LoanRequestViewModel
     {
         private readonly LoanRequestService loanRequestService;
@@ -16,18 +16,18 @@ namespace Src.ViewModel
 
         public LoanRequestViewModel()
         {
-            loanRequestService = new LoanRequestService(new LoanRequestRepository(new DatabaseConnection()));
-            LoanRequests = new ObservableCollection<LoanRequest>();
+            this.loanRequestService = new LoanRequestService(new LoanRequestRepository(new DatabaseConnection()));
+            this.LoanRequests = new ObservableCollection<LoanRequest>();
         }
 
         public async Task LoadLoanRequests()
         {
             try
             {
-                var requests = loanRequestService.GetLoanRequests();
+                var requests = this.loanRequestService.GetLoanRequests();
                 foreach (var request in requests)
                 {
-                    LoanRequests.Add(request);
+                    this.LoanRequests.Add(request);
                 }
             }
             catch (Exception exception)
