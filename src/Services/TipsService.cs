@@ -8,9 +8,9 @@ namespace Src.Services
 {
     public class TipsService : ITipsService
     {
-        private TipsRepository tipsRepository;
+        private ITipsRepository tipsRepository;
 
-        public TipsService(TipsRepository tipsRepository)
+        public TipsService(ITipsRepository tipsRepository)
         {
             this.tipsRepository = tipsRepository;
         }

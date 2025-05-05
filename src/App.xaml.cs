@@ -46,6 +46,8 @@ namespace Src
                 services.AddSingleton<ILoanRepository, LoanRepository>();
                 services.AddSingleton<ILoanRequestRepository, LoanRequestRepository>();
                 services.AddSingleton<IUserRepository, UserRepository>();
+                services.AddSingleton<ITipsRepository, TipsRepository>();
+                services.AddSingleton<IMessagesRepository, MessagesRepository>();
 
                 services.AddSingleton<IActivityService, ActivityService>();
                 services.AddSingleton<IBillSplitReportService, BillSplitReportService>();

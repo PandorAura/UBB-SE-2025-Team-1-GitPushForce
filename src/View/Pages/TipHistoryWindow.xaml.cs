@@ -9,10 +9,10 @@ namespace Src.View.Pages
     public sealed partial class TipHistoryWindow : Window
     {
         private User selectedUser;
-        private readonly MessagesRepository messagesRepository;
-        private readonly TipsRepository tipsRepository;
+        private readonly IMessagesRepository messagesRepository;
+        private readonly ITipsRepository tipsRepository;
 
-        public TipHistoryWindow(User selectedUser, MessagesRepository messagesRepository, TipsRepository tipsRepository)
+        public TipHistoryWindow(User selectedUser, IMessagesRepository messagesRepository, ITipsRepository tipsRepository)
         {
             this.InitializeComponent();
             this.selectedUser = selectedUser;

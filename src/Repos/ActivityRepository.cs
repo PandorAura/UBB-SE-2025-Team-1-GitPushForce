@@ -10,9 +10,9 @@ namespace Src.Repos
     public class ActivityRepository : IActivityRepository
     {
         private readonly DatabaseConnection dbConnection;
-        private readonly UserRepository userRepository;
+        private readonly IUserRepository userRepository;
 
-        public ActivityRepository(DatabaseConnection dbConnection, UserRepository userRepository)
+        public ActivityRepository(DatabaseConnection dbConnection, IUserRepository userRepository)
         {
             this.dbConnection = dbConnection;
             this.userRepository = userRepository;

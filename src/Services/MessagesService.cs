@@ -8,9 +8,9 @@ namespace Src.Services
 {
     public class MessagesService : IMessagesService
     {
-        private readonly MessagesRepository messagesRepository;
+        private readonly IMessagesRepository messagesRepository;
 
-        public MessagesService(MessagesRepository messagesRepository)
+        public MessagesService(IMessagesRepository messagesRepository)
         {
             this.messagesRepository = messagesRepository;
         }

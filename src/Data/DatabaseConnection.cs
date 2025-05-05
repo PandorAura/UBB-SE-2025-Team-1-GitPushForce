@@ -11,7 +11,7 @@ namespace Src.Data
 
         public DatabaseConnection()
         {
-            connectionString = "Server=JAMAL;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
+            connectionString = "Server=ASUS-HENI;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
 
             try
             {
@@ -39,7 +39,7 @@ namespace Src.Data
             }
         }
         // TODO
-        public T? ExecuteScalar<T>(string query, SqlParameter[] sqlParameters, CommandType commandType = CommandType.StoredProcedure)
+        public virtual T? ExecuteScalar<T>(string query, SqlParameter[] sqlParameters, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Src.Data
             }
         }
 
-        public DataTable ExecuteReader(string query, SqlParameter[] sqlParameters, CommandType commandType = CommandType.StoredProcedure)
+        public virtual DataTable ExecuteReader(string query, SqlParameter[] sqlParameters, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Src.Data
             }
         }
 
-        public int ExecuteNonQuery(string query, SqlParameter[] sqlParameters, CommandType commandType = CommandType.StoredProcedure)
+        public virtual int ExecuteNonQuery(string query, SqlParameter[] sqlParameters, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {

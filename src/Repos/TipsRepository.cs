@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Src.Repos;
 using Src.Data;
 using Src.Model;
 
 namespace Src.Repos
 {
-    public class TipsRepository
+    public class TipsRepository : ITipsRepository
     {
         private readonly DatabaseConnection dbConnection;
 
