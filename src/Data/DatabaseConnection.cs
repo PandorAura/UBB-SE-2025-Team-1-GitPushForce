@@ -11,7 +11,7 @@ namespace Src.Data
 
         public DatabaseConnection()
         {
-            connectionString = "Server=ASUS-HENI;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
+            connectionString = "Server=localhost;Database=GitPushForce;Trusted_Connection=True;TrustServerCertificate=True;";
 
             try
             {
